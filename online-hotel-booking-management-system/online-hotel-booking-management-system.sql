@@ -70,3 +70,8 @@ Dinner VARCHAR(3));
 
 CREATE TABLE tbl_Rating(UserId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
 Rating NUMERIC (2, 1));
+
+-- Create Review Table
+
+CREATE TABLE tbl_Review(UserId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
+Review VARCHAR(1000));
