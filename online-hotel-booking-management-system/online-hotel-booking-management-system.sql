@@ -58,3 +58,10 @@ RoomType VARCHAR(10) NOT NULL,
 NumberOfRoomsBooked TINYINT NOT NULL,
 RoomPricePerDay NUMERIC(10, 2) NOT NULL,
 TotalPrice NUMERIC(10, 2) NOT NULL);
+
+-- Create FoodDetail Table
+
+CREATE TABLE tbl_FoodDetail(CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
+Breakfast VARCHAR(3),
+Lunch VARCHAR(3),
+Dinner VARCHAR(3));
