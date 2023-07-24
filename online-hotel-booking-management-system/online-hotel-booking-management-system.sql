@@ -50,3 +50,11 @@ CheckIn SMALLDATETIME NOT NULL,
 NumberOfRoomsBooked TINYINT NOT NULL,
 NumberOfRoomsAvailable TINYINT NOT NULL,
 CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE);
+
+-- Create Billing Table
+
+CREATE TABLE tbl_Billing(CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
+RoomType VARCHAR(10) NOT NULL,
+NumberOfRoomsBooked TINYINT NOT NULL,
+RoomPricePerDay NUMERIC(10, 2) NOT NULL,
+TotalPrice NUMERIC(10, 2) NOT NULL);
