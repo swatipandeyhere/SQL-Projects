@@ -66,6 +66,44 @@ Breakfast VARCHAR(3),
 Lunch VARCHAR(3),
 Dinner VARCHAR(3));
 
+-- Insert Values into FoodDetail Table
+
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user1', 'No', 'No', 'No');
+
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user2', 'No', 'No', 'Yes');
+
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user3', 'No', 'Yes', 'No');
+
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user4', 'No', 'Yes', 'Yes');
+
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user5', 'Yes', 'No', 'No');
+
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user6', 'Yes', 'No', 'Yes');
+
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user7', 'Yes', 'Yes', 'No');
+
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user8', 'Yes', 'Yes', 'Yes');
+
+-- View Contents of FoodDetail Table
+
+SELECT * FROM tbl_FoodDetail;
+
 -- Create Rating Table
 
 CREATE TABLE tbl_Rating(UserId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
