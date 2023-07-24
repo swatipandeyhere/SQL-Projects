@@ -42,3 +42,11 @@ NumberOfAdults TINYINT NOT NULL,
 NumberOfKids TINYINT NOT NULL,
 NumberOfRooms TINYINT NOT NULL,
 RoomType VARCHAR(10) FOREIGN KEY REFERENCES tbl_RoomDetail(RoomTypeId));
+
+-- Create RoomAvailabilityLog Table
+
+CREATE TABLE tbl_RoomAvailabilityLog(RoomType VARCHAR(10) NOT NULL,
+CheckIn SMALLDATETIME NOT NULL,
+NumberOfRoomsBooked TINYINT NOT NULL,
+NumberOfRoomsAvailable TINYINT NOT NULL,
+CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE);
