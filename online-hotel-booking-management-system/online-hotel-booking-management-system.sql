@@ -65,3 +65,8 @@ CREATE TABLE tbl_FoodDetail(CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Cu
 Breakfast VARCHAR(3),
 Lunch VARCHAR(3),
 Dinner VARCHAR(3));
+
+-- Create Rating Table
+
+CREATE TABLE tbl_Rating(UserId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
+Rating NUMERIC (2, 1));
