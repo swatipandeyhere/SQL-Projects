@@ -164,6 +164,67 @@ SELECT * FROM tbl_Rating;
 CREATE TABLE tbl_Review(UserId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
 Review VARCHAR(1000));
 
+-- Insert Values into Review Table
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user1',
+'Hotel stay was quite pleasant. But the room was not kept clean during CheckIn. No amenities were present in the room. We had to ask for the amenities. Food was excellent but the plates on which they were served were not good.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user2',
+'The rooms were well maintained and furnished with good quality products. The staff was very polite and good, and their food was amazing. It was a hassle free CheckIn and CheckOut. The hotel is located at a very good location with some beautiful views.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user3',
+'Very good service and hygiene maintained. The staff was so cooperative.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user4',
+'The orders were very late as well as rude behaviour of the waiters.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user5',
+'Service was good. Food was okay. Location was a bit average.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user6',
+'The stay was very comfortable. Rooms were very clean & hygiene standards were maintained.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user7',
+'Good decor with friendly staff.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user8',
+'Food was good, the room was clean and well decorated (a bit smaller). Overall experience was good, price is a bit on the higher side.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user9',
+'Overall good stay but the geyser was not working for the whole day.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user10',
+'Please provide sanitizer in rooms too.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user11',
+'Had an amazing time.');
+
+-- View Contents of Review Table
+
+SELECT * FROM tbl_Review;
+
 -- Create CustomerBooking Stored Procedure which inserts data values into Customer, RoomAvailabilityLog and Billing Tables
 
 CREATE PROCEDURE usp_CustomerBooking
