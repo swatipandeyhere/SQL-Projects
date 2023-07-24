@@ -28,3 +28,17 @@ VALUES('RT4', 'Suite', 10000.00, 10);
 -- View Contents of RoomDetail Table
 
 SELECT * FROM tbl_RoomDetail;
+
+-- Create Customer Table
+
+CREATE TABLE tbl_Customer(CustomerId VARCHAR(10) PRIMARY KEY,
+FirstName VARCHAR(30) NOT NULL,
+LastName VARCHAR(30) NOT NULL,
+ContactNumber CHAR(10) NOT NULL UNIQUE CHECK(ContactNumber LIKE '[6789]%' AND LEN(ContactNumber) = 10),
+City VARCHAR(20) NOT NULL,
+CheckIn SMALLDATETIME NOT NULL,
+CheckOut SMALLDATETIME NOT NULL,
+NumberOfAdults TINYINT NOT NULL,
+NumberOfKids TINYINT NOT NULL,
+NumberOfRooms TINYINT NOT NULL,
+RoomType VARCHAR(10) FOREIGN KEY REFERENCES tbl_RoomDetail(RoomTypeId));
