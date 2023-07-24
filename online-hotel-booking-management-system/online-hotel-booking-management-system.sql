@@ -253,3 +253,67 @@ EXECUTE usp_CustomerBooking 'user15', 'Arnab', 'Banerjee', 9076398530, 'Kolkata'
 SELECT * FROM tbl_Customer;
 SELECT * FROM tbl_RoomAvailabilityLog;
 SELECT * FROM tbl_Billing;
+
+-- Create FoodCost Stored Procedure to calculate the Total Food Cost for all the Customers
+
+CREATE PROCEDURE usp_FoodCost
+@CustomerId VARCHAR(10)
+
+AS
+
+BEGIN
+
+DECLARE @Breakfast VARCHAR(3), @Lunch VARCHAR(3), @Dinner VARCHAR(3);
+
+SELECT @Breakfast = Breakfast FROM tbl_FoodDetail
+WHERE CustomerId = @CustomerId;
+
+SELECT @Lunch = Lunch FROM tbl_FoodDetail
+WHERE CustomerId = @CustomerId;
+
+SELECT @Dinner = Dinner FROM tbl_FoodDetail
+WHERE CustomerId = @CustomerId;
+
+DECLARE @NumberOfPeople TINYINT;
+
+SELECT @NumberOfPeople = (NumberOfAdults + NumberOfKids) FROM tbl_Customer
+WHERE CustomerId = @CustomerId;
+
+DECLARE @TotalCost SMALLINT = 0;
+
+if(@Breakfast = 'Yes')
+BEGIN
+SELECT @TotalCost = @TotalCost + (250 * @NumberOfPeople)
+END
+
+if(@Lunch = 'Yes')
+BEGIN
+SELECT @TotalCost = @TotalCost + (250 * @NumberOfPeople)
+END
+
+if(@Dinner = 'Yes')
+BEGIN
+SELECT @TotalCost = @TotalCost + (250 * @NumberOfPeople)
+END
+
+PRINT @TotalCost;
+
+END
+
+-- Execute FoodCost Stored Procedure
+
+EXECUTE usp_FoodCost 'user1'
+
+EXECUTE usp_FoodCost 'user2'
+
+EXECUTE usp_FoodCost 'user3'
+
+EXECUTE usp_FoodCost 'user4'
+
+EXECUTE usp_FoodCost 'user5'
+
+EXECUTE usp_FoodCost 'user6'
+
+EXECUTE usp_FoodCost 'user7'
+
+EXECUTE usp_FoodCost 'user8'
