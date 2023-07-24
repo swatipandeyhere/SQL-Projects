@@ -428,3 +428,22 @@ EXECUTE usp_FoodCost 'user6'
 EXECUTE usp_FoodCost 'user7'
 
 EXECUTE usp_FoodCost 'user8'
+
+-- Create TotalBookings Stored Procedure to calculate the Total Bookings made on each CheckIn date on the basis of RoomType
+
+CREATE PROCEDURE usp_TotalBookings
+
+AS
+
+BEGIN
+
+SELECT CheckIn, RoomType, SUM(NumberOfRooms) AS 'Total Bookings'
+FROM tbl_Customer
+GROUP BY CheckIn, RoomType 
+ORDER BY CheckIn, RoomType;
+
+END
+
+-- Execute TotalBookings Stored Procedure
+
+EXECUTE usp_TotalBookings;
