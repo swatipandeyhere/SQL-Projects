@@ -109,6 +109,56 @@ SELECT * FROM tbl_FoodDetail;
 CREATE TABLE tbl_Rating(UserId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
 Rating NUMERIC (2, 1));
 
+-- Insert Values into Rating Table
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user1', 3.0);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user2', 5.0);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user3', 4.5);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user4', 2.5);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user5', 4.0);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user6', 5.0);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user7', 4.0);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user8', 4.0);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user9', 3.5);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user10', 4.5);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user11', 4.3);
+
+-- View Contents of Rating Table
+
+SELECT * FROM tbl_Rating;
+
 -- Create Review Table
 
 CREATE TABLE tbl_Review(UserId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
