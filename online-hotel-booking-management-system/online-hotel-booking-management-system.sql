@@ -75,3 +75,143 @@ Rating NUMERIC (2, 1));
 
 CREATE TABLE tbl_Review(UserId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) ON DELETE CASCADE,
 Review VARCHAR(1000));
+
+-- Create CustomerBooking Stored Procedure which inserts data values into Customer, RoomAvailabilityLog and Billing Tables
+
+CREATE PROCEDURE usp_CustomerBooking
+@CustomerId VARCHAR(10),
+@FirstName VARCHAR(30),
+@LastName VARCHAR(30),
+@ContactNumber CHAR(10),
+@City VARCHAR(20),
+@CheckIn SMALLDATETIME,
+@CheckOut SMALLDATETIME,
+@NumberOfAdults TINYINT,
+@NumberOfKids TINYINT,
+@NumberOfRooms TINYINT,
+@RoomType VARCHAR(10)
+
+AS
+
+BEGIN
+
+DECLARE @BookedRooms TINYINT, @TotalRooms TINYINT, @AvailableRooms TINYINT;
+
+SELECT @BookedRooms = SUM(NumberOfRooms) FROM tbl_Customer
+WHERE CheckIn = @CheckIn AND RoomType = @RoomType;
+
+SELECT @TotalRooms = TotalRooms FROM tbl_RoomDetail 
+WHERE RoomTypeId = @RoomType;
+
+SELECT @AvailableRooms = @TotalRooms - @BookedRooms;
+
+if(@CheckOut <= @CheckIn)
+BEGIN
+RAISERROR('Date and Time of CheckOut must be after the Date and Time of CheckIn', 16, 1);
+END
+
+else if((@NumberOfAdults / @NumberOfRooms) > 2)
+BEGIN
+RAISERROR('Only 2 Adults are Allowed in a Room. Please Add a Room', 16, 1);
+END
+
+else if(@NumberOfRooms > @AvailableRooms)
+BEGIN
+RAISERROR('Number exceeds the Rooms Available for the CheckIn Date', 16, 1);
+END
+
+else
+BEGIN
+BEGIN TRY
+BEGIN TRAN
+INSERT INTO
+tbl_Customer(CustomerId, FirstName, LastName, ContactNumber, City, CheckIn, CheckOut, NumberOfAdults, NumberOfKids, NumberOfRooms, RoomType)
+VALUES(@CustomerId, @FirstName, @LastName, @ContactNumber, @City, @CheckIn, @CheckOut, @NumberOfAdults, @NumberOfKids, @NumberOfRooms, @RoomType);
+COMMIT TRAN
+
+BEGIN
+
+DECLARE @Booked TINYINT, @Total TINYINT, @Available TINYINT;
+
+SELECT @Booked = SUM(NumberOfRooms) FROM tbl_Customer
+WHERE CheckIn = @CheckIn AND RoomType = @RoomType;
+
+SELECT @Total = TotalRooms FROM tbl_RoomDetail 
+WHERE RoomTypeId = @RoomType;
+
+SELECT @Available = @Total - @Booked;
+
+BEGIN TRAN
+INSERT INTO
+tbl_RoomAvailabilityLog(RoomType, CheckIn, NumberOfRoomsBooked, NumberOfRoomsAvailable, CustomerId)
+VALUES(@RoomType, @CheckIn, @NumberOfRooms, @Available, @CustomerId);
+COMMIT TRAN
+
+END
+
+BEGIN
+
+DECLARE @TotalPrice NUMERIC(10, 2), @RoomPricePerDay NUMERIC(10, 2);
+
+SELECT @RoomPricePerDay = RoomPricePerDay FROM tbl_RoomDetail
+WHERE RoomTypeId = @RoomType;
+
+SELECT @TotalPrice = @RoomPricePerDay * @NumberOfRooms;
+
+BEGIN TRAN
+INSERT INTO
+tbl_Billing(CustomerId, RoomType, NumberOfRoomsBooked, RoomPricePerDay, TotalPrice)
+VALUES(@CustomerId, @RoomType, @NumberOfRooms, @RoomPricePerDay, @TotalPrice);
+COMMIT TRAN
+
+END
+
+END TRY
+
+BEGIN CATCH
+ROLLBACK TRAN
+END CATCH
+
+END
+
+END
+
+-- Execute CustomerBooking Stored Procedure
+
+EXECUTE usp_CustomerBooking 'user1', 'Sunita', 'Sharma', 8739390628, 'Delhi', '2023-07-24 12:00:00', '2023-07-25 12:00:00', 2, 0, 1, 'RT4'
+
+EXECUTE usp_CustomerBooking 'user2', 'Ashok', 'Singhal', 9963020627, 'Bangalore', '2023-07-24 12:00:00', '2023-07-25 12:00:00', 2, 1, 1, 'RT2'
+
+EXECUTE usp_CustomerBooking 'user3', 'Rohit', 'Rana', 7645031279, 'Chennai', '2023-07-24 12:00:00', '2023-07-25 12:00:00', 4, 1, 2, 'RT2'
+
+EXECUTE usp_CustomerBooking 'user4', 'Jyoti', 'Lamba', 6094512380, 'Chandigarh', '2023-07-25 12:00:00', '2023-07-26 12:00:00', 2, 1, 1, 'RT2'
+
+EXECUTE usp_CustomerBooking 'user5', 'Sumit', 'Vats', 7985634009, 'Pune', '2023-07-25 12:00:00', '2023-07-26 12:00:00', 12, 4, 6, 'RT3'
+
+EXECUTE usp_CustomerBooking 'user6', 'Manoj', 'Kaushik', 9890645239, 'Jaipur', '2023-07-25 12:00:00', '2023-07-26 12:00:00', 2, 0, 1, 'RT1'
+
+EXECUTE usp_CustomerBooking 'user7', 'Chetan', 'Gupta', 6704385421, 'Varanasi', '2023-07-25 12:00:00', '2023-07-26 12:00:00', 5, 1, 3, 'RT1'
+
+EXECUTE usp_CustomerBooking 'user8', 'Madhuri', 'Thakkar', 8562017429, 'Ahmedabad', '2023-07-26 12:00:00', '2023-07-27 12:00:00', 2, 2, 1, 'RT1'
+
+EXECUTE usp_CustomerBooking 'user9', 'Sneha', 'Nair', 6597341042, 'Kochi', '2023-07-26 12:00:00', '2023-07-27 12:00:00', 6, 0, 3, 'RT3'
+
+EXECUTE usp_CustomerBooking 'user10', 'Binod', 'Goel', 7953853109, 'Patna', '2023-07-27 12:00:00', '2023-07-28 12:00:00', 7, 3, 4, 'RT2'
+
+EXECUTE usp_CustomerBooking 'user11', 'Tushar', 'Tiwari', 7054298530, 'Lucknow', '2023-07-27 12:00:00', '2023-07-28 12:00:00', 5, 2, 3, 'RT2'
+
+-- Exceptions
+
+EXECUTE usp_CustomerBooking 'user12', 'Anubhav', 'Kumar', 6087439429, 'Jamshedpur', '2023-07-28 12:00:00', '2023-07-27 12:00:00', 1, 1, 1, 'RT2'
+
+EXECUTE usp_CustomerBooking 'user13', 'Shreya', 'Dubey', 7965439054, 'Mirzapur', '2023-07-28 12:00:00', '2023-07-28 12:00:00', 3, 0, 2, 'RT1'
+
+EXECUTE usp_CustomerBooking 'user14', 'Shubham', 'Sherki', 8096493842, 'Chandrapur', '2023-07-28 12:00:00', '2023-07-29 12:00:00', 4, 0, 1, 'RT3'
+
+EXECUTE usp_CustomerBooking 'user15', 'Arnab', 'Banerjee', 9076398530, 'Kolkata', '2023-07-27 12:00:00', '2023-07-28 12:00:00', 31, 10, 15, 'RT2'
+
+-- View Contents of Customer, RoomAvailabilityLog and Billing Tables
+
+SELECT * FROM tbl_Customer;
+SELECT * FROM tbl_RoomAvailabilityLog;
+SELECT * FROM tbl_Billing;
