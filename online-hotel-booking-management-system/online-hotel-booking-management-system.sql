@@ -447,3 +447,30 @@ END
 -- Execute TotalBookings Stored Procedure
 
 EXECUTE usp_TotalBookings;
+
+-- Create AverageRating Stored Procedure to calculate the Average Rating on the basis of RoomType up to two decimal places
+
+CREATE PROCEDURE usp_AverageRating(@RoomType VARCHAR(10))
+
+AS
+
+BEGIN
+
+SELECT RoomType, CAST(AVG(Rating) AS NUMERIC(5, 2)) AS 'Average Rating'
+FROM tbl_Rating AS r
+JOIN tbl_Customer AS c
+ON r.UserId = c.CustomerId
+GROUP BY RoomType
+HAVING RoomType = @RoomType;
+
+END
+
+-- Execute AverageRating Stored Procedure
+
+EXECUTE usp_AverageRating 'RT1'
+
+EXECUTE usp_AverageRating 'RT2'
+
+EXECUTE usp_AverageRating 'RT3'
+
+EXECUTE usp_AverageRating 'RT4'
