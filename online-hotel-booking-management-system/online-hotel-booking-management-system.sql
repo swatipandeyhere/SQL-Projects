@@ -349,6 +349,8 @@ EXECUTE usp_CustomerBooking 'user10', 'Binod', 'Goel', 7953853109, 'Patna', '202
 
 EXECUTE usp_CustomerBooking 'user11', 'Tushar', 'Tiwari', 7054298530, 'Lucknow', '2023-07-27 12:00:00', '2023-07-28 12:00:00', 5, 2, 3, 'RT2'
 
+EXECUTE usp_CustomerBooking 'user12', 'Shravan', 'Deshmukh', 8640392803, 'Nashik', '2023-07-27 12:00:00', '2023-07-28 12:00:00', 1, 0, 1, 'RT1'
+
 -- Exceptions
 
 EXECUTE usp_CustomerBooking 'user12', 'Anubhav', 'Kumar', 6087439429, 'Jamshedpur', '2023-07-28 12:00:00', '2023-07-27 12:00:00', 1, 1, 1, 'RT2'
