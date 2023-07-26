@@ -490,3 +490,7 @@ BEGIN
 PRINT('The Hotel Booking has been successfully completed!');
 
 END
+
+-- Create BookingAudit Table
+
+CREATE TABLE tbl_BookingAudit(Id INT IDENTITY, AuditData VARCHAR(MAX));
