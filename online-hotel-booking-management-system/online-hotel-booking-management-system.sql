@@ -474,3 +474,17 @@ EXECUTE usp_AverageRating 'RT2'
 EXECUTE usp_AverageRating 'RT3'
 
 EXECUTE usp_AverageRating 'RT4'
+
+-- Create PrintBookingSuccessMessage Trigger on Insertion of Customer details
+
+CREATE TRIGGER tr_PrintBookingSuccessMessage
+ON tbl_Customer
+FOR INSERT
+
+AS
+
+BEGIN
+
+PRINT('The Hotel Booking has been successfully completed!');
+
+END
