@@ -535,3 +535,7 @@ CAST(@CheckIn AS VARCHAR) +
 CAST(@CheckOut AS VARCHAR))
 
 END
+
+-- View Contents of BookingAudit Table
+
+SELECT * FROM tbl_BookingAudit;
