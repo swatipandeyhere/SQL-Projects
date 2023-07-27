@@ -539,3 +539,59 @@ END
 -- View Contents of BookingAudit Table
 
 SELECT * FROM tbl_BookingAudit;
+
+-- Create a Trigger to Insert data into BookingAudit table on Updation of Customer details
+
+CREATE TRIGGER tr_tbl_Customer_ForUpdate
+ON tbl_Customer
+FOR UPDATE
+
+AS
+
+BEGIN
+
+DECLARE @CustomerId VARCHAR(10)
+DECLARE @OldCheckIn SMALLDATETIME, @NewCheckIn SMALLDATETIME
+DECLARE @OldCheckOut SMALLDATETIME, @NewCheckOut SMALLDATETIME
+DECLARE @OldRoomType VARCHAR(10), @NewRoomType VARCHAR(10)
+
+DECLARE @AuditText VARCHAR(MAX);
+
+SELECT * INTO #TempTable FROM inserted
+
+WHILE(EXISTS(SELECT CustomerId FROM #TempTable))
+BEGIN
+SET @AuditText = ''
+
+SELECT TOP 1 @CustomerId = CustomerId,
+@NewCheckIn = CheckIn,
+@NewCheckOut = CheckOut,
+@NewRoomType = RoomType
+FROM #TempTable;
+
+SELECT @OldCheckIn = CheckIn,
+@OldCheckOut = CheckOut,
+@OldRoomType = RoomType
+FROM deleted
+WHERE CustomerId = @CustomerId;
+
+SET @AuditText = 'An Existing Customer with id ' + CAST(@CustomerId AS VARCHAR) + ' has changed'
+
+if(@OldCheckIn <> @NewCheckIn)
+SET @AuditText = @AuditText + ' CheckIn Date/Time from ' + CAST(@OldCheckIn AS VARCHAR) + ' to ' + CAST(@NewCheckIn AS VARCHAR)
+
+if(@OldCheckOut <> @NewCheckOut)
+SET @AuditText = @AuditText + ' CheckOut Date/Time from ' + CAST(@OldCheckOut AS VARCHAR) + ' to ' + CAST(@NewCheckOut AS VARCHAR)
+
+if(@OldRoomType <> @NewRoomType)
+SET @AuditText = @AuditText + ' RoomType from ' + @OldRoomType + ' to ' + @NewRoomType
+
+INSERT INTO tbl_BookingAudit(AuditData)
+VALUES(@AuditText);
+
+DELETE FROM #TempTable
+WHERE CustomerId = @CustomerId;
+
+END
+
+END
