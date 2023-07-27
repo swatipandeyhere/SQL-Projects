@@ -601,3 +601,10 @@ END
 UPDATE tbl_Customer
 SET RoomType = 'RT2'
 WHERE CustomerId = 'user13';
+
+-- View Contents of Customer, RoomAvailabilityLog, Billing and BookingAudit Tables
+
+SELECT * FROM tbl_Customer;
+SELECT * FROM tbl_RoomAvailabilityLog;
+SELECT * FROM tbl_Billing;
+SELECT * FROM tbl_BookingAudit;
