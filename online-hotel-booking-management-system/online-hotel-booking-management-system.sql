@@ -494,3 +494,42 @@ END
 -- Create BookingAudit Table
 
 CREATE TABLE tbl_BookingAudit(Id INT IDENTITY, AuditData VARCHAR(MAX));
+
+-- Create a Trigger to Insert data into BookingAudit table on Insertion of Customer details
+
+CREATE TRIGGER tr_tbl_Customer_ForInsert
+ON tbl_Customer
+FOR INSERT
+
+AS
+
+BEGIN
+
+DECLARE
+@CustomerId VARCHAR(10),
+@NumberOfRooms TINYINT,
+@RoomType VARCHAR(10),
+@CheckIn SMALLDATETIME,
+@CheckOut SMALLDATETIME
+
+SELECT @CustomerId = CustomerId,
+@NumberOfRooms = NumberOfRooms,
+@RoomType = RoomType,
+@CheckIn = CheckIn,
+@CheckOut = CheckOut
+FROM inserted;
+
+INSERT INTO tbl_BookingAudit(AuditData)
+VALUES('A New Customer with id ' +
+CAST(@CustomerId AS VARCHAR) +
+' has booked ' +
+CAST(@NumberOfRooms AS VARCHAR) +
+' ' +
+@RoomType +
+' room(s) ' +
+'from ' +
+CAST(@CheckIn AS VARCHAR) +
+' to ' +
+CAST(@CheckOut AS VARCHAR))
+
+END
