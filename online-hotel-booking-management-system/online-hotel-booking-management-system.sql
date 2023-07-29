@@ -608,3 +608,23 @@ SELECT * FROM tbl_Customer;
 SELECT * FROM tbl_RoomAvailabilityLog;
 SELECT * FROM tbl_Billing;
 SELECT * FROM tbl_BookingAudit;
+
+-- Create a Trigger to Update CheckIn in tbl_RoomAvailabilityLog table when CheckIn in tbl_Customer table is Updated
+
+CREATE TRIGGER tr_tbl_Customer_ForUpdateCheckIn
+ON tbl_Customer
+FOR UPDATE
+
+AS
+
+if(UPDATE (CheckIn))
+
+BEGIN
+
+UPDATE tbl_RoomAvailabilityLog
+SET tbl_RoomAvailabilityLog.CheckIn = inserted.CheckIn
+FROM tbl_RoomAvailabilityLog
+JOIN inserted
+ON tbl_RoomAvailabilityLog.CustomerId = inserted.CustomerId;
+
+END
