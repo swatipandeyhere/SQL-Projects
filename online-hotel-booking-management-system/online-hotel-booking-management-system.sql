@@ -742,3 +742,8 @@ END
 UPDATE tbl_Rating
 SET Rating = 5.0
 WHERE UserId = 'user3';
+
+-- View Contents of Rating and BookingAudit tables
+
+SELECT * FROM tbl_Rating;
+SELECT * FROM tbl_BookingAudit;
