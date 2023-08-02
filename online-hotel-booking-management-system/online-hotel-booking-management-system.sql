@@ -736,3 +736,9 @@ WHERE UserId = @UserId;
 END
 
 END
+
+-- Update Rating of any Customer
+
+UPDATE tbl_Rating
+SET Rating = 5.0
+WHERE UserId = 'user3';
