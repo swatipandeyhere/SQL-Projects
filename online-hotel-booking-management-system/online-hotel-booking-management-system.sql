@@ -694,3 +694,45 @@ JOIN inserted
 ON tbl_Billing.CustomerId = inserted.CustomerId;
 
 END
+
+-- Create a Trigger to Insert data into BookingAudit table on Updation of Rating
+
+CREATE TRIGGER tr_tbl_Rating_ForUpdateRating
+ON tbl_Rating
+FOR UPDATE
+
+AS
+
+BEGIN
+
+DECLARE @UserId VARCHAR(10);
+DECLARE @OldRating NUMERIC(2, 1), @NewRating NUMERIC(2, 1);
+
+DECLARE @AuditText VARCHAR(MAX);
+
+SELECT * INTO #TempTable FROM inserted;
+
+WHILE(EXISTS(SELECT UserId FROM #TempTable))
+BEGIN
+SET @AuditText = ''
+
+SELECT TOP 1 @UserId = UserId,
+@NewRating = Rating
+FROM #TempTable;
+
+SELECT @OldRating = Rating
+FROM deleted
+WHERE UserId = @UserId;
+
+if(@OldRating <> @NewRating)
+SET @AuditText = 'An Existing Customer with id ' + CAST(@UserId AS VARCHAR) + ' has changed Rating from ' + CAST(@OldRating AS VARCHAR) + ' to ' + CAST(@NewRating AS VARCHAR)
+
+INSERT INTO tbl_BookingAudit(AuditData)
+VALUES(@AuditText);
+
+DELETE FROM #TempTable
+WHERE UserId = @UserId;
+
+END
+
+END
