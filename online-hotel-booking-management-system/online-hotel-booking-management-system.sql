@@ -599,7 +599,7 @@ END
 -- Update RoomType of a Customer
 
 UPDATE tbl_Customer
-SET RoomType = 'RT3'
+SET RoomType = 'RT2'
 WHERE CustomerId = 'user13';
 
 -- View Contents of Customer, RoomAvailabilityLog, Billing and BookingAudit Tables
