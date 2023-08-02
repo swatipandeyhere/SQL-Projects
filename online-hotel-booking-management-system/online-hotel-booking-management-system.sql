@@ -628,3 +628,69 @@ JOIN inserted
 ON tbl_RoomAvailabilityLog.CustomerId = inserted.CustomerId;
 
 END
+
+-- Create a Trigger to Update RoomType and NumberOfRoomsAvailable in tbl_RoomAvailabilityLog table and RoomType, RoomPricePerDay and TotalPrice in tbl_Billing table when RoomType in tbl_Customer table is Updated
+
+CREATE TRIGGER tr_tbl_Customer_ForUpdateRoomType
+ON tbl_Customer
+FOR UPDATE
+
+AS
+
+if(UPDATE (RoomType))
+
+BEGIN
+
+UPDATE tbl_RoomAvailabilityLog
+SET tbl_RoomAvailabilityLog.RoomType = inserted.RoomType
+FROM tbl_RoomAvailabilityLog
+JOIN inserted
+ON tbl_RoomAvailabilityLog.CustomerId = inserted.CustomerId;
+
+DECLARE @BookedRooms TINYINT, @TotalRooms TINYINT, @AvailableRooms TINYINT;
+
+SELECT @BookedRooms = SUM(tbl_Customer.NumberOfRooms)
+FROM tbl_Customer
+JOIN inserted
+ON tbl_Customer.CheckIn = inserted.CheckIn
+AND tbl_Customer.RoomType = inserted.RoomType;
+
+SELECT @TotalRooms = TotalRooms
+FROM tbl_RoomDetail
+JOIN inserted
+ON tbl_RoomDetail.RoomTypeId = inserted.RoomType;
+
+SELECT @AvailableRooms = @TotalRooms - @BookedRooms;
+
+UPDATE tbl_RoomAvailabilityLog
+SET tbl_RoomAvailabilityLog.NumberOfRoomsAvailable = @AvailableRooms
+FROM tbl_RoomAvailabilityLog
+JOIN inserted
+ON tbl_RoomAvailabilityLog.CustomerId = inserted.CustomerId;
+
+UPDATE tbl_Billing
+SET tbl_Billing.RoomType = inserted.RoomType
+FROM tbl_Billing
+JOIN inserted
+ON tbl_Billing.CustomerId = inserted.CustomerId;
+
+DECLARE @RoomPricePerDay NUMERIC(10, 2);
+
+SELECT @RoomPricePerDay = RoomPricePerDay
+FROM tbl_RoomDetail
+JOIN inserted
+ON tbl_RoomDetail.RoomTypeId = inserted.RoomType;
+
+UPDATE tbl_Billing
+SET RoomPricePerDay = @RoomPricePerDay
+FROM tbl_Billing
+JOIN inserted
+ON tbl_Billing.CustomerId = inserted.CustomerId;
+
+UPDATE tbl_Billing
+SET TotalPrice = RoomPricePerDay * NumberOfRoomsBooked
+FROM tbl_Billing
+JOIN inserted
+ON tbl_Billing.CustomerId = inserted.CustomerId;
+
+END
