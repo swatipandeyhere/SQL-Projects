@@ -836,3 +836,7 @@ END
 -- Rename NumberOfRooms of Customer table to NumberOfRoomsBooked
 
 EXECUTE SP_RENAME 'tbl_Customer.NumberOfRooms', 'NumberOfRoomsBooked';
+
+-- View Contents of AuditTableChanges table
+
+SELECT * FROM tbl_AuditTableChanges;
