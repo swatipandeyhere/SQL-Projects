@@ -855,3 +855,18 @@ ON c.RoomType = rd.RoomTypeId;
 -- View Contents of FoodAmenities
 
 SELECT * FROM vw_FoodAmenities;
+
+-- Create a View to display Room Rating for each Customer
+
+CREATE VIEW vw_RoomRating
+AS
+SELECT UserId, rd.RoomType, Rating
+FROM tbl_Customer AS c
+JOIN tbl_Rating AS r
+ON c.CustomerId = r.UserId
+JOIN tbl_RoomDetail AS rd
+ON c.RoomType = rd.RoomTypeId;
+
+-- View Contents of RoomRating
+
+SELECT * FROM vw_RoomRating;
