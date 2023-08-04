@@ -870,3 +870,17 @@ ON c.RoomType = rd.RoomTypeId;
 -- View Contents of RoomRating
 
 SELECT * FROM vw_RoomRating;
+
+-- Create a View to find the details of the Most Valued Customer
+
+CREATE VIEW vw_MostValuedCustomer
+AS
+SELECT RoomType, MAX(NumberOfRoomsBooked) AS MaximumNumberOfRoomsBooked
+FROM tbl_RoomAvailabilityLog
+GROUP BY RoomType;
+
+SELECT CustomerId, CONCAT(FirstName,' ',LastName) AS CustomerName, m.*
+FROM vw_MostValuedCustomer AS m
+JOIN tbl_Customer AS c
+ON m.RoomType = c.RoomType
+AND m.MaximumNumberOfRoomsBooked = c.NumberOfRoomsBooked;
