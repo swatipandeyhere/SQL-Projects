@@ -795,3 +795,12 @@ SELECT * FROM tbl_FoodDetail;
 SELECT * FROM tbl_Rating;
 SELECT * FROM tbl_Review;
 SELECT * FROM tbl_BookingAudit;
+
+-- Create AuditTableChanges Table
+
+CREATE TABLE tbl_AuditTableChanges(DatabaseName VARCHAR(50),
+TableName VARCHAR(50),
+EventType VARCHAR(50),
+LoginName VARCHAR(50),
+SQLCommand VARCHAR(MAX),
+AuditDateTime DATETIME);
