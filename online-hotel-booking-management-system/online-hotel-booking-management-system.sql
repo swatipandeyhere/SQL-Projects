@@ -804,3 +804,31 @@ EventType VARCHAR(50),
 LoginName VARCHAR(50),
 SQLCommand VARCHAR(MAX),
 AuditDateTime DATETIME);
+
+-- Audit Table Changes using a DDL Trigger
+
+CREATE TRIGGER tr_tbl_AuditTableChanges
+ON DATABASE
+FOR CREATE_TABLE, ALTER_TABLE, DROP_TABLE, RENAME
+
+AS
+
+BEGIN
+
+DECLARE @EventData XML;
+
+SELECT @EventData = EVENTDATA();
+
+INSERT INTO OnlineHotelBookingManagementSystem.dbo.tbl_AuditTableChanges
+(DatabaseName, TableName, EventType, LoginName, SQLCommand, AuditDateTime)
+VALUES
+(
+@EventData.value('(/EVENT_INSTANCE/DatabaseName)[1]', 'VARCHAR(50)'),
+@EventData.value('(/EVENT_INSTANCE/ObjectName)[1]', 'VARCHAR(50)'),
+@EventData.value('(/EVENT_INSTANCE/EventType)[1]', 'VARCHAR(50)'),
+@EventData.value('(/EVENT_INSTANCE/LoginName)[1]', 'VARCHAR(50)'),
+@EventData.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'VARCHAR(MAX)'),
+GETDATE()
+);
+
+END
