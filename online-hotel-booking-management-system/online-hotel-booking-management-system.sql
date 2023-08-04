@@ -747,3 +747,23 @@ WHERE UserId = 'user3';
 
 SELECT * FROM tbl_Rating;
 SELECT * FROM tbl_BookingAudit;
+
+-- Create a Trigger to Insert data into BookingAudit table on Deletion of Customer details
+
+CREATE TRIGGER tr_tbl_Customer_ForDelete
+ON tbl_Customer
+FOR DELETE
+
+AS
+
+BEGIN
+
+DECLARE @CustomerId VARCHAR(10);
+
+SELECT @CustomerId = CustomerId
+FROM deleted;
+
+INSERT INTO tbl_BookingAudit(AuditData)
+VALUES('An Existing Customer with id ' + @CustomerId + ' has cancelled their Room Booking at ' + CAST(GETDATE() AS VARCHAR));
+
+END
