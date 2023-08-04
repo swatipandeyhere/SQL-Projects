@@ -100,6 +100,10 @@ INSERT INTO
 tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
 VALUES('user8', 'Yes', 'Yes', 'Yes');
 
+INSERT INTO
+tbl_FoodDetail(CustomerId, Breakfast, Lunch, Dinner)
+VALUES('user13', 'Yes', 'No', 'Yes');
+
 -- View Contents of FoodDetail Table
 
 SELECT * FROM tbl_FoodDetail;
@@ -154,6 +158,10 @@ VALUES('user10', 4.5);
 INSERT INTO
 tbl_Rating(UserId, Rating)
 VALUES('user11', 4.3);
+
+INSERT INTO
+tbl_Rating(UserId, Rating)
+VALUES('user13', 5.0);
 
 -- View Contents of Rating Table
 
@@ -220,6 +228,11 @@ INSERT INTO
 tbl_Review(UserId, Review)
 VALUES('user11',
 'Had an amazing time.');
+
+INSERT INTO
+tbl_Review(UserId, Review)
+VALUES('user13',
+'It was a great experience. Had a pleasant stay and enjoyed it.');
 
 -- View Contents of Review Table
 
@@ -767,3 +780,8 @@ INSERT INTO tbl_BookingAudit(AuditData)
 VALUES('An Existing Customer with id ' + @CustomerId + ' has cancelled their Room Booking at ' + CAST(GETDATE() AS VARCHAR));
 
 END
+
+-- Delete any Customer
+
+DELETE FROM tbl_Customer
+WHERE CustomerId = 'user13';
