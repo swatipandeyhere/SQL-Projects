@@ -785,3 +785,13 @@ END
 
 DELETE FROM tbl_Customer
 WHERE CustomerId = 'user13';
+
+-- View Contents of Customer, RoomAvailabilityLog, Billing, FoodDetail, Rating, Review and BookingAudit tables
+
+SELECT * FROM tbl_Customer;
+SELECT * FROM tbl_RoomAvailabilityLog;
+SELECT * FROM tbl_Billing;
+SELECT * FROM tbl_FoodDetail;
+SELECT * FROM tbl_Rating;
+SELECT * FROM tbl_Review;
+SELECT * FROM tbl_BookingAudit;
