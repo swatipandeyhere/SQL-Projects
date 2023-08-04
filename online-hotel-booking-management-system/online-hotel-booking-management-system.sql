@@ -840,3 +840,18 @@ EXECUTE SP_RENAME 'tbl_Customer.NumberOfRooms', 'NumberOfRoomsBooked';
 -- View Contents of AuditTableChanges table
 
 SELECT * FROM tbl_AuditTableChanges;
+
+-- Create a View to display Food Amenities for each Customer
+
+CREATE VIEW vw_FoodAmenities
+AS
+SELECT fd.CustomerId, rd.RoomType, Breakfast, Lunch, Dinner
+FROM tbl_FoodDetail AS fd
+JOIN tbl_Customer AS c
+ON fd.CustomerId = c.CustomerId
+JOIN tbl_RoomDetail AS rd
+ON c.RoomType = rd.RoomTypeId;
+
+-- View Contents of FoodAmenities
+
+SELECT * FROM vw_FoodAmenities;
