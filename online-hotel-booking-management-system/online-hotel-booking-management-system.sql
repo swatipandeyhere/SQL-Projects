@@ -832,3 +832,7 @@ GETDATE()
 );
 
 END
+
+-- Rename NumberOfRooms of Customer table to NumberOfRoomsBooked
+
+EXECUTE SP_RENAME 'tbl_Customer.NumberOfRooms', 'NumberOfRoomsBooked';
