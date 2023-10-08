@@ -79,3 +79,24 @@ VALUES('user15', 'Arnab Banerjee', 'arnab.banerjee@gmail.com', 9076398530, HASHB
 -- View Contents of User Table
 
 SELECT * FROM tbl_User;
+
+-- Create Theatre Table
+
+CREATE TABLE tbl_Theatre(TheatreId VARCHAR(10) PRIMARY KEY,
+TheatreName VARCHAR(30) NOT NULL,
+TheatreAddress VARCHAR(200) NOT NULL);
+
+-- Insert Values into Theatre Table
+
+INSERT INTO
+tbl_Theatre(TheatreId, TheatreName, TheatreAddress)
+VALUES
+('theatre1', 'PVR Cinemas', 'Koramangala, Bangalore'),
+('theatre2', 'PVP', 'Mallathahalli, Bangalore'),
+('theatre3', 'INOX', 'Koramangala, Bangalore'),
+('theatre4', 'Cinepollis', 'Koramangala, Bangalore'),
+('theatre5', 'Metro Inox Cinemas', 'Koramangala, Bangalore');
+
+-- View Contents of Theatre Table
+
+SELECT * FROM tbl_Theatre;
