@@ -218,3 +218,57 @@ VALUES
 -- View Contents of Booking Table
 
 SELECT * FROM tbl_Booking;
+
+-- Create Ticket Table
+
+CREATE TABLE tbl_Ticket(TicketId VARCHAR(10) PRIMARY KEY,
+BookingId VARCHAR(10) NOT NULL,
+ShowId VARCHAR(10) NOT NULL,
+SeatNumber VARCHAR(10) NOT NULL,
+Price SMALLINT NOT NULL,
+FOREIGN KEY(BookingId) REFERENCES tbl_Booking(BookingId),
+FOREIGN KEY(ShowId) REFERENCES tbl_Show(ShowId),
+CONSTRAINT UniqueSeatNumberPerShow UNIQUE(SeatNumber, ShowId));
+
+-- Insert Values into Ticket Table
+
+INSERT INTO
+tbl_Ticket(TicketId, BookingId, ShowId, SeatNumber, Price)
+VALUES
+('ticket1', 'booking1', 'show1', 'S1', 200),
+('ticket2', 'booking1', 'show1', 'S2', 200),
+('ticket3', 'booking1', 'show1', 'S3', 200),
+('ticket4', 'booking1', 'show1', 'S4', 200),
+('ticket5', 'booking1', 'show1', 'S5', 200),
+('ticket6', 'booking2', 'show2', 'S1', 200),
+('ticket7', 'booking2', 'show2', 'S2', 200),
+('ticket8', 'booking2', 'show2', 'S3', 200),
+('ticket9', 'booking2', 'show2', 'S4', 200),
+('ticket10', 'booking2', 'show2', 'S5', 200),
+('ticket11', 'booking3', 'show3', 'S1', 200),
+('ticket12', 'booking3', 'show3', 'S2', 200),
+('ticket13', 'booking3', 'show3', 'S3', 200),
+('ticket14', 'booking4', 'show4', 'S1', 200),
+('ticket15', 'booking5', 'show5', 'S1', 200),
+('ticket16', 'booking5', 'show5', 'S2', 200),
+('ticket17', 'booking5', 'show5', 'S3', 200),
+('ticket18', 'booking5', 'show5', 'S4', 200),
+('ticket19', 'booking6', 'show7', 'S1', 200),
+('ticket20', 'booking6', 'show7', 'S2', 200),
+('ticket21', 'booking7', 'show9', 'S1', 200),
+('ticket22', 'booking7', 'show9', 'S2', 200),
+('ticket23', 'booking8', 'show10', 'S1', 200),
+('ticket24', 'booking8', 'show10', 'S2', 200),
+('ticket25', 'booking8', 'show10', 'S3', 200),
+('ticket26', 'booking8', 'show10', 'S4', 200),
+('ticket27', 'booking8', 'show10', 'S5', 200),
+('ticket28', 'booking8', 'show10', 'S6', 200),
+('ticket29', 'booking9', 'show12', 'S1', 200),
+('ticket30', 'booking9', 'show12', 'S2', 200),
+('ticket31', 'booking9', 'show12', 'S3', 200),
+('ticket32', 'booking10', 'show15', 'S1', 200),
+('ticket33', 'booking10', 'show15', 'S2', 200);
+
+-- View Contents of Ticket Table
+
+SELECT * FROM tbl_Ticket;
