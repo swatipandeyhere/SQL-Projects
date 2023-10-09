@@ -272,3 +272,34 @@ VALUES
 -- View Contents of Ticket Table
 
 SELECT * FROM tbl_Ticket;
+
+-- Create Rating Table
+
+CREATE TABLE tbl_Rating(RatingId VARCHAR(10) PRIMARY KEY,
+MovieId VARCHAR(10) NOT NULL,
+UserId VARCHAR(10) NOT NULL,
+Rating TINYINT NOT NULL CHECK(Rating >= 1 AND Rating <= 5),
+Comment VARCHAR(1000),
+FOREIGN KEY(MovieId) REFERENCES tbl_Movie(MovieId),
+FOREIGN KEY(UserId) REFERENCES tbl_User(UserId),
+CONSTRAINT UniqueUserIdPerMovie UNIQUE(UserId, MovieId));
+
+-- Insert Values into Rating Table
+
+INSERT INTO
+tbl_Rating(RatingId, MovieId, UserId, Rating, Comment)
+VALUES
+('rating1', 'movie1', 'user1', 4, 'Great movie! The action scenes were amazing.'),
+('rating2', 'movie1', 'user2', 5, 'This is one of the best movies I have ever seen.'),
+('rating3', 'movie1', 'user3', 4, 'I enjoyed the movie overall, but the ending was a bit disappointing.'),
+('rating4', 'movie2', 'user4', 4, 'A classic movie with great performances by the actors.'),
+('rating5', 'movie2', 'user5', 3, 'I expected more from this movie.'),
+('rating6', 'movie3', 'user6', 5, 'A masterpiece. The acting and direction were superb.'),
+('rating7', 'movie3', 'user7', 4, 'The Godfather is classic for a reason.'),
+('rating8', 'movie4', 'user8', 4, 'A mind-bending movie with a great storyline.'),
+('rating9', 'movie4', 'user9', 3, 'I had a hard time following the movie at times.'),
+('rating10', 'movie5', 'user10', 5, 'A beautiful and heart-wrenching love story.');
+
+-- View Contents of Rating Table
+
+SELECT * FROM tbl_Rating;
