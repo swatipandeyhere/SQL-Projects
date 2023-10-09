@@ -303,3 +303,27 @@ VALUES
 -- View Contents of Rating Table
 
 SELECT * FROM tbl_Rating;
+
+-- Create MovieRevenue Table
+
+CREATE TABLE tbl_MovieRevenue(RevenueId VARCHAR(10) PRIMARY KEY,
+MovieId VARCHAR(10) NOT NULL,
+StartDate SMALLDATETIME NOT NULL,
+EndDate SMALLDATETIME NOT NULL,
+RevenueAmount DECIMAL(10, 2) NOT NULL,
+FOREIGN KEY(MovieId) REFERENCES tbl_Movie(MovieId));
+
+-- Insert Values into MovieRevenue Table
+
+INSERT INTO
+tbl_MovieRevenue(RevenueId, MovieId, StartDate, EndDate, RevenueAmount)
+VALUES
+('revenue1', 'movie1', '2023-04-26', '2023-05-26', 13750000.00),
+('revenue2', 'movie2', '2023-04-25', '2023-05-25', 10000050.00),
+('revenue3', 'movie3', '2023-04-18', '2023-05-18', 12000050.00),
+('revenue4', 'movie4', '2023-05-05', '2023-06-05', 13000000.00),
+('revenue5', 'movie5', '2023-05-01', '2023-06-01', 13400000.00);
+
+-- View Contents of MovieRevenue Table
+
+SELECT * FROM tbl_MovieRevenue;
