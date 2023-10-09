@@ -148,3 +148,41 @@ VALUES
 -- View Contents of Screen Table
 
 SELECT * FROM tbl_Screen;
+
+-- Create Show Table
+
+CREATE TABLE tbl_Show(ShowId VARCHAR(10) PRIMARY KEY,
+MovieId VARCHAR(10) NOT NULL,
+ScreenId VARCHAR(10) NOT NULL,
+TheatreId VARCHAR(10) NOT NULL,
+ShowTime SMALLDATETIME NOT NULL,
+Price TINYINT NOT NULL,
+AvailableSeats TINYINT NOT NULL,
+FOREIGN KEY(MovieId) REFERENCES tbl_Movie(MovieId),
+FOREIGN KEY(ScreenId) REFERENCES tbl_Screen(ScreenId),
+FOREIGN KEY(TheatreId) REFERENCES tbl_Theatre(TheatreId));
+
+-- Insert Values into Show Table
+
+INSERT INTO
+tbl_Show(ShowId, MovieId, ScreenId, TheatreId, ShowTime, Price, AvailableSeats)
+VALUES
+('show1', 'movie1', 'screen1', 'theatre1', '2023-05-24 09:00:00', 200, 80),
+('show2', 'movie2', 'screen2', 'theatre1', '2023-05-23 09:30:00', 200, 80),
+('show3', 'movie3', 'screen3', 'theatre2', '2023-05-24 12:30:00', 200, 100),
+('show4', 'movie4', 'screen4', 'theatre3', '2023-05-23 12:00:00', 200, 100),
+('show5', 'movie5', 'screen5', 'theatre4', '2023-05-23 14:30:00', 200, 100),
+('show6', 'movie1', 'screen6', 'theatre2', '2023-05-23 16:30:00', 200, 100),
+('show7', 'movie2', 'screen7', 'theatre3', '2023-05-24 21:30:00', 200, 100),
+('show8', 'movie1', 'screen8', 'theatre5', '2023-05-24 18:00:00', 200, 100),
+('show9', 'movie1', 'screen1', 'theatre1', '2023-06-15 09:00:00', 200, 80),
+('show10', 'movie2', 'screen1', 'theatre1', '2023-06-15 14:00:00', 200, 80),
+('show11', 'movie3', 'screen2', 'theatre1', '2023-06-16 18:00:00', 200, 100),
+('show12', 'movie4', 'screen3', 'theatre2', '2023-06-17 18:00:00', 200, 100),
+('show13', 'movie5', 'screen4', 'theatre3', '2023-06-15 18:00:00', 200, 100),
+('show14', 'movie1', 'screen7', 'theatre3', '2023-06-17 18:00:00', 200, 100),
+('show15', 'movie5', 'screen8', 'theatre5', '2023-06-15 18:00:00', 200, 100);
+
+-- View Contents of Show Table
+
+SELECT * FROM tbl_Show;
