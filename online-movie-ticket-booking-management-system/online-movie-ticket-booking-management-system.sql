@@ -392,3 +392,32 @@ END
 -- Execute GetShowsWithTheatreInfo Stored Procedure
 
 EXECUTE usp_GetShowsWithTheatreInfo;
+
+-- Create a Stored Procedure to retrieve Average Rating by Movie Name
+
+CREATE OR ALTER PROCEDURE usp_GetAverageRatingByMovieName
+@MovieName VARCHAR(30)
+
+AS
+
+BEGIN
+
+SELECT ROUND(AVG(CAST(Rating AS DECIMAL(10, 1))), 1) AS 'Average Rating'
+FROM tbl_Rating r
+INNER JOIN tbl_Movie m
+ON r.MovieId = m.MovieId
+WHERE m.Title = @MovieName;
+
+END
+
+-- Execute GetAverageRatingByMovieName Stored Procedure
+
+EXECUTE usp_GetAverageRatingByMovieName 'Avengers: Endgame';
+
+EXECUTE usp_GetAverageRatingByMovieName 'The Dark Knight';
+
+EXECUTE usp_GetAverageRatingByMovieName 'The Godfather';
+
+EXECUTE usp_GetAverageRatingByMovieName 'Inception';
+
+EXECUTE usp_GetAverageRatingByMovieName 'Titanic';
