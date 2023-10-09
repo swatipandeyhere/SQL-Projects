@@ -100,3 +100,26 @@ VALUES
 -- View Contents of Theatre Table
 
 SELECT * FROM tbl_Theatre;
+
+-- Create Movie Table
+
+CREATE TABLE tbl_Movie(MovieId VARCHAR(10) PRIMARY KEY,
+Title VARCHAR(30) NOT NULL,
+Description VARCHAR(1000) NOT NULL,
+Duration TINYINT NOT NULL,
+ReleaseDate DATE NOT NULL);
+
+-- Insert Values into Movie Table
+
+INSERT INTO
+tbl_Movie(MovieId, Title, Description, Duration, ReleaseDate)
+VALUES
+('movie1', 'Avengers: Endgame', 'The Avengers must undo Thanos'' actions and restore order to the universe', 182, '2023-04-26'),
+('movie2', 'The Dark Knight', 'Batman fights the Joker in a battle for Gotham City', 152, '2023-04-25'),
+('movie3', 'The Godfather', 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son', 175, '2023-04-18'),
+('movie4', 'Inception', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.', 148, '2023-05-05'),
+('movie5', 'Titanic', 'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic', 194, '2023-05-01');
+
+-- View Contents of Movie Table
+
+SELECT * FROM tbl_Movie;
