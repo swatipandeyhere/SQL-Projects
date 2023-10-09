@@ -186,3 +186,35 @@ VALUES
 -- View Contents of Show Table
 
 SELECT * FROM tbl_Show;
+
+-- Create Booking Table
+
+CREATE TABLE tbl_Booking(BookingId VARCHAR(10) PRIMARY KEY,
+UserId VARCHAR(10) NOT NULL,
+ShowId VARCHAR(10) NOT NULL,
+TotalTickets TINYINT NOT NULL CHECK(TotalTickets > 0 AND TotalTickets <= 10),
+TotalPrice SMALLINT NOT NULL,
+BookingTime SMALLDATETIME DEFAULT GETDATE(),
+PaymentStatus VARCHAR(10) NOT NULL,
+FOREIGN KEY(UserId) REFERENCES tbl_User(UserId),
+FOREIGN KEY(ShowId) REFERENCES tbl_Show(ShowId));
+
+-- Insert Values into Booking Table
+
+INSERT INTO
+tbl_Booking(BookingId, UserId, ShowId, TotalTickets, TotalPrice, PaymentStatus)
+VALUES
+('booking1', 'user1', 'show1', 5, 1000, 'success'),
+('booking2', 'user2', 'show2', 5, 1000, 'success'),
+('booking3', 'user3', 'show3', 3, 600, 'success'),
+('booking4', 'user4', 'show4', 1, 200, 'success'),
+('booking5', 'user5', 'show5', 4, 800, 'success'),
+('booking6', 'user6', 'show7', 2, 400, 'success'),
+('booking7', 'user7', 'show9', 2, 400, 'success'),
+('booking8', 'user8', 'show10', 6, 1200, 'success'),
+('booking9', 'user9', 'show12', 3, 600, 'success'),
+('booking10', 'user10', 'show15', 2, 400, 'success');
+
+-- View Contents of Booking Table
+
+SELECT * FROM tbl_Booking;
