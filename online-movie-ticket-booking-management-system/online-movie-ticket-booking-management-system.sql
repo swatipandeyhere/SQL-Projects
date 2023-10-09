@@ -371,3 +371,24 @@ END
 -- Execute GetShowInfoByMovieNameWithTheatreInfo Stored Procedure
 
 EXECUTE usp_GetShowInfoByMovieNameWithTheatreInfo 'The Godfather';
+
+-- Create a Stored Procedure to retrieve Shows with Theatre Information
+
+CREATE OR ALTER PROCEDURE usp_GetShowsWithTheatreInfo
+
+AS
+
+BEGIN
+
+SELECT s.ShowId, m.Title AS MovieName, t.TheatreName, t.TheatreAddress, s.ShowTime
+FROM tbl_Movie m
+INNER JOIN tbl_Show s
+ON m.MovieId = s.MovieId
+INNER JOIN tbl_Theatre t
+ON s.TheatreId = t.TheatreId;
+
+END
+
+-- Execute GetShowsWithTheatreInfo Stored Procedure
+
+EXECUTE usp_GetShowsWithTheatreInfo;
