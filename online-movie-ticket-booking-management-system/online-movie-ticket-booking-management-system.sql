@@ -123,3 +123,28 @@ VALUES
 -- View Contents of Movie Table
 
 SELECT * FROM tbl_Movie;
+
+-- Create Screen Table
+
+CREATE TABLE tbl_Screen(ScreenId VARCHAR(10) PRIMARY KEY,
+TheatreId VARCHAR(10) NOT NULL,
+ScreenName VARCHAR(30) NOT NULL,
+Size TINYINT NOT NULL,
+FOREIGN KEY(TheatreId) REFERENCES tbl_Theatre(TheatreId));
+
+-- Insert Values into Screen Table
+
+INSERT INTO tbl_Screen(ScreenId, TheatreId, ScreenName, Size)
+VALUES
+('screen1', 'theatre1', 'Screen 1', 80),
+('screen2', 'theatre1', 'Screen 2', 80),
+('screen3', 'theatre2', 'Screen 1', 100),
+('screen4', 'theatre3', 'Screen 1', 100),
+('screen5', 'theatre4', 'Screen 1', 100),
+('screen6', 'theatre2', 'Screen 2', 100),
+('screen7', 'theatre3', 'Screen 2', 100),
+('screen8', 'theatre5', 'Screen 1', 100);
+
+-- View Contents of Screen Table
+
+SELECT * FROM tbl_Screen;
