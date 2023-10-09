@@ -327,3 +327,24 @@ VALUES
 -- View Contents of MovieRevenue Table
 
 SELECT * FROM tbl_MovieRevenue;
+
+-- Create a Stored Procedure to retrieve Movie Names with Theatre Information
+
+CREATE OR ALTER PROCEDURE usp_GetMovieNamesWithTheatreInfo
+
+AS
+
+BEGIN
+
+SELECT m.Title, t.TheatreName, t.TheatreAddress, s.ShowTime
+FROM tbl_Movie m
+INNER JOIN tbl_Show s
+ON m.MovieId = s.MovieId
+INNER JOIN tbl_Theatre t
+ON s.TheatreId = t.TheatreId;
+
+END
+
+-- Execute GetMovieNamesWithTheatreInfo Stored Procedure
+
+EXECUTE usp_GetMovieNamesWithTheatreInfo;
