@@ -616,3 +616,31 @@ EXECUTE usp_CalculateTotalMovieRevenue 'The Godfather';
 EXECUTE usp_CalculateTotalMovieRevenue 'Inception';
 
 EXECUTE usp_CalculateTotalMovieRevenue 'Titanic';
+
+-- Create a Stored Procedure to retrieve Movie Date Range
+
+CREATE OR ALTER PROCEDURE usp_GetMovieDateRange
+@MovieId VARCHAR(10),
+@FirstDate SMALLDATETIME OUTPUT,
+@LastDate SMALLDATETIME OUTPUT
+
+AS
+
+BEGIN
+
+SELECT @FirstDate = MIN(ShowTime),
+@LastDate = MAX(ShowTime)
+FROM tbl_Show
+WHERE MovieId = @MovieId;
+
+END
+
+-- Execute GetMovieDateRange Stored Procedure
+
+DECLARE @StartDate SMALLDATETIME;
+DECLARE @EndDate SMALLDATETIME;
+EXECUTE usp_GetMovieDateRange 'movie2', @StartDate OUTPUT, @EndDate OUTPUT
+PRINT 'The Movie Start Date:';
+PRINT @StartDate;
+PRINT 'The Movie End Date:';
+PRINT @EndDate;
