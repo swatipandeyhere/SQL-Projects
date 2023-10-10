@@ -585,3 +585,34 @@ END
 DECLARE @BookingId VARCHAR(10);
 EXECUTE usp_CheckAndBookMovieTickets 'user5', 'show10', 5, @BookingId OUTPUT
 PRINT 'Movie Ticket Booking is Successful. The BookingId is '+ @BookingId;
+
+-- Create a Stored Procedure to Calculate the Total Movie Revenue from all the Bookings made
+
+CREATE OR ALTER PROCEDURE usp_CalculateTotalMovieRevenue
+@MovieName VARCHAR(30)
+
+AS
+
+BEGIN
+
+SELECT SUM(TotalPrice) AS 'Total Movie Revenue'
+FROM tbl_Booking
+INNER JOIN tbl_Show
+ON tbl_Booking.ShowId = tbl_Show.ShowId
+INNER JOIN tbl_Movie
+ON tbl_Show.MovieId = tbl_Movie.MovieId
+WHERE tbl_Movie.Title = @MovieName;
+
+END
+
+-- Execute CalculateTotalMovieRevenue Stored Procedure
+
+EXECUTE usp_CalculateTotalMovieRevenue 'Avengers: Endgame';
+
+EXECUTE usp_CalculateTotalMovieRevenue 'The Dark Knight';
+
+EXECUTE usp_CalculateTotalMovieRevenue 'The Godfather';
+
+EXECUTE usp_CalculateTotalMovieRevenue 'Inception';
+
+EXECUTE usp_CalculateTotalMovieRevenue 'Titanic';
