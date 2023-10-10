@@ -421,3 +421,167 @@ EXECUTE usp_GetAverageRatingByMovieName 'The Godfather';
 EXECUTE usp_GetAverageRatingByMovieName 'Inception';
 
 EXECUTE usp_GetAverageRatingByMovieName 'Titanic';
+
+-- Create a Stored Procedure to Check and Book Movie Tickets
+
+CREATE OR ALTER PROCEDURE usp_CheckAndBookMovieTickets
+@UserId VARCHAR(10),
+@ShowId VARCHAR(10),
+@TotalTickets TINYINT,
+@MovieBookingId VARCHAR(10) OUTPUT
+
+AS
+
+BEGIN
+
+-- Check if the User is trying to Book more than 10 Tickets
+
+IF(@TotalTickets > 10)
+BEGIN
+RAISERROR('Cannot Book more than 10 Tickets in a Single Booking', 16, 1);
+RETURN;
+END
+
+DECLARE @AvailableTickets TINYINT;
+DECLARE @BookingId VARCHAR(10);
+DECLARE @TicketId VARCHAR(10);
+DECLARE @TicketPrice SMALLINT;
+DECLARE @ShowTime SMALLDATETIME;
+DECLARE @CurrentDate SMALLDATETIME;
+DECLARE @MaximumSeatNumber SMALLINT;
+DECLARE @MaximumTicketId SMALLINT;
+DECLARE @MaximumBookingId SMALLINT;
+
+-- Check if the Show exists and Retrieve ShowTime
+
+SELECT @AvailableTickets = AvailableSeats,
+@ShowTime = ShowTime
+FROM tbl_Show
+WHERE ShowId = @ShowId;
+
+IF(@AvailableTickets IS NULL)
+BEGIN
+RAISERROR('Tickets are not Available for the Selected Show', 16, 1);
+RETURN;
+END
+
+-- Check if the CurrentDate is less than the ShowTime
+
+SET @CurrentDate = GETDATE();
+
+IF(@CurrentDate >= @ShowTime)
+BEGIN
+RAISERROR('Cannot Book Tickets for a Past or Ongoing Show', 16, 1);
+RETURN;
+END
+
+-- Check if the Show has Enough Available Seats
+
+IF(@AvailableTickets < @TotalTickets)
+BEGIN
+DECLARE @ErrorMessage VARCHAR(1000);
+SET @ErrorMessage = CONCAT('Insufficient Seats Available for the Selected Show. Available Tickets: ', @AvailableTickets);
+RAISERROR(@ErrorMessage, 16, 1);
+RETURN;
+END
+
+-- Reduce the AvailableSeats for the Show
+
+UPDATE tbl_Show
+SET AvailableSeats = AvailableSeats - @TotalTickets
+WHERE ShowId = @ShowId;
+
+-- Calculate the TotalPrice for the Booking
+
+SELECT @TicketPrice = Price
+FROM tbl_Show
+WHERE ShowId = @ShowId;
+
+DECLARE @TotalPrice SMALLINT;
+SET @TotalPrice = @TicketPrice * @TotalTickets;
+
+-- Retrieve the Maximum Available BookingId
+
+SELECT @MaximumBookingId = ISNULL(MAX(CAST(SUBSTRING(BookingId, 8, LEN(BookingId)) AS SMALLINT)), 0)
+FROM tbl_Booking;
+
+-- Insert the Booking Record
+
+SET @MaximumBookingId = @MaximumBookingId + 1;
+SET @BookingId = CONCAT('booking', @MaximumBookingId);
+
+INSERT INTO
+tbl_Booking(BookingId, UserId, ShowId, TotalTickets, TotalPrice, PaymentStatus)
+VALUES (@BookingId, @UserId, @ShowId, @TotalTickets, @TotalPrice, 'success');
+
+-- Retrieve the Maximum Available TicketId
+
+SELECT @MaximumTicketId = ISNULL(MAX(CAST(SUBSTRING(TicketId, 7, LEN(TicketId)) AS SMALLINT)), 0)
+FROM tbl_Ticket;
+
+-- Retrieve the Maximum Available SeatNumber for the Show
+
+SELECT @MaximumSeatNumber = ISNULL(MAX(CAST(SUBSTRING(SeatNumber, 2, LEN(SeatNumber)) AS SMALLINT)), 0)
+FROM tbl_Ticket
+WHERE ShowId = @ShowId;
+
+/*
+DECLARE @iterator INT;
+SET @iterator = 1;
+WHILE @iterator <= @TotalTickets
+BEGIN
+SET @MaximumSeatNumber = @MaximumSeatNumber + 1;
+SET @MaximumTicketId = @MaximumTicketId + 1;
+SET @TicketId = CONCAT('ticket', @MaximumTicketId);
+
+INSERT INTO
+tbl_Ticket(TicketId, BookingId, ShowId, SeatNumber, Price)
+VALUES(@TicketId, @BookingId, @ShowId, CONCAT('S', @MaximumSeatNumber), @TicketPrice);
+
+SET @iterator = @iterator + 1;
+
+END
+*/
+
+-- Create a Table Variable to Store the Batch of Ticket Records
+
+DECLARE @TicketBatch TABLE(
+TicketId VARCHAR(10),
+BookingId VARCHAR(10),
+ShowId VARCHAR(10),
+SeatNumber VARCHAR(10),
+Price SMALLINT);
+
+-- Replace the WHILE logic with a Recursive CTE
+
+WITH TicketBatchCTE AS(
+SELECT Number = 1
+UNION ALL
+SELECT Number + 1
+FROM TicketBatchCTE
+WHERE Number < @TotalTickets)
+   
+INSERT INTO @TicketBatch(TicketId, BookingId, ShowId, SeatNumber, Price)
+SELECT CONCAT('ticket', @MaximumTicketId + tb.Number),
+@BookingId, @ShowId, CONCAT('S', @MaximumSeatNumber + tb.Number),
+@TicketPrice
+FROM TicketBatchCTE tb;
+
+-- Insert the Ticket Records from the Batch into the tbl_Ticket Table
+
+INSERT INTO
+tbl_Ticket(TicketId, BookingId, ShowId, SeatNumber, Price)
+SELECT tb.TicketId, tb.BookingId, tb.ShowId, tb.SeatNumber, tb.Price
+FROM @TicketBatch tb;
+
+-- Return the BookingId
+
+SET @MovieBookingId = @BookingId;
+
+END
+
+-- Execute CheckAndBookMovieTickets Stored Procedure
+
+DECLARE @BookingId VARCHAR(10);
+EXECUTE usp_CheckAndBookMovieTickets 'user5', 'show10', 5, @BookingId OUTPUT
+PRINT 'Movie Ticket Booking is Successful. The BookingId is '+ @BookingId;
