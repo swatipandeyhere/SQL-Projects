@@ -796,3 +796,30 @@ SELECT * FROM @Movie;
 -- Create MoviesAudit Table
 
 CREATE TABLE tbl_MoviesAudit(Id INT IDENTITY, AuditData VARCHAR(1000));
+
+-- Create a Trigger to Insert data into MoviesAudit table on Insertion of Movies
+
+CREATE OR ALTER TRIGGER tr_tbl_Movie_ForInsert
+ON tbl_Movie
+FOR INSERT
+
+AS
+
+BEGIN
+
+DECLARE @MovieId VARCHAR(10);
+
+SELECT @MovieId = MovieId
+FROM inserted;
+
+INSERT INTO tbl_MoviesAudit
+VALUES('A New Movie with Id ' + @MovieId + ' is added at ' + CAST(GETDATE() AS VARCHAR));
+
+END
+
+INSERT INTO
+tbl_Movie(MovieId, Title, Description, Duration, ReleaseDate)
+VALUES('movie9', 'Forrest Gump', 'The presidencies of Kennedy and Johnson, the events of Vietnam, Watergate and other historical events unfold through the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart', 142, '2023-04-20');
+
+SELECT * FROM tbl_Movie;
+SELECT * FROM tbl_MoviesAudit;
