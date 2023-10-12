@@ -644,3 +644,53 @@ PRINT 'The Movie Start Date:';
 PRINT @StartDate;
 PRINT 'The Movie End Date:';
 PRINT @EndDate;
+
+-- Create a Stored Procedure to Calculate the Movie Revenue between Dates
+
+CREATE OR ALTER PROCEDURE usp_CalculateMovieRevenueBetweenDates
+@MovieId VARCHAR(10)
+
+AS
+
+BEGIN
+
+DECLARE @StartDate SMALLDATETIME;
+DECLARE @EndDate SMALLDATETIME;
+DECLARE @RevenueAmount DECIMAL(10, 2);
+
+-- Call usp_GetMovieDateRange to get the Start and End Dates of the Movie
+
+EXECUTE usp_GetMovieDateRange @MovieId, @StartDate OUTPUT, @EndDate OUTPUT
+
+-- Calculate the Revenue between the retrieved Start and End Dates
+
+SELECT @RevenueAmount = SUM(TotalPrice)
+FROM tbl_Booking
+INNER JOIN tbl_Show
+ON tbl_Booking.ShowId = tbl_Show.ShowId
+WHERE tbl_Show.MovieId = @MovieId
+AND tbl_Booking.BookingTime BETWEEN @StartDate AND @EndDate;
+
+-- Retrieve the Maximum Available RevenueId
+
+DECLARE @MaximumRevenueId SMALLINT;
+DECLARE @RevenueId VARCHAR(10);
+SELECT @MaximumRevenueId = ISNULL(MAX(CAST(SUBSTRING(RevenueId, 8, LEN(RevenueId)) AS SMALLINT)), 0)
+FROM tbl_MovieRevenue;
+
+-- Increment the RevenueId
+
+SET @MaximumRevenueId = @MaximumRevenueId + 1;
+SET @RevenueId = CONCAT('revenue', @MaximumRevenueId);
+
+-- Insert the Revenue Record into tbl_MovieRevenue
+
+INSERT INTO
+tbl_MovieRevenue(RevenueId, MovieId, StartDate, EndDate, RevenueAmount)
+VALUES(@RevenueId, @MovieId, @StartDate, @EndDate, @RevenueAmount);
+
+END
+
+-- Execute CalculateMovieRevenueBetweenDates Stored Procedure
+
+EXECUTE usp_CalculateMovieRevenueBetweenDates 'movie1';
