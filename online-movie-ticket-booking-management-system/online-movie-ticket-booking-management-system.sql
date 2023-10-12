@@ -792,3 +792,7 @@ EXECUTE usp_InsertMovies @Movie;
 SELECT * FROM tbl_Movie;
 
 SELECT * FROM @Movie;
+
+-- Create MoviesAudit Table
+
+CREATE TABLE tbl_MoviesAudit(Id INT IDENTITY, AuditData VARCHAR(1000));
