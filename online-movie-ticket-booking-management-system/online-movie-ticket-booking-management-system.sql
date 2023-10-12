@@ -694,3 +694,66 @@ END
 -- Execute CalculateMovieRevenueBetweenDates Stored Procedure
 
 EXECUTE usp_CalculateMovieRevenueBetweenDates 'movie1';
+
+-- Recursive Stored Procedure
+
+CREATE OR ALTER PROCEDURE usp_RecursiveMovieTicketBooking
+@UserId VARCHAR(10),
+@ShowId VARCHAR(10),
+@TotalTickets TINYINT,
+@MovieBookingId VARCHAR(100) OUTPUT
+
+AS
+
+BEGIN
+
+-- Check if the User is trying to Book less than or equal to 0 Ticket
+
+IF(@TotalTickets <= 0)
+BEGIN
+RAISERROR('Cannot Book less than or equal to 0 Ticket', 16, 1);
+RETURN;
+END
+
+DECLARE @AvailableTickets TINYINT;
+
+SELECT @AvailableTickets = AvailableSeats
+FROM tbl_Show
+WHERE ShowId = @ShowId;
+
+-- Check if the Show has Enough Available Seats
+
+IF(@AvailableTickets < @TotalTickets)
+BEGIN
+DECLARE @ErrorMessage VARCHAR(1000);
+SET @ErrorMessage = 'Insufficient Seats Available for the Selected Show. Available Tickets: ' + CAST(@AvailableTickets AS VARCHAR(10));
+RAISERROR(@ErrorMessage, 16, 1);
+RETURN;
+END
+
+IF(@TotalTickets <= 10)
+BEGIN
+DECLARE @TempBookingId VARCHAR(10);
+EXECUTE usp_CheckAndBookMovieTickets @UserId, @ShowId, @TotalTickets, @TempBookingId OUTPUT;
+SET @MovieBookingId = ISNULL(@MovieBookingId, '') + @TempBookingId + ', ';
+END
+
+ELSE
+BEGIN
+DECLARE @BookingId VARCHAR(10);
+EXECUTE usp_CheckAndBookMovieTickets @UserId, @ShowId, 10, @BookingId OUTPUT;
+SET @MovieBookingId = ISNULL(@MovieBookingId, '') + @BookingId + ', ';
+
+-- Recursive Call
+
+DECLARE @RemainingTickets TINYINT = @TotalTickets - 10;
+EXECUTE usp_RecursiveMovieTicketBooking @UserId, @ShowId, @RemainingTickets, @MovieBookingId OUTPUT;
+END
+
+END
+
+-- Execute RecursiveMovieTicketBooking Stored Procedure
+
+DECLARE @Id VARCHAR(100);
+EXECUTE usp_RecursiveMovieTicketBooking 'user10', 'show5', 15, @Id OUTPUT
+PRINT @Id;
