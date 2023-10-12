@@ -175,13 +175,13 @@ VALUES
 ('show6', 'movie1', 'screen6', 'theatre2', '2023-10-23 16:30:00', 200, 100),
 ('show7', 'movie2', 'screen7', 'theatre3', '2023-10-24 21:30:00', 200, 100),
 ('show8', 'movie1', 'screen8', 'theatre5', '2023-10-24 18:00:00', 200, 100),
-('show9', 'movie1', 'screen1', 'theatre1', '2023-10-15 09:00:00', 200, 80),
-('show10', 'movie2', 'screen1', 'theatre1', '2023-10-15 14:00:00', 200, 80),
-('show11', 'movie3', 'screen2', 'theatre1', '2023-10-16 18:00:00', 200, 100),
-('show12', 'movie4', 'screen3', 'theatre2', '2023-10-17 18:00:00', 200, 100),
-('show13', 'movie5', 'screen4', 'theatre3', '2023-10-15 18:00:00', 200, 100),
+('show9', 'movie1', 'screen1', 'theatre1', '2023-10-05 09:00:00', 200, 80),
+('show10', 'movie2', 'screen1', 'theatre1', '2023-10-12 14:00:00', 200, 80),
+('show11', 'movie3', 'screen2', 'theatre1', '2023-10-05 18:00:00', 200, 100),
+('show12', 'movie4', 'screen3', 'theatre2', '2023-10-05 18:00:00', 200, 100),
+('show13', 'movie5', 'screen4', 'theatre3', '2023-10-05 18:00:00', 200, 100),
 ('show14', 'movie1', 'screen7', 'theatre3', '2023-10-17 18:00:00', 200, 100),
-('show15', 'movie5', 'screen8', 'theatre5', '2023-10-15 18:00:00', 200, 100);
+('show15', 'movie5', 'screen8', 'theatre5', '2023-10-05 18:00:00', 200, 100);
 
 -- View Contents of Show Table
 
