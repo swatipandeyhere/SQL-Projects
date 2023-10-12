@@ -757,3 +757,38 @@ END
 DECLARE @Id VARCHAR(100);
 EXECUTE usp_RecursiveMovieTicketBooking 'user10', 'show5', 15, @Id OUTPUT
 PRINT @Id;
+
+-- User Defined Table Type and Table Valued Parameter
+
+CREATE TYPE UT_Movie AS TABLE(
+MovieId VARCHAR(10) PRIMARY KEY,
+Title VARCHAR(30) NOT NULL,
+Description VARCHAR(1000) NOT NULL,
+Duration TINYINT NOT NULL,
+ReleaseDate DATE NOT NULL);
+
+CREATE OR ALTER PROCEDURE usp_InsertMovies(@Movies UT_Movie READONLY)
+
+AS
+
+BEGIN
+
+INSERT INTO
+tbl_Movie(MovieId, Title, Description, Duration, ReleaseDate)
+SELECT MovieId, Title, Description, Duration, ReleaseDate FROM @Movies;
+
+END
+
+DECLARE @Movie UT_Movie;
+INSERT INTO
+@Movie(MovieId, Title, Description, Duration, ReleaseDate)
+VALUES
+('movie6', 'Pulp Fiction', 'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption', 154, '2023-03-14'),
+('movie7', 'The Matrix', 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers', 136, '2023-03-14'),
+('movie8', 'Fight Club', 'An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more', 139, '2023-03-14');
+
+EXECUTE usp_InsertMovies @Movie;
+
+SELECT * FROM tbl_Movie;
+
+SELECT * FROM @Movie;
