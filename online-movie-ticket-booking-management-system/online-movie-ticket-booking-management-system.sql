@@ -1053,3 +1053,27 @@ WHERE UserId = 'user16';
 
 SELECT * FROM tbl_User;
 SELECT * FROM tbl_UsersAudit;
+
+-- Create a Function to Calculate the Total Revenue by TheatreId
+
+CREATE OR ALTER FUNCTION fn_GetTotalRevenueByTheatreId(@TheatreId VARCHAR(10))
+RETURNS DECIMAL(10, 2)
+
+AS
+
+BEGIN
+
+DECLARE @RevenueAmount DECIMAL(10, 2);
+
+SELECT @RevenueAmount = SUM(b.TotalPrice)
+FROM tbl_Booking AS b
+INNER JOIN tbl_Show AS s
+ON b.ShowId = s.ShowId
+WHERE s.TheatreId = @TheatreId
+AND b.PaymentStatus = 'success';
+
+RETURN @RevenueAmount;
+
+END
+
+PRINT dbo.fn_GetTotalRevenueByTheatreId('theatre1');
