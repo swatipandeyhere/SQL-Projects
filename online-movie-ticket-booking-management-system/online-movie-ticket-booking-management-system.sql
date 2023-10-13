@@ -823,3 +823,29 @@ VALUES('movie9', 'Forrest Gump', 'The presidencies of Kennedy and Johnson, the e
 
 SELECT * FROM tbl_Movie;
 SELECT * FROM tbl_MoviesAudit;
+
+-- Create a Trigger to Insert data into MoviesAudit table on Deletion of Movies
+
+CREATE OR ALTER TRIGGER tr_tbl_Movie_ForDelete
+ON tbl_Movie
+FOR DELETE
+
+AS
+
+BEGIN
+
+DECLARE @MovieId VARCHAR(10);
+
+SELECT @MovieId = MovieId
+FROM deleted;
+
+INSERT INTO tbl_MoviesAudit
+VALUES('An Existing Movie with Id ' + @MovieId + ' is deleted at ' + CAST(GETDATE() AS VARCHAR));
+
+END
+
+DELETE FROM tbl_Movie
+WHERE MovieId = 'movie9';
+
+SELECT * FROM tbl_Movie;
+SELECT * FROM tbl_MoviesAudit;
