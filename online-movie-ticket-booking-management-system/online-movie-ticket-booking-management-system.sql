@@ -1077,3 +1077,24 @@ RETURN @RevenueAmount;
 END
 
 PRINT dbo.fn_GetTotalRevenueByTheatreId('theatre1');
+
+-- Create a Function to retrieve the Total Bookings made by UserId
+
+CREATE OR ALTER FUNCTION fn_GetTotalBookingsByUserId(@UserId VARCHAR(10))
+RETURNS INT
+
+AS
+
+BEGIN
+
+DECLARE @TotalBookings INT;
+
+SELECT @TotalBookings = COUNT(*)
+FROM tbl_Booking
+WHERE UserId = @UserId;
+
+RETURN @TotalBookings;
+
+END
+
+PRINT dbo.fn_GetTotalBookingsByUserId('user5');
