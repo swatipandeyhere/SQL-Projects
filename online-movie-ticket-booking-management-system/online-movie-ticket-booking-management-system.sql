@@ -906,3 +906,74 @@ WHERE UserId = 'user16';
 
 SELECT * FROM tbl_User;
 SELECT * FROM tbl_UsersAudit;
+
+-- Create a Trigger to Insert data into UsersAudit table on Updation of User details
+
+CREATE OR ALTER TRIGGER tr_tbl_User_ForUpdate
+ON tbl_User
+FOR UPDATE
+
+AS
+
+BEGIN
+
+DECLARE @UserId VARCHAR(10);
+DECLARE @OldName VARCHAR(50), @NewName VARCHAR(50);
+DECLARE @OldEmail VARCHAR(255), @NewEmail VARCHAR(255);
+DECLARE @OldContactNumber CHAR(10), @NewContactNumber CHAR(10);
+DECLARE @OldUserPassword VARCHAR(20), @NewUserPassword VARCHAR(20);
+
+DECLARE @AuditText VARCHAR(1000);
+
+SELECT * INTO #TempTable FROM inserted;
+
+WHILE(EXISTS(SELECT UserId FROM #TempTable))
+BEGIN
+SET @AuditText = ''
+
+SELECT TOP 1 @UserId = UserId,
+@NewName = Name,
+@NewEmail = Email,
+@NewContactNumber = ContactNumber,
+@NewUserPassword = UserPassword
+FROM #TempTable;
+
+SELECT @OldName = Name,
+@OldEmail = Email,
+@OldContactNumber = ContactNumber,
+@OldUserPassword = UserPassword
+FROM deleted
+WHERE UserId = @UserId;
+
+SET @AuditText = 'An Existing User with Id ' + @UserId + ' has changed'
+
+if(@OldName <> @NewName)
+SET @AuditText = @AuditText + ' Name from ' + @OldName + ' to ' + @NewName
+
+if(@OldEmail <> @NewEmail)
+SET @AuditText = @AuditText + ' Email from ' + @OldEmail + ' to ' + @NewEmail
+
+if(@OldContactNumber <> @NewContactNumber)
+SET @AuditText = @AuditText + ' ContactNumber from ' + @OldContactNumber + ' to ' + @NewContactNumber
+
+if(@OldUserPassword <> @NewUserPassword)
+SET @AuditText = @AuditText + ' UserPassword';
+
+INSERT INTO tbl_UsersAudit(AuditData)
+VALUES(@AuditText);
+
+DELETE FROM #TempTable
+WHERE UserId = @UserId;
+
+END
+
+END
+
+UPDATE tbl_User
+SET Name = 'Arnab Goswami',
+Email = 'arnab.goswami@gmail.com',
+UserPassword = HASHBYTES('MD2', 'password015')
+WHERE UserId = 'user15';
+
+SELECT * FROM tbl_User;
+SELECT * FROM tbl_UsersAudit;
