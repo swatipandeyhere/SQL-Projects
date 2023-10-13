@@ -1140,3 +1140,16 @@ WHERE b.UserId = @UserId
 );
 
 SELECT * FROM fn_GetUserBookingHistory('user5');
+
+-- Create a View to retrieve all the User Ratings For Movies
+
+CREATE OR ALTER VIEW vw_GetAllUserRatingsForMovies
+AS
+SELECT m.MovieId, m.Title, u.UserId, u.Name, r.Rating, r.Comment
+FROM tbl_Movie AS m
+INNER JOIN tbl_Rating AS r
+ON m.MovieId = r.MovieId
+INNER JOIN tbl_User AS u
+ON r.UserId = u.UserId;
+
+SELECT * FROM vw_GetAllUserRatingsForMovies;
