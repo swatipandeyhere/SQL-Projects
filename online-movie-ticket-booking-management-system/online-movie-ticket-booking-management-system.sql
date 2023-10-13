@@ -1153,3 +1153,18 @@ INNER JOIN tbl_User AS u
 ON r.UserId = u.UserId;
 
 SELECT * FROM vw_GetAllUserRatingsForMovies;
+
+-- Create a View to retrieve the Popular Theatres
+
+CREATE OR ALTER VIEW vw_PopularTheatres
+AS
+SELECT t.TheatreId, t.TheatreName, COUNT(*) AS TotalBookings
+FROM tbl_Theatre AS t
+INNER JOIN tbl_Show AS s
+ON t.TheatreId = s.TheatreId
+INNER JOIN tbl_Booking AS b
+ON s.ShowId = b.ShowId
+GROUP BY t.TheatreId, t.TheatreName;
+
+SELECT * FROM vw_PopularTheatres
+ORDER BY TotalBookings DESC;
