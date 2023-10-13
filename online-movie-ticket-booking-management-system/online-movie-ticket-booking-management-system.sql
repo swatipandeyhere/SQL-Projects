@@ -977,3 +977,12 @@ WHERE UserId = 'user15';
 
 SELECT * FROM tbl_User;
 SELECT * FROM tbl_UsersAudit;
+
+-- Create AuditTableChanges Table
+
+CREATE TABLE tbl_AuditTableChanges(DatabaseName VARCHAR(50),
+TableName VARCHAR(50),
+EventType VARCHAR(50),
+LoginName VARCHAR(50),
+SQLCommand VARCHAR(2000),
+AuditDateTime DATETIME);
