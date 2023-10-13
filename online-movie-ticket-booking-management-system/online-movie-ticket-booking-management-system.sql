@@ -1098,3 +1098,25 @@ RETURN @TotalBookings;
 END
 
 PRINT dbo.fn_GetTotalBookingsByUserId('user5');
+
+-- Create a Function to Calculate the Total Revenue by UserId
+
+CREATE OR ALTER FUNCTION fn_GetTotalRevenueByUserId(@UserId VARCHAR(10))
+RETURNS DECIMAL(10, 2)
+
+AS
+
+BEGIN
+
+DECLARE @RevenueAmount DECIMAL(10, 2);
+
+SELECT @RevenueAmount = SUM(TotalPrice)
+FROM tbl_Booking
+WHERE UserId = @UserId
+AND PaymentStatus = 'success';
+
+RETURN @RevenueAmount;
+
+END
+
+PRINT dbo.fn_GetTotalRevenueByUserId('user1');
