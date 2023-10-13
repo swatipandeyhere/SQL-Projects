@@ -1022,3 +1022,34 @@ EXECUTE SP_RENAME 'tbl_Ticket.Price', 'TicketPrice';
 -- View Contents of AuditTableChanges table
 
 SELECT * FROM tbl_AuditTableChanges;
+
+-- Create a Trigger to Encrypt UserPassword
+
+CREATE OR ALTER TRIGGER tr_EncryptUserPassword
+ON tbl_User
+AFTER INSERT, UPDATE
+
+AS
+
+BEGIN
+
+UPDATE u
+SET u.UserPassword = CONVERT(VARCHAR(1000), HASHBYTES('MD2', i.UserPassword))
+FROM tbl_User u
+INNER JOIN inserted i
+ON u.UserId = i.UserId;
+
+END
+
+INSERT INTO
+tbl_User(UserId, Name, Email, ContactNumber, UserPassword)
+VALUES('user16', 'Meera Pandey', 'meera.pandey@gmail.com', 7985634006, 'password16');
+
+/*
+UPDATE tbl_User
+SET UserPassword = 'password016'
+WHERE UserId = 'user16';
+*/
+
+SELECT * FROM tbl_User;
+SELECT * FROM tbl_UsersAudit;
