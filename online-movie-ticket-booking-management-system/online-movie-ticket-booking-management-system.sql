@@ -1120,3 +1120,23 @@ RETURN @RevenueAmount;
 END
 
 PRINT dbo.fn_GetTotalRevenueByUserId('user1');
+
+-- Create a Function to retrieve the User Booking History
+
+CREATE OR ALTER FUNCTION fn_GetUserBookingHistory(@UserId VARCHAR(10))
+RETURNS TABLE
+
+AS
+
+RETURN
+(
+SELECT b.BookingId, m.Title, s.ShowTime, b.TotalTickets, b.TotalPrice, b.BookingTime
+FROM tbl_Booking AS b
+INNER JOIN tbl_Show AS s
+ON b.ShowId = s.ShowId
+INNER JOIN tbl_Movie AS m
+ON s.MovieId = m.MovieId
+WHERE b.UserId = @UserId
+);
+
+SELECT * FROM fn_GetUserBookingHistory('user5');
