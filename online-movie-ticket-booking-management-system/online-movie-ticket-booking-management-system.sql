@@ -986,3 +986,39 @@ EventType VARCHAR(50),
 LoginName VARCHAR(50),
 SQLCommand VARCHAR(2000),
 AuditDateTime DATETIME);
+
+-- Audit Table Changes using a DDL Trigger
+
+CREATE OR ALTER TRIGGER tr_tbl_AuditTableChanges
+ON DATABASE
+FOR CREATE_TABLE, ALTER_TABLE, DROP_TABLE, RENAME
+
+AS
+
+BEGIN
+
+DECLARE @EventData XML;
+
+SELECT @EventData = EVENTDATA();
+
+INSERT INTO tbl_AuditTableChanges
+(DatabaseName, TableName, EventType, LoginName, SQLCommand, AuditDateTime)
+VALUES
+(
+@EventData.value('(/EVENT_INSTANCE/DatabaseName)[1]', 'VARCHAR(50)'),
+@EventData.value('(/EVENT_INSTANCE/ObjectName)[1]', 'VARCHAR(50)'),
+@EventData.value('(/EVENT_INSTANCE/EventType)[1]', 'VARCHAR(50)'),
+@EventData.value('(/EVENT_INSTANCE/LoginName)[1]', 'VARCHAR(50)'),
+@EventData.value('(/EVENT_INSTANCE/TSQLCommand)[1]', 'VARCHAR(2000)'),
+GETDATE()
+);
+
+END
+
+-- Rename Price of Ticket table to TicketPrice
+
+EXECUTE SP_RENAME 'tbl_Ticket.Price', 'TicketPrice';
+
+-- View Contents of AuditTableChanges table
+
+SELECT * FROM tbl_AuditTableChanges;
