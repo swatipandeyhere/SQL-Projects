@@ -880,3 +880,29 @@ VALUES('user16', 'Meera Pandey', 'meera.pandey@gmail.com', 7985634006, HASHBYTES
 
 SELECT * FROM tbl_User;
 SELECT * FROM tbl_UsersAudit;
+
+-- Create a Trigger to Insert data into UsersAudit table on Deletion of User details
+
+CREATE OR ALTER TRIGGER tr_tbl_User_ForDelete
+ON tbl_User
+FOR DELETE
+
+AS
+
+BEGIN
+
+DECLARE @UserId VARCHAR(10);
+
+SELECT @UserId = UserId
+FROM deleted;
+
+INSERT INTO tbl_UsersAudit
+VALUES('An Existing User with Id ' + @UserId + ' is deleted at ' + CAST(GETDATE() AS VARCHAR));
+
+END
+
+DELETE FROM tbl_User
+WHERE UserId = 'user16';
+
+SELECT * FROM tbl_User;
+SELECT * FROM tbl_UsersAudit;
