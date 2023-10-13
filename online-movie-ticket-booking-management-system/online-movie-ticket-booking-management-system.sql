@@ -853,3 +853,30 @@ SELECT * FROM tbl_MoviesAudit;
 -- Create UsersAudit Table
 
 CREATE TABLE tbl_UsersAudit(Id INT IDENTITY, AuditData VARCHAR(1000));
+
+-- Create a Trigger to Insert data into UsersAudit table on Insertion of User details
+
+CREATE OR ALTER TRIGGER tr_tbl_User_ForInsert
+ON tbl_User
+FOR INSERT
+
+AS
+
+BEGIN
+
+DECLARE @UserId VARCHAR(10);
+
+SELECT @UserId = UserId
+FROM inserted;
+
+INSERT INTO tbl_UsersAudit
+VALUES('A New User with Id ' + @UserId + ' is added at ' + CAST(GETDATE() AS VARCHAR));
+
+END
+
+INSERT INTO
+tbl_User(UserId, Name, Email, ContactNumber, UserPassword)
+VALUES('user16', 'Meera Pandey', 'meera.pandey@gmail.com', 7985634006, HASHBYTES('MD2', 'password16'));
+
+SELECT * FROM tbl_User;
+SELECT * FROM tbl_UsersAudit;
