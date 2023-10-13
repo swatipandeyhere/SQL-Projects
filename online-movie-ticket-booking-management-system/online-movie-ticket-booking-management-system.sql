@@ -849,3 +849,7 @@ WHERE MovieId = 'movie9';
 
 SELECT * FROM tbl_Movie;
 SELECT * FROM tbl_MoviesAudit;
+
+-- Create UsersAudit Table
+
+CREATE TABLE tbl_UsersAudit(Id INT IDENTITY, AuditData VARCHAR(1000));
