@@ -1168,3 +1168,15 @@ GROUP BY t.TheatreId, t.TheatreName;
 
 SELECT * FROM vw_PopularTheatres
 ORDER BY TotalBookings DESC;
+
+-- Create a View to retrieve User Details with Booking Summary
+
+CREATE OR ALTER VIEW vw_UserDetailsWithBookingSummary
+AS
+SELECT u.UserId, u.Name, u.Email, COUNT(b.BookingId) AS TotalBookings, SUM(b.TotalTickets) AS TotalTickets, SUM(b.TotalPrice) AS TotalPrice
+FROM tbl_User AS u
+INNER JOIN tbl_Booking AS b
+ON u.UserId = b.UserId
+GROUP BY u.UserId, u.Name, u.Email;
+
+SELECT * FROM vw_UserDetailsWithBookingSummary;
