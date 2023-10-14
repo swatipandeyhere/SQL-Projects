@@ -1180,3 +1180,16 @@ ON u.UserId = b.UserId
 GROUP BY u.UserId, u.Name, u.Email;
 
 SELECT * FROM vw_UserDetailsWithBookingSummary;
+
+-- Create a View to retrieve the Top Rated Movies
+
+CREATE OR ALTER VIEW vw_TopRatedMovies
+AS
+SELECT m.MovieId, m.Title, CAST(AVG(CAST(r.Rating AS DECIMAL(10, 2))) AS DECIMAL(10, 1)) AS AverageRating
+FROM tbl_Movie AS m
+INNER JOIN tbl_Rating AS r
+ON m.MovieId = r.MovieId
+GROUP BY m.MovieId, m.Title
+HAVING AVG(r.Rating) >= 4.0;
+
+SELECT * FROM vw_TopRatedMovies;
