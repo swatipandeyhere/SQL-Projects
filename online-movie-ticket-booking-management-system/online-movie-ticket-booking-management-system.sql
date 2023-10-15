@@ -1193,3 +1193,21 @@ GROUP BY m.MovieId, m.Title
 HAVING AVG(r.Rating) >= 4.0;
 
 SELECT * FROM vw_TopRatedMovies;
+
+-- Create a CTE to retrieve the Theatre Movie Revenue
+
+WITH cte_TheatreMovieRevenue
+AS
+(
+SELECT t.TheatreId, t.TheatreName, m.MovieId, m.Title, SUM(b.TotalPrice) AS TotalRevenue
+FROM tbl_Theatre t
+INNER JOIN tbl_Show s
+ON t.TheatreId = s.TheatreId
+INNER JOIN tbl_Booking b
+ON s.ShowId = b.ShowId
+INNER JOIN tbl_Movie m
+ON s.MovieId = m.MovieId
+GROUP BY t.TheatreId, t.TheatreName, m.MovieId, m.Title
+)
+
+SELECT * FROM cte_TheatreMovieRevenue;
