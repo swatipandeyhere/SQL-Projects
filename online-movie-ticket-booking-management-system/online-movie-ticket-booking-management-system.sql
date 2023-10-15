@@ -1211,3 +1211,19 @@ GROUP BY t.TheatreId, t.TheatreName, m.MovieId, m.Title
 )
 
 SELECT * FROM cte_TheatreMovieRevenue;
+
+-- Create a CTE to retrieve the Minimum and Maximum Average Movie Ratings
+
+WITH cte_AverageMovieRatings
+AS
+(
+SELECT m.MovieId, m.Title, CAST(AVG(CAST(Rating AS DECIMAL(10, 1))) AS DECIMAL(10, 1)) AS AverageRatings
+FROM tbl_Movie m
+INNER JOIN tbl_Rating r
+ON m.MovieId = r.MovieId
+GROUP BY m.MovieId, m.Title
+)
+
+SELECT * FROM cte_AverageMovieRatings
+WHERE AverageRatings = (SELECT MIN(AverageRatings) FROM cte_AverageMovieRatings)
+OR AverageRatings = (SELECT MAX(AverageRatings) FROM cte_AverageMovieRatings);
