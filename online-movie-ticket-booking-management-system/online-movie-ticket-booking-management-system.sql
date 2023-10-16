@@ -1247,3 +1247,31 @@ GROUP BY YEAR(b.BookingTime), MONTH(b.BookingTime), m.Title
 
 SELECT * FROM cte_TotalMovieRevenue
 ORDER BY RevenueYear, RevenueMonth;
+
+-- Create a Recursive CTE to assign Level of Movies based on their Release Date
+
+WITH cte_LevelOfMoviesBasedOnTheirReleaseDate
+AS
+(
+SELECT MovieId, Title, ReleaseDate, 1 AS [Level]
+FROM tbl_Movie
+WHERE ReleaseDate = (SELECT MIN(ReleaseDate) FROM tbl_Movie)
+
+UNION ALL
+
+SELECT m.MovieId, m.Title, m.ReleaseDate, c.[Level] + 1
+FROM cte_LevelOfMoviesBasedOnTheirReleaseDate c
+INNER JOIN
+(
+SELECT MovieId, Title, ReleaseDate, DENSE_RANK() OVER(ORDER BY ReleaseDate) AS rn
+FROM tbl_Movie) m
+ON m.rn = c.Level + 1
+)
+
+SELECT DISTINCT MovieId, Title, ReleaseDate, [Level]
+FROM cte_LevelOfMoviesBasedOnTheirReleaseDate ORDER BY [Level];
+
+-- Without CTE
+
+SELECT MovieId, Title, ReleaseDate, DENSE_RANK() OVER(ORDER BY ReleaseDate) AS [Level]
+FROM tbl_Movie;
