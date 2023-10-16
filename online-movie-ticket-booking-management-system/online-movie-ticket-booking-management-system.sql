@@ -1227,3 +1227,23 @@ GROUP BY m.MovieId, m.Title
 SELECT * FROM cte_AverageMovieRatings
 WHERE AverageRatings = (SELECT MIN(AverageRatings) FROM cte_AverageMovieRatings)
 OR AverageRatings = (SELECT MAX(AverageRatings) FROM cte_AverageMovieRatings);
+
+-- Create a CTE to Calculate the Total Movie Revenue Year and Month wise
+
+WITH cte_TotalMovieRevenue
+AS
+(
+SELECT YEAR(b.BookingTime) AS RevenueYear,
+MONTH(b.BookingTime) AS RevenueMonth,
+m.Title AS MovieName,
+SUM(b.TotalPrice) AS TotalRevenue
+FROM tbl_Booking b
+JOIN tbl_Show s
+ON b.ShowId = s.ShowId
+JOIN tbl_Movie m
+ON s.MovieId = m.MovieId
+GROUP BY YEAR(b.BookingTime), MONTH(b.BookingTime), m.Title
+)
+
+SELECT * FROM cte_TotalMovieRevenue
+ORDER BY RevenueYear, RevenueMonth;
