@@ -884,3 +884,22 @@ FROM vw_MostValuedCustomer AS m
 JOIN tbl_Customer AS c
 ON m.RoomType = c.RoomType
 AND m.MaximumNumberOfRoomsBooked = c.NumberOfRoomsBooked;
+
+-- Create a Function to Check if Discounts are available or not
+
+CREATE FUNCTION fn_CheckDiscount()
+RETURNS @CustomerWithDiscountDetails TABLE
+(
+CustomerId VARCHAR(10),
+RoomType VARCHAR(10),
+CheckDiscount VARCHAR(10)
+)
+AS
+BEGIN
+INSERT INTO @CustomerWithDiscountDetails
+SELECT CustomerId, RoomType, CASE WHEN NumberOfRoomsBooked > 5 THEN 'Yes' ELSE 'No' END AS CheckDiscount
+FROM tbl_Customer;
+RETURN
+END
+
+SELECT * FROM fn_CheckDiscount();
