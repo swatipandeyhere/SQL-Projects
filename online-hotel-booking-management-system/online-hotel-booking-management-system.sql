@@ -973,3 +973,30 @@ RETURN @TotalCost;
 END
 
 SELECT dbo.fn_FoodCost('user5') AS 'Total Food Cost';
+
+-- Create a Function briefing the Payment Details
+
+CREATE FUNCTION fn_PaymentDescription(@CustomerId VARCHAR(10))
+RETURNS TABLE
+AS
+RETURN
+(
+SELECT CONCAT(FirstName,' ', LastName) AS CustomerName,
+b.RoomType,
+r.RoomType AS RoomName,
+b.NumberOfRoomsBooked,
+CheckIn,
+NumberOfAdults,
+NumberOfKids,
+b.RoomPricePerDay,
+dbo.fn_FoodCost(@CustomerId) AS TotalFoodCost,
+(TotalPrice + dbo.fn_FoodCost(@CustomerId)) AS TotalPrice
+FROM tbl_Customer AS c
+JOIN tbl_Billing AS b
+ON c.CustomerId = b.CustomerId
+JOIN tbl_RoomDetail AS r
+ON r.RoomTypeId = b.RoomType
+WHERE c.CustomerId = @CustomerId
+);
+
+SELECT * FROM fn_PaymentDescription('user5');
