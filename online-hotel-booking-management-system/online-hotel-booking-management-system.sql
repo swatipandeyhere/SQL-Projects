@@ -903,3 +903,29 @@ RETURN
 END
 
 SELECT * FROM fn_CheckDiscount();
+
+-- Create a Function to Check if Rooms are available or not
+
+CREATE FUNCTION fn_CheckRoomAvailability
+(
+@RoomType VARCHAR(10),
+@CheckIn SMALLDATETIME,
+@NumberOfRoomsBooked TINYINT
+)
+RETURNS @CheckAvailability TABLE
+(
+RoomType VARCHAR(10),
+NumberOfRoomsBooked TINYINT,
+CheckAvailability VARCHAR(10)
+)
+AS
+BEGIN
+INSERT INTO @CheckAvailability
+SELECT RoomType, @NumberOfRoomsBooked, CASE WHEN @NumberOfRoomsBooked < NumberofRoomsAvailable THEN 'Yes' ELSE 'No' END AS CheckAvailability
+FROM tbl_RoomAvailabilityLog
+WHERE RoomType = @RoomType AND CheckIn = @CheckIn;
+RETURN
+END
+
+SELECT * FROM tbl_RoomAvailabilityLog;
+SELECT * FROM fn_CheckRoomAvailability('RT4', '2023-07-24 12:00:00', 3);
