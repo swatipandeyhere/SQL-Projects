@@ -929,3 +929,47 @@ END
 
 SELECT * FROM tbl_RoomAvailabilityLog;
 SELECT * FROM fn_CheckRoomAvailability('RT4', '2023-07-24 12:00:00', 3);
+
+-- Create a Function to Calculate the Total Food Cost for all the Customers
+
+CREATE FUNCTION fn_FoodCost(@CustomerId VARCHAR(10))
+
+RETURNS SMALLINT
+
+AS
+
+BEGIN
+
+DECLARE @Breakfast VARCHAR(3), @Lunch VARCHAR(3), @Dinner VARCHAR(3);
+
+SELECT @Breakfast = Breakfast FROM tbl_FoodDetail
+WHERE CustomerId = @CustomerId;
+
+SELECT @Lunch = Lunch FROM tbl_FoodDetail
+WHERE CustomerId = @CustomerId;
+
+SELECT @Dinner = Dinner FROM tbl_FoodDetail
+WHERE CustomerId = @CustomerId;
+
+DECLARE @NumberOfPeople TINYINT;
+
+SELECT @NumberOfPeople = (NumberOfAdults + NumberOfKids) FROM tbl_Customer
+WHERE CustomerId = @CustomerId;
+
+DECLARE @TotalCost SMALLINT;
+SET @TotalCost = 0;
+
+if(@Breakfast = 'Yes')
+SET @TotalCost = @TotalCost + (250 * @NumberOfPeople)
+
+if(@Lunch = 'Yes')
+SET @TotalCost = @TotalCost + (250 * @NumberOfPeople)
+
+if(@Dinner = 'Yes')
+SET @TotalCost = @TotalCost + (250 * @NumberOfPeople)
+
+RETURN @TotalCost;
+
+END
+
+SELECT dbo.fn_FoodCost('user5') AS 'Total Food Cost';
