@@ -1000,3 +1000,19 @@ WHERE c.CustomerId = @CustomerId
 );
 
 SELECT * FROM fn_PaymentDescription('user5');
+
+-- Create a Function to Review the Hotel Rating
+
+CREATE FUNCTION fn_HotelRatingReview(@Rating NUMERIC (2, 1))
+RETURNS TABLE
+AS
+RETURN
+(
+SELECT tbl_Rating.UserId, Rating, Review
+FROM tbl_Review
+INNER JOIN tbl_Rating
+ON tbl_Review.UserId = tbl_Rating.UserId
+WHERE Rating = @Rating
+);
+
+SELECT * FROM fn_HotelRatingReview(2.5);
