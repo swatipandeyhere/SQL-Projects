@@ -1145,3 +1145,33 @@ FROM cte_LevelOfCustomersBasedOnTheirCheckIn ORDER BY [Level];
 
 SELECT CustomerId, FirstName, LastName, RoomType, CheckIn, DENSE_RANK() OVER(ORDER BY CheckIn) AS [Level]
 FROM tbl_Customer;
+
+-- User Defined Table Type and Table Valued Parameter
+
+CREATE TYPE UT_RoomDetail AS TABLE(
+RoomTypeId VARCHAR(10),
+RoomType VARCHAR(10),
+RoomPricePerDay NUMERIC(10, 2),
+TotalRooms TINYINT);
+
+CREATE OR ALTER PROCEDURE usp_InsertRoomDetails(@RoomDetails [UT_RoomDetail] READONLY)
+
+AS
+
+BEGIN
+
+INSERT INTO
+tbl_RoomDetail(RoomTypeId, RoomType, RoomPricePerDay, TotalRooms)
+SELECT * FROM @RoomDetails;
+
+END
+
+DECLARE @RoomDetail AS [UT_RoomDetail];
+INSERT INTO @RoomDetail
+SELECT 'RT5', 'HomeStay', 50000, 5
+UNION
+SELECT 'RT6', 'Villa', 75000, 5;
+
+EXECUTE dbo.usp_InsertRoomDetails @RoomDetail;
+
+SELECT * FROM tbl_RoomDetail;
