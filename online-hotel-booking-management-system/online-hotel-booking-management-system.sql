@@ -1034,3 +1034,19 @@ ON r.RoomTypeId = c.RoomType
 )
 
 SELECT * FROM cte_NumberOfRoomsCheckedInBasedOnRoomTypePerDay;
+
+-- Create a CTE to Calculate the Total Bookings made
+
+WITH cte_TotalBookings
+AS
+(
+SELECT c.RoomType,
+r.RoomType AS RoomName,
+COUNT(c.RoomType) AS TotalBookings
+FROM tbl_Customer AS c
+JOIN tbl_RoomDetail AS r
+ON r.RoomTypeId = c.RoomType
+GROUP BY c.RoomType, r.RoomType
+)
+
+SELECT * FROM cte_TotalBookings;
