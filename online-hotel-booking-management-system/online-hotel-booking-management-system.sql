@@ -1068,3 +1068,26 @@ SET NumberOfKids = 4
 WHERE CustomerId = 'user10';
 
 SELECT * FROM tbl_Customer;
+
+-- Create a CTE briefing the Payment Details
+
+WITH cte_PaymentDescription
+AS
+(
+SELECT CONCAT(FirstName,' ', LastName) AS CustomerName,
+b.RoomType,
+r.RoomType AS RoomName,
+b.NumberOfRoomsBooked,
+CheckIn,
+NumberOfAdults,
+NumberOfKids,
+b.RoomPricePerDay,
+TotalPrice
+FROM tbl_Customer AS c
+JOIN tbl_Billing AS b
+ON c.CustomerId = b.CustomerId
+JOIN tbl_RoomDetail AS r
+ON r.RoomTypeId = b.RoomType
+)
+
+SELECT * FROM cte_PaymentDescription;
