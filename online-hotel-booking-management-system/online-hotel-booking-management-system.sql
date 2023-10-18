@@ -1050,3 +1050,21 @@ GROUP BY c.RoomType, r.RoomType
 )
 
 SELECT * FROM cte_TotalBookings;
+
+-- Create a CTE to Update the User Details
+
+WITH cte_UpdateUserDetails
+AS
+(
+SELECT c.*,
+r.RoomType AS RoomName
+FROM tbl_Customer AS c
+JOIN tbl_RoomDetail AS r
+ON r.RoomTypeId = c.RoomType
+)
+
+UPDATE cte_UpdateUserDetails
+SET NumberOfKids = 4
+WHERE CustomerId = 'user10';
+
+SELECT * FROM tbl_Customer;
