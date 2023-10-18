@@ -1091,3 +1091,57 @@ ON r.RoomTypeId = b.RoomType
 )
 
 SELECT * FROM cte_PaymentDescription;
+
+-- Create a Recursive CTE to assign Level to Each Customer based on their CheckIn
+
+WITH cte_LevelOfCustomersBasedOnTheirCheckIn
+(
+CustomerId,
+FirstName,
+LastName,
+RoomType,
+CheckIn,
+[Level]
+)
+AS
+(
+SELECT CustomerId,
+FirstName,
+LastName,
+r.RoomType,
+CheckIn,
+1 AS [Level]
+FROM tbl_Customer AS c
+JOIN tbl_RoomDetail AS r
+ON r.RoomTypeId = c.RoomType
+WHERE CheckIn IN (SELECT MIN(CheckIn) FROM tbl_Customer)
+
+UNION ALL
+
+SELECT c.CustomerId,
+c.FirstName,
+c.LastName,
+r.RoomType,
+c.CheckIn,
+rc.[Level] + 1 AS [Level]
+FROM tbl_Customer AS c
+JOIN tbl_RoomDetail AS r
+ON r.RoomTypeId = c.RoomType
+JOIN cte_LevelOfCustomersBasedOnTheirCheckIn AS rc
+ON c.CheckIn = rc.CheckIn + 1
+)
+
+SELECT DISTINCT CustomerId, FirstName, LastName, RoomType, CheckIn, [Level]
+FROM cte_LevelOfCustomersBasedOnTheirCheckIn ORDER BY [Level];
+
+-- OR
+
+/*
+SELECT DISTINCT CustomerId, FirstName, LastName, RoomType, CheckIn, DENSE_RANK() OVER(ORDER BY CheckIn) AS [Level]
+FROM cte_LevelOfCustomersBasedOnTheirCheckIn ORDER BY [Level];
+*/
+
+-- Without CTE
+
+SELECT CustomerId, FirstName, LastName, RoomType, CheckIn, DENSE_RANK() OVER(ORDER BY CheckIn) AS [Level]
+FROM tbl_Customer;
