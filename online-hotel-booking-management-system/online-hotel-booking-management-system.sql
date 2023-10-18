@@ -1182,3 +1182,46 @@ CREATE TABLE tbl_RoomAllocation(CheckIn SMALLDATETIME,
 RoomType VARCHAR(10),
 TotalRoomsBooked TINYINT,
 RoomsAllocated VARCHAR(1000));
+
+-- Create a Stored Procedure for Room Allocation
+
+CREATE OR ALTER PROCEDURE usp_RoomAllocation
+@CheckIn SMALLDATETIME,
+@RoomType VARCHAR(10),
+@RoomsAllocated VARCHAR(1000) OUTPUT
+
+AS
+
+BEGIN
+
+DECLARE @TotalRoomsBooked TINYINT;
+
+SELECT @TotalRoomsBooked = SUM(NumberOfRoomsBooked)
+FROM tbl_RoomAvailabilityLog
+WHERE CheckIn = @CheckIn
+AND RoomType = @RoomType;
+
+IF NOT EXISTS(SELECT 0 FROM tbl_RoomAllocation
+WHERE CheckIn = @CheckIn
+AND RoomType = @RoomType)
+
+BEGIN
+BEGIN TRAN
+INSERT INTO
+tbl_RoomAllocation(CheckIn, RoomType, TotalRoomsBooked, RoomsAllocated)
+VALUES(@CheckIn, @RoomType, @TotalRoomsBooked, @RoomsAllocated);
+COMMIT TRAN
+END
+
+ELSE
+BEGIN
+BEGIN TRAN
+UPDATE tbl_RoomAllocation
+SET RoomsAllocated = @RoomsAllocated,
+TotalRoomsBooked = @TotalRoomsBooked
+WHERE CheckIn = @CheckIn
+AND RoomType = @RoomType;
+COMMIT TRAN
+END
+
+END
