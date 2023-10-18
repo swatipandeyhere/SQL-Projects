@@ -1225,3 +1225,62 @@ COMMIT TRAN
 END
 
 END
+
+-- Recursive Stored Procedure
+
+CREATE OR ALTER PROCEDURE usp_RecursiveRoomAllocation
+@CheckIn SMALLDATETIME,
+@RoomType VARCHAR(10),
+@TotalRoomsBooked TINYINT,
+@Start TINYINT,
+@RoomsAllocated VARCHAR(1000) OUTPUT
+
+AS
+
+BEGIN
+IF(@TotalRoomsBooked!=0)
+BEGIN
+IF(@Start = @TotalRoomsBooked)
+BEGIN
+SET @RoomsAllocated = ISNULL(@RoomsAllocated, ' ') + @RoomType + 'Room' + CAST(@Start AS VARCHAR);
+EXECUTE usp_RoomAllocation @CheckIn, @RoomType, @RoomsAllocated OUTPUT;
+END
+
+ELSE
+BEGIN
+SET @RoomsAllocated = ISNULL(@RoomsAllocated, ' ') + @RoomType + 'Room' + CAST(@Start AS VARCHAR);
+EXECUTE usp_RoomAllocation @CheckIn, @RoomType, @RoomsAllocated OUTPUT;
+
+DECLARE @NewStart TINYINT = @Start + 1;
+
+-- Recursive Call
+
+EXECUTE usp_RecursiveRoomAllocation @CheckIn, @RoomType, @TotalRoomsBooked, @NewStart, @RoomsAllocated OUTPUT;
+END
+END
+ELSE
+BEGIN
+RAISERROR('No Rooms have been Booked', 16, 1);
+END
+WHILE(@TotalRoomsBooked = 0)
+BEGIN
+break;
+END
+
+END
+
+-- Execute RecursiveRoomAllocation Stored Procedure
+
+DECLARE @RoomAllocated VARCHAR(1000);
+DECLARE @RoomsBooked TINYINT;
+
+SELECT @RoomsBooked = SUM(NumberOfRoomsBooked)
+FROM tbl_RoomAvailabilityLog
+WHERE CheckIn = '2023-07-24 12:00:00'
+AND RoomType = 'RT2';
+
+EXECUTE usp_RecursiveRoomAllocation '2023-07-24 12:00:00', 'RT2', @RoomsBooked, 1, @RoomAllocated OUTPUT;
+
+SELECT @RoomAllocated AS RoomsAllocated;
+SELECT * FROM tbl_RoomAllocation;
+SELECT * FROM tbl_RoomAvailabilityLog;
