@@ -1175,3 +1175,10 @@ SELECT 'RT6', 'Villa', 75000, 5;
 EXECUTE dbo.usp_InsertRoomDetails @RoomDetail;
 
 SELECT * FROM tbl_RoomDetail;
+
+-- Create RoomAllocation Table
+
+CREATE TABLE tbl_RoomAllocation(CheckIn SMALLDATETIME,
+RoomType VARCHAR(10),
+TotalRoomsBooked TINYINT,
+RoomsAllocated VARCHAR(1000));
