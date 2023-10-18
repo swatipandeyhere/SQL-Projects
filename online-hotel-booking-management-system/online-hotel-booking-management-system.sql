@@ -1016,3 +1016,21 @@ WHERE Rating = @Rating
 );
 
 SELECT * FROM fn_HotelRatingReview(2.5);
+
+-- Create a CTE to Find the Number of Rooms Checked In based on Room Type Per Day
+
+WITH cte_NumberOfRoomsCheckedInBasedOnRoomTypePerDay
+AS
+(
+SELECT CustomerId,
+FirstName,
+LastName,
+r.RoomType,
+CheckIn,
+ROW_NUMBER() OVER(PARTITION BY CheckIn, r.RoomType ORDER BY CheckIn) AS NumberOfRoomsCheckedInBasedOnRoomTypePerDay
+FROM tbl_Customer AS c
+JOIN tbl_RoomDetail AS r
+ON r.RoomTypeId = c.RoomType
+)
+
+SELECT * FROM cte_NumberOfRoomsCheckedInBasedOnRoomTypePerDay;
