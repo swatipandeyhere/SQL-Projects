@@ -207,3 +207,31 @@ VALUES
 -- View Contents of Promocode Table
 
 SELECT * FROM tbl_Promocode;
+
+-- Create DeliveryStaff Table
+
+CREATE TABLE tbl_DeliveryStaff(DeliveryStaffId INT IDENTITY(500, 1) PRIMARY KEY,
+FirstName VARCHAR(15) NOT NULL,
+LastName VARCHAR(15) NOT NULL,
+ContactNumber BIGINT
+CONSTRAINT tbl_DeliveryStaff_ContactNumber CHECK(LEN(ContactNumber) = 10));
+
+-- Insert Values into DeliveryStaff Table
+
+INSERT INTO
+tbl_DeliveryStaff(FirstName, LastName, ContactNumber)
+VALUES
+('John', 'Doe', 1234567890),
+('Jane', 'Smith', 9876543210),
+('Bob', 'Johnson', 5551234567),
+('Alice', 'Williams', 7890123456),
+('Charlie', 'Brown', 4567890123),
+('David', 'Miller', 3216549870),
+('Eva', 'Jones', 6543217890),
+('Frank', 'White', 8765432109),
+('Grace', 'Davis', 2345678901),
+('Henry', 'Taylor', 7890123456);
+
+-- View Contents of DeliveryStaff Table
+
+SELECT * FROM tbl_DeliveryStaff;
