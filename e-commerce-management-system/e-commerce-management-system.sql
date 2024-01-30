@@ -174,3 +174,32 @@ VALUES('User_20', 'Priyank Saxena', 'priyank.saxena@gmail.com', 7097696530, 'M',
 -- View Contents of Customer Table
 
 SELECT * FROM tbl_Customer;
+
+-- Create Category Table
+
+CREATE TABLE tbl_Category(CategoryId VARCHAR(10) PRIMARY KEY,
+CategoryName VARCHAR(30) NOT NULL,
+CategoryDescription VARCHAR(1000) NOT NULL);
+
+-- Insert Values into Category Table
+
+INSERT INTO tbl_Category VALUES
+('CT01', 'Women Clothings', 'Topwear, Bottomwear, Sleepwear, Plus Size'),
+('CT02', 'Men Clothings', 'Shirts, Pants, Jackets, Underwear'),
+('CT03', 'Electronics', 'Phones, Laptops, Tablets, Cameras'),
+('CT04', 'Home Appliances', 'Refrigerators, Washers, Microwaves'),
+('CT05', 'Sports Equipment', 'Tennis Rackets, Footballs, Yoga Mats'),
+('CT06', 'Beauty Products', 'Skincare, Makeup, Fragrances'),
+('CT07', 'Books', 'Fiction, Non-fiction, Self-help'),
+('CT08', 'Toys & Games', 'Board Games, Dolls, Lego Sets'),
+('CT09', 'Furniture', 'Sofa Sets, Beds, Tables, Chairs'),
+('CT10', 'Jewelry', 'Necklaces, Bracelets, Earrings'),
+('CT11', 'Groceries', 'Canned Goods, Fresh Produce, Snacks'),
+('CT12', 'Pet Supplies', 'Dog Food, Cat Litter, Pet Toys'),
+('CT13', 'Automotive', 'Car Parts, Accessories, Tools'),
+('CT14', 'Music Instruments', 'Guitars, Keyboards, Drums'),
+('CT15', 'Art Supplies', 'Paints, Canvases, Brushes');
+
+-- View Contents of Category Table
+
+SELECT * FROM tbl_Category;
