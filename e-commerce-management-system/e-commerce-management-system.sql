@@ -91,3 +91,86 @@ VALUES('login20', 'priyank.saxena', HASHBYTES('MD5', 'password20'));
 -- View Contents of Login Table
 
 SELECT * FROM tbl_Login;
+
+-- Create Customer Table
+
+CREATE TABLE tbl_Customer(CustomerId VARCHAR(10) PRIMARY KEY,
+CustomerName VARCHAR(100) NOT NULL,
+Email VARCHAR(50) NOT NULL,
+PhoneNumber CHAR(10) CHECK(6000000000 <= PhoneNumber AND PhoneNumber <= 9999999999) NOT NULL,
+Gender CHAR(1) NOT NULL,
+Street VARCHAR(50) NOT NULL,
+City VARCHAR(20) NOT NULL,
+Pin NUMERIC(6) NOT NULL,
+State VARCHAR(20) NOT NULL,
+Country VARCHAR(20) NOT NULL);
+
+ALTER TABLE tbl_Customer
+ADD CONSTRAINT email_constraint
+CHECK(Email LIKE '%@%.com');
+
+-- Insert Values into Customer Table
+
+INSERT INTO tbl_Customer
+VALUES('User_01', 'Sunita Sharma', 'sunita.sharma@gmail.com', 9066625436, 'F', 'Malviya Nagar', 'New Delhi', 110017, 'Delhi', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_02', 'Ashok Singhal', 'ashok.singhal@gmail.com', 9220123123, 'M', 'Railway Colony', 'Samastipur', 848101, 'Bihar', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_03', 'Rohit Rana', 'rohit.rana@gmail.com', 9123123123, 'M', 'Mohindra Colony', 'Amritsar', 143001, 'Punjab', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_04', 'Jyoti Lamba', 'jyoti.lamba@gmail.com', 9876543211, 'F', 'Janta Colony', 'Rohtak', 124001, 'Haryana', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_05', 'Sumit Vyas', 'sumit.vyas@gmail.com', 9321654432, 'M', 'Gayatri Vihar', 'Lucknow', 226009, 'Uttar Pradesh', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_06', 'Manoj Kaushik', 'manoj.kaushik@gmail.com', 9876123456, 'M', 'Madrampur, Civil Lines', 'Jaipur', 302006, 'Rajasthan', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_07', 'Chetan Gupta', 'chetan.gupta@gmail.com', 9762785423, 'M', 'Chanakyapuri Colony', 'Rewa', 329376, 'Madhya Pradesh', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_08', 'Madhuri Thakkar', 'madhuri.thakkar@gmail.com', 9872223456, 'F', 'Alkapuri', 'Vadodara', 100165, 'Gujarat', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_09', 'Sneha Nair', 'sneha.nair@gmail.com', 9876127776, 'F', 'Thayalangadi', 'Kasaragod', 671121, 'Kerala', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_10', 'Binod Goel', 'binod.goel@gmail.com', 9387655556, 'M', 'Hanuman Square', 'Nagpur', 331556, 'Maharashtra', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_11', 'Tushar Tiwari', 'tushar.tiwari@gmail.com', 8756543423, 'M', '123 Main Street', 'New York City', 100010, 'New York', 'USA');
+
+INSERT INTO tbl_Customer
+VALUES('User_12', 'Anuhav Kumar', 'anubhav.kumar@gmail.com', 7806453413, 'M', '456 Elm Street', 'Los Angeles', 900010, 'California', 'USA');
+
+INSERT INTO tbl_Customer
+VALUES('User_13', 'Shreya Dubey', 'shreya.dubey@gmail.com', 7865446232, 'F', '789 Oak Avenue', 'London', 691010, 'England', 'UK');
+
+INSERT INTO tbl_Customer
+VALUES('User_14', 'Shubham Sherki', 'shubham.sherki@gmail.com', 6786565423, 'M', '101 Pine Road', 'Paris', 750010, 'Île-de-France', 'France');
+
+INSERT INTO tbl_Customer
+VALUES('User_15', 'Arnab Banerjee', 'arnab.banerjee@gmail.com', 9867543423, 'M', '202 Maple Lane', 'Berlin', 101150, 'Berlin', 'Germany');
+
+INSERT INTO tbl_Customer
+VALUES('User_16', 'Mahesh Jain', 'mahesh.jain@gmail.com', 7676545434, 'M', '303 Cedar Court', 'Sydney', 200078, 'New South Wales', 'Australia');
+
+INSERT INTO tbl_Customer
+VALUES('User_17', 'Neha Kapoor', 'neha.kapoor@gmail.com', 6754908754, 'F', '404 Birch Street', 'Tokyo', 100006, 'Tokyo', 'Japan');
+
+INSERT INTO tbl_Customer
+VALUES('User_18', 'Kabir Verma', 'kabir.verma@gmail.com', 8798564326, 'M', '505 Walnut Avenue', 'Toronto', 756105, 'Ontario', 'Canada');
+
+INSERT INTO tbl_Customer
+VALUES('User_19', 'Jitendra Singh', 'jitendra.singh@gmail.com', 6097683945, 'M', '606 Cherry Lane', 'Mumbai', 400001, 'Maharashtra', 'India');
+
+INSERT INTO tbl_Customer
+VALUES('User_20', 'Priyank Saxena', 'priyank.saxena@gmail.com', 7097696530, 'M', '707 Aspen Road', 'Cape Town', 800109, 'Western Cape', 'South Africa');
+
+-- View Contents of Customer Table
+
+SELECT * FROM tbl_Customer;
