@@ -85,3 +85,35 @@ VALUES
 -- View Contents of Chef Table
 
 SELECT * FROM tbl_Chef;
+
+-- Create Restaurant Table
+
+CREATE TABLE tbl_Restaurant(RestaurantId INT IDENTITY(200, 1) PRIMARY KEY,
+RestaurantName VARCHAR(30) NOT NULL,
+Address VARCHAR(50) NOT NULL,
+City VARCHAR(15) NOT NULL,
+State VARCHAR(10) NOT NULL,
+ZipCode INT NOT NULL,
+OperatingHours VARCHAR(20) NOT NULL,
+OperatingDays VARCHAR(10) NOT NULL,
+ChefId INT REFERENCES tbl_Chef(ChefId));
+
+-- Insert Values into Restaurant Table
+
+INSERT INTO
+tbl_Restaurant(RestaurantName, Address, City, State, ZipCode, OperatingHours, OperatingDays, ChefId)
+VALUES
+('Cuisine Haven', '123 Main St', 'Cityville', 'CA', 12345, '10:00 AM - 9:00 PM', 'Mon-Sun', 1),
+('La Petite Brasserie', '456 Oak St', 'Townsville', 'NY', 67890, '11:00 AM - 10:00 PM', 'Tue-Sat', 2),
+('Sakura Sushi House', '789 Elm St', 'Villagetown', 'TX', 54321, '12:00 PM - 8:00 PM', 'Wed-Sun', 3),
+('Mediterranean Delights', '987 Pine St', 'Hillside', 'FL', 87654, '9:00 AM - 7:00 PM', 'Mon-Fri', 4),
+('Green Bites', '654 Birch St', 'Grove City', 'OH', 23456, '8:00 AM - 6:00 PM', 'Thu-Sun', 5),
+('Taco Fiesta', '321 Maple St', 'Parkville', 'AZ', 34567, '1:00 PM - 11:00 PM', 'Fri-Sun', 6),
+('Fusion Flavors', '876 Cedar St', 'Riverdale', 'IL', 87623, '3:00 PM - 10:00 PM', 'Mon-Wed', 7),
+('Spice Haven', '543 Walnut St', 'Harbortown', 'WA', 23478, '2:00 PM - 9:00 PM', 'Tue-Sat', 8),
+('Seafood Paradise', '234 Oak St', 'Beach City', 'CA', 56789, '12:00 PM - 8:00 PM', 'Wed-Sun', 9),
+('BBQ Junction', '765 Pine St', 'Grilltown', 'TX', 87654, '4:00 PM - 11:00 PM', 'Thu-Sat', 10);
+
+-- View Contents of Restaurant Table
+
+SELECT * FROM tbl_Restaurant;
