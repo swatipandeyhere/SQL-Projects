@@ -177,3 +177,33 @@ VALUES
 -- View Contents of Card Table
 
 SELECT * FROM tbl_Card;
+
+-- Create Promocode Table
+
+CREATE TABLE tbl_Promocode(Promocode VARCHAR(40) PRIMARY KEY,
+StartDate DATETIME NOT NULL,
+EndDate DATETIME NOT NULL,
+Discount DECIMAL(10, 2) NOT NULL);
+
+ALTER TABLE tbl_Promocode
+ADD CONSTRAINT tbl_Promocode_EndDate CHECK(EndDate > StartDate);
+
+-- Insert Values into Promocode Table
+
+INSERT INTO
+tbl_Promocode(Promocode, StartDate, EndDate, Discount)
+VALUES
+('CODE01', '2024-02-01 10:00:00', '2024-02-15 18:30:00', 10.00),
+('CODE02', '2024-03-05 08:45:00', '2024-03-20 20:15:00', 15.50),
+('CODE03', '2024-04-10 12:30:00', '2024-04-25 16:45:00', 20.00),
+('CODE04', '2024-05-15 14:00:00', '2024-05-30 22:30:00', 25.75),
+('CODE05', '2024-06-20 09:15:00', '2024-07-05 17:45:00', 30.00),
+('CODE06', '2024-08-01 11:30:00', '2024-08-15 14:45:00', 12.25),
+('CODE07', '2024-09-05 16:45:00', '2024-09-20 19:00:00', 18.50),
+('CODE08', '2024-10-10 18:00:00', '2024-10-25 21:15:00', 22.75),
+('CODE09', '2024-11-15 20:15:00', '2024-11-30 23:30:00', 28.00),
+('CODE10', '2024-12-20 22:30:00', '2025-01-05 02:00:00', 32.50);
+
+-- View Contents of Promocode Table
+
+SELECT * FROM tbl_Promocode;
