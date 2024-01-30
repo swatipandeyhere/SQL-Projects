@@ -117,3 +117,32 @@ VALUES
 -- View Contents of Restaurant Table
 
 SELECT * FROM tbl_Restaurant;
+
+-- Create FoodItems Table
+
+CREATE TABLE tbl_FoodItems(FoodItemId INT IDENTITY(300, 1) PRIMARY KEY,
+FoodName VARCHAR(40) NOT NULL,
+Price DECIMAL(10, 2) NOT NULL,
+Category VARCHAR(15) NOT NULL,
+RestaurantId INT REFERENCES tbl_Restaurant(RestaurantId),
+FoodDescription VARCHAR(100) NOT NULL);
+
+-- Insert Values into FoodItems Table
+
+INSERT INTO
+tbl_FoodItems(FoodName, Price, Category, RestaurantId, FoodDescription)
+VALUES
+('Margherita Pizza', 12.99, 'Pizza', 200, 'Classic tomato and mozzarella'),
+('Coq au Vin', 18.50, 'Main Course', 201, 'Chicken braised in red wine with mushrooms and onions'),
+('Sushi Platter', 24.99, 'Sushi', 202, 'Assortment of fresh sushi and sashimi'),
+('Greek Salad', 8.99, 'Salad', 203, 'Fresh vegetables with feta cheese and olives'),
+('Vegetarian Wrap', 10.50, 'Wrap', 204, 'Grilled veggies wrapped in a tortilla'),
+('Taco Sampler', 14.75, 'Tacos', 205, 'Assorted tacos with different fillings'),
+('Fusion Pasta', 16.99, 'Pasta', 206, 'Pasta with a fusion of flavors'),
+('Spicy Curry Bowl', 13.50, 'Curry', 207, 'Spicy curry with a mix of vegetables and protein'),
+('Seafood Platter', 22.99, 'Seafood', 208, 'Assorted seafood delights'),
+('BBQ Ribs', 19.99, 'BBQ', 209, 'Slow-cooked BBQ ribs with a tangy glaze');
+
+-- View Contents of FoodItems Table
+
+SELECT * FROM tbl_FoodItems;
