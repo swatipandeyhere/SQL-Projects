@@ -146,3 +146,34 @@ VALUES
 -- View Contents of FoodItems Table
 
 SELECT * FROM tbl_FoodItems;
+
+-- Create Card Table
+
+CREATE TABLE tbl_Card(CardId INT IDENTITY(400, 1) PRIMARY KEY,
+CustomerId INT REFERENCES tbl_Customer(CustomerId),
+CardNumber BIGINT NOT NULL,
+CONSTRAINT tbl_Card_CardNumber CHECK(LEN(CONVERT(VARCHAR, CardNumber)) = 16),
+CardHolderName VARCHAR(15) NOT NULL,
+ExpiryDate DATE NOT NULL,
+CardType VARCHAR(20) NOT NULL,
+CVV INT NOT NULL,
+CONSTRAINT tbl_Card_CVV CHECK(LEN(CONVERT(VARCHAR, CVV)) = 3 OR LEN(CONVERT(VARCHAR, CVV)) = 4));
+
+-- Insert Values into Card Table
+
+INSERT INTO tbl_Card
+VALUES
+(100, 4111222233334444, 'Sunita Sharma', '2025-12-31', 'Visa', 123),
+(101, 5105105105105100, 'Ashok Singhal', '2024-09-30', 'MasterCard', 456),
+(102, 6011122233344445, 'Rohit Rana', '2023-05-15', 'Discover', 789),
+(103, 3411222233334446, 'Jyoti Lamba', '2024-11-28', 'American Express', 2346),
+(104, 5100123412341234, 'Sumit Vats', '2023-08-22', 'MasterCard', 567),
+(105, 4111222233331234, 'Manoj Kaushik', '2025-04-17', 'Visa', 890),
+(106, 6011222233344445, 'Chetan Gupta', '2023-12-05', 'Discover', 123),
+(107, 3411222233345674, 'Madhuri Thakkar', '2024-06-10', 'American Express', 4567),
+(108, 5100123412349876, 'Sneha Nair', '2022-10-03', 'MasterCard', 789),
+(109, 4111222233337654, 'Binod Goel', '2023-02-14', 'Visa', 321);
+
+-- View Contents of Card Table
+
+SELECT * FROM tbl_Card;
