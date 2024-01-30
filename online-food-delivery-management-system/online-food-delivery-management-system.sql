@@ -57,3 +57,31 @@ VALUES
 -- View Contents of Login Table
 
 SELECT * FROM tbl_Login;
+
+-- Create Chef Table
+
+CREATE TABLE tbl_Chef(ChefId INT PRIMARY KEY,
+FirstName VARCHAR(10),
+LastName VARCHAR(10),
+Experience INT,
+Speciality VARCHAR(30));
+
+-- Insert Values into Chef Table
+
+INSERT INTO
+tbl_Chef(ChefId, FirstName, LastName, Experience, Speciality)
+VALUES
+(1, 'John', 'Doe', 5, 'Italian Cuisine'),
+(2, 'Alice', 'Smith', 8, 'French Cuisine'),
+(3, 'Bob', 'Johnson', 10, 'Japanese Cuisine'),
+(4, 'Eva', 'Brown', 6, 'Mediterranean Cuisine'),
+(5, 'David', 'White', 3, 'Vegetarian Cuisine'),
+(6, 'Sophia', 'Jones', 12, 'Mexican Cuisine'),
+(7, 'Michael', 'Clark', 7, 'Asian Fusion'),
+(8, 'Olivia', 'Miller', 9, 'Indian Cuisine'),
+(9, 'Daniel', 'Taylor', 4, 'Seafood'),
+(10, 'Emma', 'Davis', 11, 'BBQ');
+
+-- View Contents of Chef Table
+
+SELECT * FROM tbl_Chef;
