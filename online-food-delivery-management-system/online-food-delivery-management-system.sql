@@ -263,3 +263,36 @@ VALUES
 -- View Contents of Delivery Table
 
 SELECT * FROM tbl_Delivery;
+
+-- Create Order Table
+
+CREATE TABLE tbl_Order(OrderId INT IDENTITY(700, 1) PRIMARY KEY,
+CustomerId INT REFERENCES tbl_Customer(CustomerId),
+RestaurantId INT REFERENCES tbl_Restaurant(RestaurantId),
+FoodItemId INT REFERENCES tbl_FoodItems(FoodItemId),
+Quantity INT NOT NULL CHECK(Quantity > 0),
+FoodItemAmount DECIMAL(10, 2) NOT NULL,
+OrderInstruction VARCHAR(50),
+OrderStatus VARCHAR(15) NOT NULL,
+OrderDate DATETIME NOT NULL,
+DeliveryId INT REFERENCES tbl_Delivery(DeliveryId));
+
+-- Insert Values into Order Table
+
+INSERT INTO tbl_Order
+(CustomerId, RestaurantId, FoodItemId, Quantity, FoodItemAmount, OrderInstruction, OrderStatus, OrderDate, DeliveryId)
+VALUES
+(100, 200, 300, 2, (SELECT Price * 2 FROM tbl_FoodItems WHERE FoodItemId = 300), 'No onions', 'Processing', '2024-01-31 12:30:00', 600),
+(101, 201, 301, 1, (SELECT Price * 1 FROM tbl_FoodItems WHERE FoodItemId = 301), 'Extra spicy', 'Pending', '2024-01-31 13:15:00', 601),
+(102, 202, 302, 3, (SELECT Price * 3 FROM tbl_FoodItems WHERE FoodItemId = 302), 'Gluten-free', 'Confirmed', '2024-01-31 14:00:00', 602),
+(103, 203, 303, 1, (SELECT Price * 1 FROM tbl_FoodItems WHERE FoodItemId = 303), 'Dressing on the side', 'Processing', '2024-01-31 15:45:00', 603),
+(104, 204, 304, 2, (SELECT Price * 2 FROM tbl_FoodItems WHERE FoodItemId = 304), 'No mayo', 'Delivered', '2024-01-31 16:30:00', 604),
+(105, 205, 305, 1, (SELECT Price * 1 FROM tbl_FoodItems WHERE FoodItemId = 305), 'Mixed fillings', 'Pending', '2024-01-31 17:15:00', 605),
+(106, 206, 306, 2, (SELECT Price * 2 FROM tbl_FoodItems WHERE FoodItemId = 306), 'Alfredo sauce', 'Processing', '2024-01-31 18:00:00', 606),
+(107, 207, 307, 1, (SELECT Price * 1 FROM tbl_FoodItems WHERE FoodItemId = 307), 'Extra hot', 'Confirmed', '2024-01-31 19:30:00', 607),
+(108, 208, 308, 3, (SELECT Price * 3 FROM tbl_FoodItems WHERE FoodItemId = 308), 'Chef special', 'Pending', '2024-01-31 20:15:00', 608),
+(109, 209, 309, 1, (SELECT Price * 1 FROM tbl_FoodItems WHERE FoodItemId = 309), 'Double-glazed', 'Confirmed', '2024-01-31 21:00:00', 609);
+
+-- View Contents of Order Table
+
+SELECT * FROM tbl_Order;
