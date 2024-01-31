@@ -235,3 +235,31 @@ VALUES
 -- View Contents of DeliveryStaff Table
 
 SELECT * FROM tbl_DeliveryStaff;
+
+-- Create Delivery Table
+
+CREATE TABLE tbl_Delivery(DeliveryId INT IDENTITY(600, 1) PRIMARY KEY,
+DeliveryStatus VARCHAR(20) NOT NULL,
+DeliveryStaffId INT REFERENCES tbl_DeliveryStaff(DeliveryStaffId),
+DeliveryAddress VARCHAR(50) NOT NULL,
+EstimatedTimeOfDelivery VARCHAR(15) NOT NULL,
+DeliveryInstruction VARCHAR(50));
+
+-- Insert Values into Delivery Table
+
+INSERT INTO tbl_Delivery
+VALUES
+('In Transit', 500, '123 Main St, Cityville', '2 hours', 'Handle with care'),
+('Pending', 503, '456 Oak St, Townsville', '3 hours', 'Call upon arrival'),
+('Delivered', 501, '789 Pine St, Villagetown', '1.5 hours', 'Leave at doorstep'),
+('In Transit', 504, '234 Maple St, Hamletville', '2.5 hours', 'Signature required'),
+('Pending', 506, '567 Birch St, Countryside', '3.5 hours', 'Fragile items inside'),
+('Delivered', 502, '890 Cedar St, Suburbia', '1 hour', 'Do not bend'),
+('In Transit', 505, '678 Spruce St, Outskirts', '2 hours', 'Handle with gloves'),
+('Pending', 509, '901 Elm St, Farmland', '4 hours', 'Leave at back door'),
+('Delivered', 508, '345 Willow St, Riverside', '1.8 hours', 'Call before delivery'),
+('In Transit', 507, '012 Redwood St, Mountainside', '2.3 hours', 'Follow delivery notes');
+
+-- View Contents of Delivery Table
+
+SELECT * FROM tbl_Delivery;
