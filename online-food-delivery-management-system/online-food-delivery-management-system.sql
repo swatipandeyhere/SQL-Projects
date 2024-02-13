@@ -646,3 +646,29 @@ VALUES
 
 SELECT * FROM tbl_Customer;
 SELECT * FROM tbl_CustomersAudit;
+
+-- Create a Trigger to Insert data into CustomersAudit table on Deletion of Customer details
+
+CREATE OR ALTER TRIGGER tr_tbl_Customer_ForDelete
+ON tbl_Customer
+FOR DELETE
+
+AS
+
+BEGIN
+
+DECLARE @CustomerId INT;
+
+SELECT @CustomerId = CustomerId
+FROM deleted;
+
+INSERT INTO tbl_CustomersAudit
+VALUES('An Existing Customer with Id ' + CAST(@CustomerId AS VARCHAR) + ' is deleted at ' + CAST(GETDATE() AS VARCHAR));
+
+END
+
+DELETE FROM tbl_Customer
+WHERE CustomerId = 1101;
+
+SELECT * FROM tbl_Customer;
+SELECT * FROM tbl_CustomersAudit;
