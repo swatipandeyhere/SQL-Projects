@@ -694,3 +694,27 @@ END
 DECLARE @Count INT;
 EXECUTE usp_GetOrderCountByRestaurantId 200, @Count OUTPUT
 SELECT @Count AS 'Total Order Count';
+
+-- Create a Stored Procedure to retrieve Restaurant’s Total Price by Dates
+
+CREATE PROCEDURE usp_TotalAmountOfRestaurantByDate
+@StartDate DATE,
+@EndDate DATE,
+@RestaurantId INT
+
+AS
+
+BEGIN
+
+SELECT SUM(TotalAmount)
+FROM tbl_Bill
+INNER JOIN tbl_Order
+ON tbl_Bill.OrderId = tbl_Order.OrderId
+WHERE RestaurantId = @RestaurantId
+AND tbl_Order.OrderDate BETWEEN @StartDate AND @EndDate;
+
+END
+
+-- Execute TotalAmountOfRestaurantByDate Stored Procedure
+
+EXECUTE usp_TotalAmountOfRestaurantByDate '2024-01-31', '2024-02-01', 200;
