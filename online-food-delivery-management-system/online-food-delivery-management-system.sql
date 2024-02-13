@@ -296,3 +296,217 @@ VALUES
 -- View Contents of Order Table
 
 SELECT * FROM tbl_Order;
+
+-- Create Bill Table
+
+CREATE TABLE tbl_Bill(BillId INT IDENTITY(800, 1) PRIMARY KEY,
+OrderId INT REFERENCES tbl_Order(OrderId),
+FoodItemAmount DECIMAL(10, 2) NOT NULL,
+TaxAmount DECIMAL(10, 2) DEFAULT 2,
+TipAmount DECIMAL(10, 2) DEFAULT 0,
+DeliveryCharges DECIMAL(10, 2) DEFAULT 0,
+PromocodeAvailedAmount DECIMAL(10, 2) DEFAULT 0,
+DiscountedAmount DECIMAL(10, 2) DEFAULT 0,
+TotalAmount DECIMAL(10, 2) NOT NULL);
+
+-- Create InsertBill Stored Procedure which inserts data values into Bill Table
+
+CREATE PROCEDURE usp_InsertBill
+@OrderId INT,
+@FoodItemAmount DECIMAL(10, 2),
+@TaxAmount DECIMAL(10, 2) = 2,
+@TipAmount DECIMAL(10, 2) = 0,
+@DeliveryCharges DECIMAL(10, 2) = 0,
+@PromocodeAvailedAmount DECIMAL(10, 2) = 0,
+@DiscountedAmount DECIMAL(10, 2) = 0,
+@TotalAmount DECIMAL(10, 2) OUTPUT
+
+AS
+
+BEGIN
+
+SET @TotalAmount = @FoodItemAmount + @TaxAmount + @TipAmount + @DeliveryCharges - @PromocodeAvailedAmount - @DiscountedAmount;
+
+-- Insert Values into Bill Table
+
+INSERT INTO
+tbl_Bill(OrderId, FoodItemAmount, TaxAmount, TipAmount, DeliveryCharges, PromocodeAvailedAmount, DiscountedAmount, TotalAmount)
+VALUES
+(@OrderId, @FoodItemAmount, @TaxAmount, @TipAmount, @DeliveryCharges, @PromocodeAvailedAmount, @DiscountedAmount, @TotalAmount);
+
+END;
+
+-- 0 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult0 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 700,
+@FoodItemAmount = 25.98,
+@TaxAmount = 15.00,
+@TipAmount = 0.00,
+@DeliveryCharges = 5.00,
+@PromocodeAvailedAmount = 0.00,
+@DiscountedAmount = 0.00,
+@TotalAmount = @TotalAmountResult0 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult0 AS VARCHAR);
+
+-- 1 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult1 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 701,
+@FoodItemAmount = 18.50,
+-- @TaxAmount = 10.00,
+@TipAmount = 0.00,
+@DeliveryCharges = 0.00,
+@PromocodeAvailedAmount = 0.00,
+@DiscountedAmount = 0.00,
+@TotalAmount = @TotalAmountResult1 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult1 AS VARCHAR);
+
+-- 2 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult2 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 702,
+@FoodItemAmount = 74.97,
+@TaxAmount = 20.00,
+@TipAmount = 10.00,
+@DeliveryCharges = 0.00,
+@PromocodeAvailedAmount = 0.00,
+@DiscountedAmount = 0.00,
+@TotalAmount = @TotalAmountResult2 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult2 AS VARCHAR);
+
+-- 3 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult3 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 703,
+@FoodItemAmount = 8.99,
+@TaxAmount = 5.00,
+@TipAmount = 0.00,
+@DeliveryCharges = 5.00,
+@PromocodeAvailedAmount = 0.00,
+@DiscountedAmount = 0.00,
+@TotalAmount = @TotalAmountResult3 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult3 AS VARCHAR);
+
+-- 4 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult4 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 704,
+@FoodItemAmount = 21.00,
+@TaxAmount = 10.00,
+@TipAmount = 0.00,
+@DeliveryCharges = 0.00,
+@PromocodeAvailedAmount = 5.00,
+@DiscountedAmount = 0.00,
+@TotalAmount = @TotalAmountResult4 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult4 AS VARCHAR);
+
+-- 5 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult5 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 705,
+@FoodItemAmount = 14.75,
+@TaxAmount = 0.00,
+@TipAmount = 0.00,
+@DeliveryCharges = 0.00,
+@PromocodeAvailedAmount = 0.00,
+@DiscountedAmount = 5.00,
+@TotalAmount = @TotalAmountResult5 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult5 AS VARCHAR);
+
+-- 6 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult6 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 706,
+@FoodItemAmount = 33.98,
+@TaxAmount = 5.00,
+@TipAmount = 5.00,
+@DeliveryCharges = 10.00,
+@PromocodeAvailedAmount = 5.00,
+@DiscountedAmount = 5.00,
+@TotalAmount = @TotalAmountResult6 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult6 AS VARCHAR);
+
+-- 7 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult7 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 707,
+@FoodItemAmount = 13.50,
+@TaxAmount = 0.00,
+@TipAmount = 0.00,
+@DeliveryCharges = 5.00,
+@PromocodeAvailedAmount = 0.00,
+@DiscountedAmount = 0.00,
+@TotalAmount = @TotalAmountResult7 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult7 AS VARCHAR);
+
+-- 8 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult8 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 708,
+@FoodItemAmount = 68.97,
+@TaxAmount = 25.00,
+@TipAmount = 5.00,
+@DeliveryCharges = 15.00,
+@PromocodeAvailedAmount = 0.00,
+@DiscountedAmount = 5.00,
+@TotalAmount = @TotalAmountResult8 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult8 AS VARCHAR);
+
+-- 9 : Executing InsertBill Stored Procedure
+
+DECLARE @TotalAmountResult9 DECIMAL(10, 2);
+
+EXECUTE usp_InsertBill
+@OrderId = 709,
+@FoodItemAmount = 19.99,
+@TaxAmount = 0.00,
+@TipAmount = 0.00,
+@DeliveryCharges = 5.00,
+@PromocodeAvailedAmount = 0.00,
+@DiscountedAmount = 0.00,
+@TotalAmount = @TotalAmountResult9 OUTPUT;
+
+PRINT 'The Bill has been Generated Successfully';
+PRINT 'The Total Amount is ' + CAST(@TotalAmountResult9 AS VARCHAR);
+
+-- View Contents of Order and Bill Tables
+
+SELECT * FROM tbl_Order;
+SELECT * FROM tbl_Bill;
