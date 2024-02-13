@@ -619,3 +619,30 @@ SELECT * FROM tbl_AuditTableChanges;
 -- Create CustomersAudit Table
 
 CREATE TABLE tbl_CustomersAudit(Id INT IDENTITY, AuditData VARCHAR(MAX));
+
+-- Create a Trigger to Insert data into CustomersAudit table on Insertion of Customer details
+
+CREATE OR ALTER TRIGGER tr_tbl_Customer_ForInsert
+ON tbl_Customer
+FOR INSERT
+
+AS
+
+BEGIN
+
+DECLARE @Name VARCHAR(50);
+
+SELECT @Name = FirstName + ' ' + LastName
+FROM inserted;
+
+INSERT INTO tbl_CustomersAudit
+VALUES('A New Customer named ' + @Name + ' is added at ' + CAST(GETDATE() AS VARCHAR));
+
+END
+
+INSERT INTO tbl_Customer
+VALUES
+('Radhika', 'Jain', 'Jawaharlal Nehru', 'New Delhi', 'Delhi', 110017, '9878054975');
+
+SELECT * FROM tbl_Customer;
+SELECT * FROM tbl_CustomersAudit;
