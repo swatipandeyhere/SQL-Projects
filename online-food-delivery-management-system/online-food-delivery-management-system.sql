@@ -510,3 +510,33 @@ PRINT 'The Total Amount is ' + CAST(@TotalAmountResult9 AS VARCHAR);
 
 SELECT * FROM tbl_Order;
 SELECT * FROM tbl_Bill;
+
+-- Create Payment Table
+
+CREATE TABLE tbl_Payment(PaymentId INT IDENTITY(900, 1) PRIMARY KEY,
+CardId INT REFERENCES tbl_Card(CardId),
+BillId INT REFERENCES tbl_Bill(BillId),
+CustomerId INT REFERENCES tbl_Customer(CustomerId),
+PaymentStatus VARCHAR(20) NOT NULL,
+PaymentType VARCHAR(15) NOT NULL,
+PaymentDate DATE NOT NULL);
+
+-- Insert Values into Payment Table
+
+INSERT INTO
+tbl_Payment(CardId, BillId, CustomerId, PaymentStatus, PaymentType, PaymentDate)
+VALUES
+(400, 800, 100, 'Completed', 'Credit Card', '2024-02-01'),
+(401, 801, 101, 'Completed', 'Debit Card', '2024-02-02'),
+(402, 802, 102, 'Completed', 'Credit Card', '2024-02-03'),
+(403, 803, 103, 'Completed', 'Debit Card', '2024-02-04'),
+(404, 804, 104, 'Completed', 'Credit Card', '2024-02-05'),
+(405, 805, 105, 'Completed', 'Debit Card', '2024-02-06'),
+(406, 806, 106, 'Completed', 'Credit Card', '2024-02-07'),
+(407, 807, 107, 'Completed', 'Debit Card', '2024-02-08'),
+(408, 808, 108, 'Completed', 'Credit Card', '2024-02-09'),
+(409, 809, 109, 'Completed', 'Debit Card', '2024-02-10');
+
+-- View Contents of Payment Table
+
+SELECT * FROM tbl_Payment;
