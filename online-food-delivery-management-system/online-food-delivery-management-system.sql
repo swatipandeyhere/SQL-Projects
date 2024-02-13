@@ -615,3 +615,7 @@ EXECUTE SP_RENAME 'tbl_FoodItems.Price', 'FoodPrice';
 -- View Contents of AuditTableChanges table
 
 SELECT * FROM tbl_AuditTableChanges;
+
+-- Create CustomersAudit Table
+
+CREATE TABLE tbl_CustomersAudit(Id INT IDENTITY, AuditData VARCHAR(MAX));
