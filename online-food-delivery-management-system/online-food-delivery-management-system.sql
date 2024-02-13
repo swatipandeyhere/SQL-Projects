@@ -672,3 +672,25 @@ WHERE CustomerId = 1101;
 
 SELECT * FROM tbl_Customer;
 SELECT * FROM tbl_CustomersAudit;
+
+-- Create a Stored Procedure to retrieve the Count of Orders from a Restaurant
+
+CREATE OR ALTER PROCEDURE usp_GetOrderCountByRestaurantId
+@RestaurantId INT,
+@OrderCount INT OUTPUT
+
+AS
+
+BEGIN
+
+SELECT @OrderCount = COUNT(*)
+FROM tbl_Order
+WHERE RestaurantId = @RestaurantId;
+
+END
+
+-- Execute GetOrderCountByRestaurantId Stored Procedure
+
+DECLARE @Count INT;
+EXECUTE usp_GetOrderCountByRestaurantId 200, @Count OUTPUT
+SELECT @Count AS 'Total Order Count';
