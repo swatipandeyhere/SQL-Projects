@@ -540,3 +540,33 @@ VALUES
 -- View Contents of Payment Table
 
 SELECT * FROM tbl_Payment;
+
+-- Create Review Table
+
+CREATE TABLE tbl_Review(ReviewId INT IDENTITY(1000, 1) PRIMARY KEY,
+CustomerId INT REFERENCES tbl_Customer(CustomerId),
+RestaurantId INT REFERENCES tbl_Restaurant(RestaurantId),
+FoodItemId INT REFERENCES tbl_FoodItems(FoodItemId),
+Rating INT NOT NULL CHECK(Rating >= 1 AND Rating <= 5),
+ReviewText VARCHAR(255),
+ReviewDate DATE NOT NULL);
+
+-- Insert Values into Review Table
+
+INSERT INTO
+tbl_Review(CustomerId, RestaurantId, FoodItemId, Rating, ReviewText, ReviewDate)
+VALUES
+(100, 200, 300, 5, 'Great pizza, loved it!', '2024-02-01'),
+(101, 201, 301, 4, 'The chicken dish was delicious.', '2024-02-02'),
+(102, 202, 302, 5, 'Sushi was fresh and tasty.', '2024-02-03'),
+(103, 203, 303, 3, 'Salad was okay, could be better.', '2024-02-04'),
+(104, 204, 304, 4, 'Enjoyed the vegetarian wrap.', '2024-02-05'),
+(105, 205, 305, 2, 'Tacos were cold, disappointed.', '2024-02-06'),
+(106, 206, 306, 5, 'The fusion pasta was amazing!', '2024-02-07'),
+(107, 207, 307, 4, 'Curry had a good flavor.', '2024-02-08'),
+(108, 208, 308, 5, 'Loved the seafood platter!', '2024-02-09'),
+(109, 209, 309, 3, 'BBQ ribs were a bit dry.', '2024-02-10');
+
+-- View Contents of Review Table
+
+SELECT * FROM tbl_Review;
