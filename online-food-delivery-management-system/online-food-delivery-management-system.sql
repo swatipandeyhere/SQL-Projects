@@ -789,3 +789,28 @@ END
 DECLARE @Name VARCHAR(30);
 EXECUTE usp_RestaurantNameByFoodName 'Vegetarian Wrap', @Name OUTPUT
 SELECT @Name AS 'Restaurant Name';
+
+-- Create a Stored Procedure to find the Most Valuable Customer with Highest Order Amount By RestaurantId
+
+CREATE OR ALTER PROCEDURE usp_GetValuableCustomerByRestaurantId
+@RestaurantId INT
+
+AS
+
+BEGIN
+
+SELECT FirstName, SUM(tbl_Bill.TotalAmount)
+FROM tbl_Bill
+INNER JOIN tbl_Order
+ON tbl_Bill.OrderId = tbl_Order.OrderId
+INNER JOIN tbl_Customer
+ON tbl_Customer.CustomerId = tbl_Order.CustomerId
+WHERE tbl_Order.RestaurantId = @RestaurantId
+GROUP BY FirstName
+ORDER BY SUM(tbl_Bill.TotalAmount) DESC;
+
+END
+
+-- Execute GetValuableCustomerByRestaurantId Stored Procedure
+
+EXECUTE usp_GetValuableCustomerByRestaurantId 200;
