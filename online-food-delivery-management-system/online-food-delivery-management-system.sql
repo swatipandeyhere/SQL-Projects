@@ -718,3 +718,24 @@ END
 -- Execute TotalAmountOfRestaurantByDate Stored Procedure
 
 EXECUTE usp_TotalAmountOfRestaurantByDate '2024-01-31', '2024-02-01', 200;
+
+-- Create a Stored Procedure to retrieve Order details (Quantity and Food Name) based on a given RestaurantId
+
+CREATE PROCEDURE usp_GetOrderDetailsByRestaurant
+@RestaurantId INT
+
+AS
+
+BEGIN
+
+SELECT Quantity, FoodName
+FROM tbl_Order
+INNER JOIN tbl_FoodItems
+ON tbl_FoodItems.FoodItemId = tbl_Order.FoodItemId
+WHERE tbl_Order.RestaurantId = @RestaurantId;
+
+END
+
+-- Execute GetOrderDetailsByRestaurant Stored Procedure
+
+EXECUTE usp_GetOrderDetailsByRestaurant 200;
