@@ -739,3 +739,29 @@ END
 -- Execute GetOrderDetailsByRestaurant Stored Procedure
 
 EXECUTE usp_GetOrderDetailsByRestaurant 200;
+
+-- Create a Stored Procedure for Checking Promocode
+
+CREATE PROCEDURE usp_CheckPromocode
+@Promocode VARCHAR(40),
+@OutputText VARCHAR(50) OUTPUT
+
+AS
+
+BEGIN
+
+IF EXISTS(SELECT 1 FROM tbl_Promocode WHERE Promocode = @Promocode)
+BEGIN
+SET @OutputText = 'Valid Promocode'
+END
+ELSE
+BEGIN
+SET @OutputText = 'Invalid Promocode'
+END
+END
+
+-- Execute CheckPromocode Stored Procedure
+
+DECLARE @Output VARCHAR(50);
+EXECUTE usp_CheckPromocode 'CODE10', @Output OUTPUT
+PRINT @Output;
