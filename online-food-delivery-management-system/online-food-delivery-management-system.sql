@@ -829,3 +829,18 @@ ORDER BY 'Total Order Amount' DESC;
 -- View Contents of FiveMostValuableCustomers
 
 SELECT * FROM vw_FiveMostValuableCustomers;
+
+-- Create a View to find the 5 Most Popular Restaurants having the Highest Number of Orders
+
+CREATE OR ALTER VIEW vw_FiveMostPopularRestaurants
+AS
+SELECT TOP 5 tbl_Restaurant.RestaurantName, COUNT(tbl_Order.OrderId) AS 'Total Number of Orders'
+FROM tbl_Order
+INNER JOIN tbl_Restaurant
+ON tbl_Order.RestaurantId = tbl_Restaurant.RestaurantId
+GROUP BY tbl_Order.RestaurantId, tbl_Restaurant.RestaurantName
+ORDER BY 'Total Number of Orders' DESC;
+
+-- View Contents of FiveMostPopularRestaurants
+
+SELECT * FROM vw_FiveMostPopularRestaurants;
