@@ -814,3 +814,18 @@ END
 -- Execute GetValuableCustomerByRestaurantId Stored Procedure
 
 EXECUTE usp_GetValuableCustomerByRestaurantId 200;
+
+-- Create a View to find the 5 Most Valuable Customers with Highest Order Amount
+
+CREATE OR ALTER VIEW vw_FiveMostValuableCustomers
+AS
+SELECT TOP 5 tbl_Order.CustomerId, FirstName, LastName, SUM(tbl_Order.FoodItemAmount) AS 'Total Order Amount'
+FROM tbl_Order
+INNER JOIN tbl_Customer
+ON tbl_Customer.CustomerId = tbl_Order.CustomerId
+GROUP BY tbl_Order.CustomerId, FirstName, LastName
+ORDER BY 'Total Order Amount' DESC;
+
+-- View Contents of FiveMostValuableCustomers
+
+SELECT * FROM vw_FiveMostValuableCustomers;
