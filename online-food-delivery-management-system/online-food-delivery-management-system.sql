@@ -765,3 +765,27 @@ END
 DECLARE @Output VARCHAR(50);
 EXECUTE usp_CheckPromocode 'CODE10', @Output OUTPUT
 PRINT @Output;
+
+-- Create a Stored Procedure which retrieves the Restaurant Name associated with the provided Food Name
+
+CREATE PROCEDURE usp_RestaurantNameByFoodName
+@FoodName VARCHAR(40),
+@RestaurantName VARCHAR(30) OUTPUT
+
+AS
+
+BEGIN
+
+SELECT @RestaurantName = tbl_Restaurant.RestaurantName
+FROM tbl_Restaurant
+INNER JOIN tbl_FoodItems
+ON tbl_Restaurant.RestaurantId = tbl_FoodItems.RestaurantId
+WHERE FoodName = @FoodName;
+
+END
+
+-- Execute RestaurantNameByFoodName Stored Procedure
+
+DECLARE @Name VARCHAR(30);
+EXECUTE usp_RestaurantNameByFoodName 'Vegetarian Wrap', @Name OUTPUT
+SELECT @Name AS 'Restaurant Name';
