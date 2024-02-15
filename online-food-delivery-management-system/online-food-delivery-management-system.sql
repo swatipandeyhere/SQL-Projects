@@ -1002,3 +1002,29 @@ FROM tbl_Chef
 SELECT *
 FROM cte_UnionData
 ORDER BY Type;
+
+-- Create a Recursive CTE to assign Level to Chefs based on their Experience
+
+WITH cte_LevelToChefsBasedOnTheirExperience
+AS
+(
+SELECT ChefId, FirstName, LastName, Experience, 1 AS [Level]
+FROM tbl_Chef
+WHERE Experience = (SELECT MIN(Experience) FROM tbl_Chef)
+
+UNION ALL
+
+SELECT c.ChefId, c.FirstName, c.LastName, c.Experience, cte.[Level] + 1 AS [Level]
+FROM cte_LevelToChefsBasedOnTheirExperience cte
+INNER JOIN tbl_Chef c
+ON c.Experience = cte.Experience + 1
+)
+
+SELECT DISTINCT ChefId, FirstName, LastName, Experience, [Level]
+FROM cte_LevelToChefsBasedOnTheirExperience
+ORDER BY [Level];
+
+-- Without CTE
+
+SELECT ChefId, FirstName, LastName, Experience, DENSE_RANK() OVER(ORDER BY Experience) AS [Level]
+FROM tbl_Chef;
