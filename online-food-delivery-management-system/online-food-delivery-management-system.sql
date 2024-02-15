@@ -864,3 +864,22 @@ ORDER BY COUNT(tbl_Order.FoodItemId) DESC;
 -- View Contents of FiveMostPopularFoodItem
 
 SELECT * FROM vw_FiveMostPopularFoodItem;
+
+-- Create a Function to retrieve the Latest Review
+
+CREATE OR ALTER FUNCTION fn_GetLatestReview(@RestaurantId INT)
+RETURNS TABLE
+
+AS
+
+RETURN
+(
+SELECT TOP 1 *
+FROM tbl_Review
+WHERE RestaurantId = @RestaurantId
+ORDER BY ReviewDate DESC
+);
+
+-- View Contents of GetLatestReview
+
+SELECT * FROM fn_GetLatestReview(200);
