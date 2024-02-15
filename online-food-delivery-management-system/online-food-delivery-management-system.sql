@@ -1028,3 +1028,38 @@ ORDER BY [Level];
 
 SELECT ChefId, FirstName, LastName, Experience, DENSE_RANK() OVER(ORDER BY Experience) AS [Level]
 FROM tbl_Chef;
+
+-- Create a Recursive CTE to assign Position to each Chef
+
+WITH cte_AssignPositionToChef
+AS
+(
+SELECT ChefId, FirstName, LastName, Experience, 1 AS [Level],
+CASE
+WHEN Experience < 5 THEN 'Sub Junior'
+WHEN Experience >= 5 AND Experience < 10 THEN 'Junior'
+WHEN Experience >= 10 AND Experience <= 15 THEN 'Intermediate'
+WHEN Experience > 15 THEN 'Senior'
+END
+AS [Position]
+FROM tbl_Chef
+WHERE Experience = (SELECT MIN(Experience) FROM tbl_Chef)
+
+UNION ALL
+
+SELECT c.ChefId, c.FirstName, c.LastName, c.Experience, cte.[Level] + 1 AS [Level],
+CASE
+WHEN c.Experience < 5 THEN 'Sub Junior'
+WHEN c.Experience >= 5 AND c.Experience < 10 THEN 'Junior'
+WHEN c.Experience >= 10 AND c.Experience <= 15 THEN 'Intermediate'
+WHEN c.Experience > 15 THEN 'Senior'
+END
+AS [Position]
+FROM tbl_Chef c
+INNER JOIN cte_AssignPositionToChef cte
+ON c.Experience = cte.Experience + 1
+)
+
+SELECT DISTINCT ChefId, FirstName, LastName, Experience, [Level], [Position]
+FROM cte_AssignPositionToChef
+ORDER BY [Level];
