@@ -883,3 +883,21 @@ ORDER BY ReviewDate DESC
 -- View Contents of GetLatestReview
 
 SELECT * FROM fn_GetLatestReview(200);
+
+-- Create a Function to retrieve Restaurants by City name
+
+CREATE OR ALTER FUNCTION fn_GetRestaurantsByCity(@City VARCHAR(25))
+RETURNS TABLE
+
+AS
+
+RETURN
+(
+SELECT RestaurantName, Address, City, State, ZipCode, OperatingHours, OperatingDays
+FROM tbl_Restaurant
+WHERE City = @City
+);
+
+-- View Contents of GetRestaurantsByCity
+
+SELECT * FROM fn_GetRestaurantsByCity('Villagetown');
