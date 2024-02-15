@@ -947,3 +947,25 @@ END
 -- View Contents of HasPlacedOrdersInLast30Days
 
 SELECT dbo.fn_HasPlacedOrdersInLast30Days(100) AS [Has Placed Orders in Last 30 Days];
+
+-- Create a Function to retrieve the Average Ratings for a given RestaurantId
+
+CREATE OR ALTER FUNCTION fn_GetAverageRatingsForRestaurant(@RestaurantId INT)
+RETURNS DECIMAL(10, 2)
+
+AS
+
+BEGIN
+
+DECLARE @AverageRatings DECIMAL(10, 2);
+
+SELECT @AverageRatings = AVG(Rating)
+FROM tbl_Review
+WHERE RestaurantId = @RestaurantId;
+
+RETURN @AverageRatings
+END
+
+-- View Contents of GetAverageRatingsForRestaurant
+
+SELECT dbo.fn_GetAverageRatingsForRestaurant(200) AS [Restaurant Average Ratings];
