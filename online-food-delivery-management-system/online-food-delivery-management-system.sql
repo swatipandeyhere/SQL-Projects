@@ -919,3 +919,31 @@ WHERE Category = @Category
 -- View Contents of GetFoodItemsByCategory
 
 SELECT * FROM fn_GetFoodItemsByCategory('Wrap');
+
+-- Create a Function to Check if a Customer has Placed any Orders in the last 30 Days
+
+CREATE OR ALTER FUNCTION fn_HasPlacedOrdersInLast30Days(@CustomerId INT)
+RETURNS VARCHAR(3)
+
+AS
+
+BEGIN
+
+DECLARE @HasPlacedOrders VARCHAR(3);
+
+SELECT @HasPlacedOrders = CASE WHEN EXISTS
+(
+SELECT 1
+FROM tbl_Order
+WHERE CustomerId = @CustomerId
+AND OrderDate >= DATEADD(DAY, -30, GETDATE())
+)
+THEN 'Yes'
+ELSE 'No'
+END
+RETURN @HasPlacedOrders
+END
+
+-- View Contents of HasPlacedOrdersInLast30Days
+
+SELECT dbo.fn_HasPlacedOrdersInLast30Days(100) AS [Has Placed Orders in Last 30 Days];
