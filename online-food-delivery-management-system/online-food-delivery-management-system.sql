@@ -901,3 +901,21 @@ WHERE City = @City
 -- View Contents of GetRestaurantsByCity
 
 SELECT * FROM fn_GetRestaurantsByCity('Villagetown');
+
+-- Create a Function to retrieve Food Items By Category
+
+CREATE OR ALTER FUNCTION fn_GetFoodItemsByCategory(@Category VARCHAR(15))
+RETURNS TABLE
+
+AS
+
+RETURN
+(
+SELECT FoodName, FoodPrice, Category, FoodDescription
+FROM tbl_FoodItems
+WHERE Category = @Category
+);
+
+-- View Contents of GetFoodItemsByCategory
+
+SELECT * FROM fn_GetFoodItemsByCategory('Wrap');
