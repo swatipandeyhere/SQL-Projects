@@ -969,3 +969,18 @@ END
 -- View Contents of GetAverageRatingsForRestaurant
 
 SELECT dbo.fn_GetAverageRatingsForRestaurant(200) AS [Restaurant Average Ratings];
+
+-- Create a CTE to retrieve the CustomerId and OrderDate for all the Orders Placed in the last 30 Days
+
+WITH cte_CustomerOrders
+AS
+(
+SELECT CustomerId, OrderDate
+FROM tbl_Order
+WHERE OrderDate >= DATEADD(DAY, -30, GETDATE())
+)
+
+SELECT tbl_Customer.CustomerId, FirstName, LastName, cte_CustomerOrders.OrderDate
+FROM tbl_Customer
+INNER JOIN cte_CustomerOrders
+ON tbl_Customer.CustomerId = cte_CustomerOrders.CustomerId;
