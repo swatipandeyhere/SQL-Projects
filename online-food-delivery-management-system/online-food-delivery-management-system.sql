@@ -844,3 +844,23 @@ ORDER BY 'Total Number of Orders' DESC;
 -- View Contents of FiveMostPopularRestaurants
 
 SELECT * FROM vw_FiveMostPopularRestaurants;
+
+-- Create a View to find the 5 Most Popular Food Items across Restaurants based on the Number of times they have been Ordered
+
+CREATE OR ALTER VIEW vw_FiveMostPopularFoodItem
+AS
+SELECT TOP 5
+tbl_Restaurant.RestaurantName,
+FoodName,
+COUNT(tbl_Order.FoodItemId) AS Number_of_times_Ordered
+FROM tbl_FoodItems
+INNER JOIN tbl_Restaurant
+ON tbl_FoodItems.RestaurantId = tbl_Restaurant.RestaurantId
+INNER JOIN tbl_Order
+ON tbl_Order.FoodItemId = tbl_FoodItems.FoodItemId
+GROUP BY tbl_Restaurant.RestaurantName, FoodName
+ORDER BY COUNT(tbl_Order.FoodItemId) DESC;
+
+-- View Contents of FiveMostPopularFoodItem
+
+SELECT * FROM vw_FiveMostPopularFoodItem;
