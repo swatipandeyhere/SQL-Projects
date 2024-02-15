@@ -984,3 +984,21 @@ SELECT tbl_Customer.CustomerId, FirstName, LastName, cte_CustomerOrders.OrderDat
 FROM tbl_Customer
 INNER JOIN cte_CustomerOrders
 ON tbl_Customer.CustomerId = cte_CustomerOrders.CustomerId;
+
+-- Create a CTE that combines data from Customer and Chef tables
+
+WITH cte_UnionData
+AS
+(
+SELECT FirstName, LastName, 'Customer' AS [Type]
+FROM tbl_Customer
+
+UNION ALL
+
+SELECT FirstName, LastName, 'Chef' AS [Type]
+FROM tbl_Chef
+)
+
+SELECT *
+FROM cte_UnionData
+ORDER BY Type;
