@@ -1176,3 +1176,105 @@ EXECUTE usp_PlaceOrdersNonRecursively 100, 200, 300, 11, 12.99, 'Extra cheese, l
 SELECT * FROM tbl_Order;
 SELECT * FROM tbl_Bill;
 SELECT * FROM tbl_Payment;
+
+-- Recursive Stored Procedure
+
+CREATE OR ALTER PROCEDURE usp_PlaceOrdersRecursively
+(
+@CustomerId INT,
+@RestaurantId INT,
+@FoodItemId INT,
+@Quantity INT,
+@FoodItemAmount DECIMAL(10, 2),
+@OrderInstruction VARCHAR(50),
+@PaymentType VARCHAR(15),
+@PaymentDate DATE,
+@DeliveryId INT
+)
+
+AS
+
+BEGIN
+
+DECLARE @OrderQuantity INT;
+
+IF(@Quantity > 5)
+SET @OrderQuantity = 5;
+ELSE
+SET @OrderQuantity = @Quantity;
+
+SET @FoodItemAmount = @OrderQuantity * (SELECT FoodPrice FROM tbl_FoodItems WHERE FoodItemId = @FoodItemId);
+
+INSERT INTO tbl_Order
+VALUES
+(
+@CustomerId,
+@RestaurantId,
+@FoodItemId,
+@OrderQuantity,
+@FoodItemAmount,
+@OrderInstruction,
+'Confirmed',
+GETDATE(),
+@DeliveryId
+);
+
+DECLARE @MaxOrderId INT;
+
+SELECT @MaxOrderId = COALESCE(MAX(OrderId), 700) FROM tbl_Order;
+
+INSERT INTO tbl_Bill
+VALUES
+(
+@MaxOrderId,
+@FoodItemAmount,
+0,
+0,
+0,
+0,
+0,
+@FoodItemAmount
+);
+
+DECLARE @MaxBillId INT;
+
+SELECT @MaxBillId = COALESCE(MAX(BillId), 800) FROM tbl_Bill;
+
+INSERT INTO tbl_Payment
+VALUES
+(
+(SELECT CardId FROM tbl_Card WHERE CustomerId = @CustomerId),
+@MaxBillId,
+@CustomerId,
+'Completed',
+@PaymentType,
+@PaymentDate
+);
+
+DECLARE @RemainingQuantity INT = @Quantity - @OrderQuantity;
+
+IF(@RemainingQuantity > 0)
+BEGIN
+EXECUTE usp_PlaceOrdersRecursively
+@CustomerId,
+@RestaurantId,
+@FoodItemId,
+@RemainingQuantity,
+@FoodItemAmount,
+@OrderInstruction,
+@PaymentType,
+@PaymentDate,
+@DeliveryId;
+END;
+
+END;
+
+-- Execute PlaceOrdersRecursively Stored Procedure
+
+EXECUTE usp_PlaceOrdersRecursively 100, 200, 300, 11, 12.99, 'Extra cheese, light sauce', 'Credit Card', '2024-02-16', 600;
+
+-- View Contents of Order, Bill and Payment tables
+
+SELECT * FROM tbl_Order;
+SELECT * FROM tbl_Bill;
+SELECT * FROM tbl_Payment;
