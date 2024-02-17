@@ -1063,3 +1063,116 @@ ON c.Experience = cte.Experience + 1
 SELECT DISTINCT ChefId, FirstName, LastName, Experience, [Level], [Position]
 FROM cte_AssignPositionToChef
 ORDER BY [Level];
+
+-- Non-Recursive Stored Procedure
+
+CREATE OR ALTER PROCEDURE usp_PlaceOrdersNonRecursively
+(
+@CustomerId INT,
+@RestaurantId INT,
+@FoodItemId INT,
+@Quantity INT,
+@FoodItemAmount DECIMAL(10, 2),
+@OrderInstruction VARCHAR(50),
+@PaymentType VARCHAR(15),
+@PaymentDate DATE,
+@DeliveryId INT
+)
+
+AS
+
+BEGIN
+
+DECLARE @RemainingQuantity INT = @Quantity;
+DECLARE @OrderId INT;
+DECLARE @BillId INT;
+DECLARE @Counter INT = 1;
+
+WHILE(@RemainingQuantity > 0)
+BEGIN
+DECLARE @OrderQuantity INT;
+IF(@RemainingQuantity > 5)
+SET @OrderQuantity = 5;
+ELSE
+SET @OrderQuantity = @RemainingQuantity;
+
+SET @FoodItemAmount =
+(
+SELECT @OrderQuantity * fi.FoodPrice
+FROM tbl_FoodItems fi
+WHERE fi.FoodItemId = @FoodItemId
+)
+
+INSERT INTO tbl_Order
+VALUES
+(
+@CustomerId,
+@RestaurantId,
+@FoodItemId,
+@OrderQuantity,
+@FoodItemAmount,
+@OrderInstruction,
+'Confirmed',
+GETDATE(),
+@DeliveryId
+);
+
+DECLARE @MaxOrderId INT;
+
+SELECT @MaxOrderId = CASE WHEN
+Max(OrderId) IS NULL THEN 700
+ELSE Max(OrderId)
+END
+FROM tbl_Order;
+
+INSERT INTO tbl_Bill
+VALUES
+(
+@MaxOrderId,
+@FoodItemAmount,
+0,
+0,
+0,
+0,
+0,
+@FoodItemAmount
+);
+
+DECLARE @MaxBillId INT;
+
+SELECT @MaxBillId = CASE WHEN
+Max(BillId) IS NULL THEN 800
+ELSE Max(BillId)
+END
+FROM tbl_Bill;
+
+INSERT INTO tbl_Payment
+VALUES
+(
+(SELECT CardId FROM tbl_Card WHERE CustomerId = @CustomerId),
+@MaxBillId,
+@CustomerId,
+'Completed',
+@PaymentType,
+@PaymentDate
+);
+
+SET @RemainingQuantity = @RemainingQuantity - @OrderQuantity;
+
+SET @Counter = @Counter + 1;
+
+END;
+
+SELECT @Counter - 1 AS 'TotalOrdersPlaced';
+
+END;
+
+-- Execute PlaceOrdersNonRecursively Stored Procedure
+
+EXECUTE usp_PlaceOrdersNonRecursively 100, 200, 300, 11, 12.99, 'Extra cheese, light sauce', 'Credit Card', '2024-02-16', 600;
+
+-- View Contents of Order, Bill and Payment tables
+
+SELECT * FROM tbl_Order;
+SELECT * FROM tbl_Bill;
+SELECT * FROM tbl_Payment;
