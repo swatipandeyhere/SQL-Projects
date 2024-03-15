@@ -291,3 +291,42 @@ VALUES
 -- View Contents of Orders Table
 
 SELECT * FROM tbl_Orders;
+
+-- Create Payments Table
+
+CREATE TABLE tbl_Payments(PaymentId VARCHAR(10) PRIMARY KEY,
+OrderId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Orders(OrderId) NOT NULL,
+PaymentDate DATE NOT NULL,
+AccountNumber VARCHAR(20) NOT NULL,
+ExpiryDate DATE NOT NULL,
+TotalAmount FLOAT NOT NULL);
+
+-- Insert into Payments Table
+
+INSERT INTO tbl_Payments
+(PaymentId, OrderId, PaymentDate, AccountNumber, ExpiryDate, TotalAmount)
+VALUES
+('PAY01', 'Order01', '2024-03-15', '1234567890123456', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order01')),
+('PAY02', 'Order02', '2024-03-15', '2345678901234567', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order02')),
+('PAY03', 'Order03', '2024-03-15', '3456789012345678', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order03')),
+('PAY04', 'Order04', '2024-03-15', '4567890123456789', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order04')),
+('PAY05', 'Order05', '2024-03-15', '5678901234567890', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order05')),
+('PAY06', 'Order06', '2024-03-15', '6789012345678901', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order06')),
+('PAY07', 'Order07', '2024-03-15', '7890123456789012', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order07')),
+('PAY08', 'Order08', '2024-03-15', '8901234567890123', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order08')),
+('PAY09', 'Order09', '2024-03-15', '9012345678901234', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order09')),
+('PAY10', 'Order10', '2024-03-15', '0123456789012345', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order10')),
+('PAY11', 'Order11', '2024-03-15', '0987654321098765', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order11')),
+('PAY12', 'Order12', '2024-03-15', '9876543210987654', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order12')),
+('PAY13', 'Order13', '2024-03-15', '8765432109876543', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order13')),
+('PAY14', 'Order14', '2024-03-15', '7654321098765432', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order14')),
+('PAY15', 'Order15', '2024-03-15', '6543210987654321', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order15')),
+('PAY16', 'Order16', '2024-03-15', '5432109876543210', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order16')),
+('PAY17', 'Order17', '2024-03-15', '4321098765432109', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order17')),
+('PAY18', 'Order18', '2024-03-15', '3210987654321098', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order18')),
+('PAY19', 'Order19', '2024-03-15', '2109876543210987', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order19')),
+('PAY20', 'Order20', '2024-03-15', '1098765432109876', '2025-03-15', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = 'Order20'));
+
+-- View Contents of Payments Table
+
+SELECT * FROM tbl_Payments;
