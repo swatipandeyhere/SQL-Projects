@@ -330,3 +330,31 @@ VALUES
 -- View Contents of Payments Table
 
 SELECT * FROM tbl_Payments;
+
+-- Create Cart Table
+
+CREATE TABLE tbl_Cart(CartId VARCHAR(10) PRIMARY KEY,
+CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) NOT NULL,
+ProductId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Products(ProductId) NOT NULL,
+Quantity INT NOT NULL,
+Date DATE NOT NULL);
+
+-- Insert into Cart Table
+
+INSERT INTO tbl_Cart
+(CartId, CustomerId, ProductId, Quantity, Date)
+VALUES
+('Cart01', 'User_01', 'P01', 1, '2024-03-15'),
+('Cart02', 'User_02', 'P03', 1, '2024-03-15'),
+('Cart03', 'User_03', 'P05', 1, '2024-03-15'),
+('Cart04', 'User_04', 'P08', 1, '2024-03-15'),
+('Cart05', 'User_05', 'P11', 1, '2024-03-15'),
+('Cart06', 'User_06', 'P13', 1, '2024-03-15'),
+('Cart07', 'User_07', 'P16', 1, '2024-03-15'),
+('Cart08', 'User_08', 'P19', 1, '2024-03-15'),
+('Cart09', 'User_09', 'P21', 1, '2024-03-15'),
+('Cart10', 'User_10', 'P24', 1, '2024-03-15');
+
+-- View Contents of Cart Table
+
+SELECT * FROM tbl_Cart;
