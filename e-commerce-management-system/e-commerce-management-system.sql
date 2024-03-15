@@ -252,3 +252,42 @@ VALUES
 -- View Contents of Products Table
 
 SELECT * FROM tbl_Products;
+
+-- Create Orders Table
+
+CREATE TABLE tbl_Orders(OrderId VARCHAR(10) PRIMARY KEY,
+ProductId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Products(ProductId) NOT NULL,
+OrderDate DATE NOT NULL,
+OrderQuantity INT NOT NULL,
+UnitAmount FLOAT NOT NULL,
+CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) NOT NULL);
+
+-- Insert into Orders Table
+
+INSERT INTO tbl_Orders
+(OrderId, ProductId, OrderDate, OrderQuantity, UnitAmount, CustomerId)
+VALUES
+('Order01', 'P01', '2024-03-15', 2, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P01'), 'User_01'),
+('Order02', 'P03', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P03'), 'User_02'),
+('Order03', 'P05', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P05'), 'User_03'),
+('Order04', 'P08', '2024-03-15', 2, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P08'), 'User_04'),
+('Order05', 'P11', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P11'), 'User_05'),
+('Order06', 'P13', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P13'), 'User_06'),
+('Order07', 'P16', '2024-03-15', 3, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P16'), 'User_07'),
+('Order08', 'P19', '2024-03-15', 2, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P19'), 'User_08'),
+('Order09', 'P21', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P21'), 'User_09'),
+('Order10', 'P24', '2024-03-15', 3, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P24'), 'User_10'),
+('Order11', 'P27', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P27'), 'User_11'),
+('Order12', 'P29', '2024-03-15', 2, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P29'), 'User_12'),
+('Order13', 'P02', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P02'), 'User_13'),
+('Order14', 'P04', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P04'), 'User_14'),
+('Order15', 'P06', '2024-03-15', 2, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P06'), 'User_15'),
+('Order16', 'P09', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P09'), 'User_16'),
+('Order17', 'P12', '2024-03-15', 2, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P12'), 'User_17'),
+('Order18', 'P15', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P15'), 'User_18'),
+('Order19', 'P18', '2024-03-15', 3, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P18'), 'User_19'),
+('Order20', 'P22', '2024-03-15', 1, (SELECT UnitAmount FROM tbl_Products WHERE ProductId = 'P22'), 'User_20');
+
+-- View Contents of Orders Table
+
+SELECT * FROM tbl_Orders;
