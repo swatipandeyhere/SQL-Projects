@@ -358,3 +358,41 @@ VALUES
 -- View Contents of Cart Table
 
 SELECT * FROM tbl_Cart;
+
+-- Create Reviews Table
+
+CREATE TABLE tbl_Reviews(ReviewId VARCHAR(10) PRIMARY KEY,
+CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) NOT NULL,
+ProductId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Products(ProductId) NOT NULL,
+Reviews VARCHAR(50),
+Ratings FLOAT CHECK(0 < Ratings AND Ratings <= 5) NOT NULL);
+
+-- Insert Values into Reviews Table
+
+INSERT INTO tbl_Reviews
+(ReviewId, CustomerId, ProductId, Reviews, Ratings)
+VALUES
+('Review01', 'User_01', 'P01', 'Great fit and comfortable material!', 4.5),
+('Review02', 'User_02', 'P03', 'Excellent phone with amazing camera quality.', 5),
+('Review03', 'User_03', 'P05', 'Love the grip and control on this racket.', 4),
+('Review04', 'User_04', 'P08', 'Fun and challenging build for LEGO fans.', 4.5),
+('Review05', 'User_05', 'P11', 'Fresh and organic produce every time.', 5),
+('Review06', 'User_06', 'P13', 'Effective and easy to use car cleaning kit.', 4),
+('Review07', 'User_07', 'P16', 'Good sound quality and comfortable fit.', 4.5),
+('Review08', 'User_08', 'P19', 'Gentle cleanser with a refreshing scent.', 4),
+('Review09', 'User_09', 'P21', 'Detailed LEGO set with great minifigures.', 5),
+('Review10', 'User_10', 'P24', 'High-quality and nutritious quinoa.', 4),
+('Review11', 'User_11', 'P27', 'Great for beginners and experienced players.', 4.5),
+('Review12', 'User_12', 'P29', 'Easy setup and reliable home security camera.', 5),
+('Review13', 'User_13', 'P02', 'Perfect fit and comfortable to wear.', 4),
+('Review14', 'User_14', 'P04', 'Excellent picture quality and smart features.', 5),
+('Review15', 'User_15', 'P06', 'Long-lasting and vibrant colors.', 4.5),
+('Review16', 'User_16', 'P09', 'Comfortable and stylish sofa set.', 4),
+('Review17', 'User_17', 'P12', 'My dog loves this food!', 4.5),
+('Review18', 'User_18', 'P15', 'Great quality canvas paint set for beginners.', 5),
+('Review19', 'User_19', 'P18', 'Durable basketball with good grip.', 4),
+('Review20', 'User_20', 'P22', 'Luxurious and well-made recliner chair.', 5);
+
+-- View Contents of Reviews Table
+
+SELECT * FROM tbl_Reviews;
