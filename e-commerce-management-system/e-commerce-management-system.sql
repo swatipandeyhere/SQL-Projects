@@ -509,3 +509,55 @@ VALUES
 -- View Contents of DeliveryStaff Table
 
 SELECT * FROM tbl_DeliveryStaff;
+
+-- Add DeliveryStaffId to DeliveryStatus Table
+
+ALTER TABLE tbl_DeliveryStatus
+ADD DeliveryStaffId INT
+FOREIGN KEY(DeliveryStaffId) REFERENCES tbl_DeliveryStaff(DeliveryStaffId);
+
+-- Update DeliveryStaffId Values in DeliveryStatus Table
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 1
+WHERE StatusId = 1;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 2
+WHERE StatusId = 2;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 3
+WHERE StatusId = 3;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 4
+WHERE StatusId = 4;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 5
+WHERE StatusId = 5;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 6
+WHERE StatusId = 6;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 7
+WHERE StatusId = 7;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 8
+WHERE StatusId = 8;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 9
+WHERE StatusId = 9;
+
+UPDATE tbl_DeliveryStatus
+SET DeliveryStaffId = 10
+WHERE StatusId = 10;
+
+-- View Contents of DeliveryStatus Table
+
+SELECT * FROM tbl_DeliveryStatus;
