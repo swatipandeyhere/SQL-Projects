@@ -451,3 +451,32 @@ VALUES
 -- View Contents of DeliveryStatus Table
 
 SELECT * FROM tbl_DeliveryStatus;
+
+-- Create Discounts Table
+
+CREATE TABLE tbl_Discounts(DiscountId INT IDENTITY PRIMARY KEY,
+ProductId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Products(ProductId) NOT NULL,
+DiscountPercentage FLOAT DEFAULT 0,
+StartDate DATE NOT NULL,
+EndDate DATE NOT NULL,
+IsActive BIT DEFAULT 0);
+
+-- Insert Values into Discounts Table
+
+INSERT INTO tbl_Discounts
+(ProductId, DiscountPercentage, StartDate, EndDate, IsActive)
+VALUES
+('P01', 10, '2024-03-18', '2024-03-31', 1),
+('P03', 5, '2024-03-18', '2024-03-31', 1),
+('P05', 15, '2024-03-18', '2024-03-31', 1),
+('P08', 10, '2024-03-18', '2024-03-31', 1),
+('P11', 20, '2024-03-18', '2024-03-31', 1),
+('P13', 5, '2024-03-18', '2024-03-31', 1),
+('P16', 15, '2024-03-18', '2024-03-31', 1),
+('P19', 10, '2024-03-18', '2024-03-31', 1),
+('P21', 20, '2024-03-18', '2024-03-31', 1),
+('P24', 5, '2024-03-18', '2024-03-31', 1);
+
+-- View Contents of Discounts Table
+
+SELECT * FROM tbl_Discounts;
