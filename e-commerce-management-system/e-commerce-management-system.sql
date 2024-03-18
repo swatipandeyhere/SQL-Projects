@@ -480,3 +480,32 @@ VALUES
 -- View Contents of Discounts Table
 
 SELECT * FROM tbl_Discounts;
+
+-- Create DeliveryStaff Table
+
+CREATE TABLE tbl_DeliveryStaff(DeliveryStaffId INT IDENTITY PRIMARY KEY,
+Name VARCHAR(30) NOT NULL,
+Email VARCHAR(30) CHECK(Email LIKE '%@%.com') NOT NULL,
+PhoneNumber CHAR(10) CHECK(6000000000 <= PhoneNumber AND PhoneNumber <= 9999999999) NOT NULL,
+Gender CHAR(1) CHECK(Gender = 'M' OR Gender = 'F') NOT NULL,
+Address VARCHAR(100) NOT NULL);
+
+-- Insert Values into DeliveryStaff Table
+
+INSERT INTO tbl_DeliveryStaff
+(Name, Email, PhoneNumber, Gender, Address)
+VALUES
+('Ravi Kumar', 'ravi@example.com', '9876543210', 'M', '123 Gandhi Rd, Delhi'),
+('Priya Sharma', 'priya@example.com', '8765432109', 'F', '456 Nehru St, Mumbai'),
+('Amit Patel', 'amit@example.com', '7654321098', 'M', '789 Tagore Ave, Ahmedabad'),
+('Neha Gupta', 'neha@example.com', '6543210987', 'F', '101 Bose Rd, Kolkata'),
+('Raj Singh', 'raj@example.com', '6432109876', 'M', '202 Nehru Rd, Jaipur'),
+('Anjali Mishra', 'anjali@example.com', '8321098765', 'F', '303 Gandhi St, Lucknow'),
+('Suresh Verma', 'suresh@example.com', '9210987654', 'M', '404 Bose St, Chennai'),
+('Pooja Tiwari', 'pooja@example.com', '6109876543', 'F', '505 Tagore St, Bangalore'),
+('Vikram Malhotra', 'vikram@example.com', '8098765432', 'M', '606 Nehru Ave, Hyderabad'),
+('Deepika Reddy', 'deepika@example.com', '7987654321', 'F', '707 Gandhi Ave, Pune');
+
+-- View Contents of DeliveryStaff Table
+
+SELECT * FROM tbl_DeliveryStaff;
