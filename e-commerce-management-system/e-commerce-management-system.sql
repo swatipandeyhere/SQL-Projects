@@ -396,3 +396,30 @@ VALUES
 -- View Contents of Reviews Table
 
 SELECT * FROM tbl_Reviews;
+
+-- Create LikedItem Table
+
+CREATE TABLE tbl_LikedItem(ItemId INT IDENTITY PRIMARY KEY,
+CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) NOT NULL,
+ProductId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Products(ProductId) NOT NULL,
+Date DATE NOT NULL);
+
+-- Insert Values into LikedItem Table
+
+INSERT INTO tbl_LikedItem
+(CustomerId, ProductId, Date)
+VALUES
+('User_01', 'P01', '2024-03-18'),
+('User_02', 'P03', '2024-03-18'),
+('User_03', 'P05', '2024-03-18'),
+('User_04', 'P08', '2024-03-18'),
+('User_05', 'P11', '2024-03-18'),
+('User_06', 'P13', '2024-03-18'),
+('User_07', 'P16', '2024-03-18'),
+('User_08', 'P19', '2024-03-18'),
+('User_09', 'P21', '2024-03-18'),
+('User_10', 'P24', '2024-03-18');
+
+-- View Contents of LikedItem Table
+
+SELECT * FROM tbl_LikedItem;
