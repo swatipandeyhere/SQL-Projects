@@ -423,3 +423,31 @@ VALUES
 -- View Contents of LikedItem Table
 
 SELECT * FROM tbl_LikedItem;
+
+-- Create DeliveryStatus Table
+
+CREATE TABLE tbl_DeliveryStatus(StatusId INT IDENTITY PRIMARY KEY,
+CustomerId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Customer(CustomerId) NOT NULL,
+ProductId VARCHAR(10) FOREIGN KEY REFERENCES tbl_Products(ProductId) NOT NULL,
+Status VARCHAR(20) NOT NULL,
+DeliveryCharge FLOAT DEFAULT 0);
+
+-- Insert Values into DeliveryStatus Table
+
+INSERT INTO tbl_DeliveryStatus
+(CustomerId, ProductId, Status, DeliveryCharge)
+VALUES
+('User_01', 'P01', 'Delivered', 0),
+('User_02', 'P03', 'In Transit', 10.99),
+('User_03', 'P05', 'Pending', 0),
+('User_04', 'P08', 'Delivered', 0),
+('User_05', 'P11', 'Delivered', 0),
+('User_06', 'P13', 'In Transit', 8.99),
+('User_07', 'P16', 'Pending', 0),
+('User_08', 'P19', 'Delivered', 0),
+('User_09', 'P21', 'Delivered', 0),
+('User_10', 'P24', 'In Transit', 7.99);
+
+-- View Contents of DeliveryStatus Table
+
+SELECT * FROM tbl_DeliveryStatus;
