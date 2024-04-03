@@ -561,3 +561,31 @@ WHERE StatusId = 10;
 -- View Contents of DeliveryStatus Table
 
 SELECT * FROM tbl_DeliveryStatus;
+
+-- Create CheckDeliveryStatus Stored Procedure
+
+CREATE PROCEDURE usp_CheckDeliveryStatus
+@CustomerId VARCHAR(10)
+
+AS
+
+BEGIN
+
+if(@CustomerId NOT IN(SELECT CustomerId FROM tbl_Orders))
+BEGIN
+RAISERROR('No Order has been made by this Customer', 16, 1);
+END
+
+else
+if(@CustomerId = ANY(SELECT CustomerId FROM tbl_Orders))
+BEGIN
+SELECT ProductId, Status
+FROM tbl_DeliveryStatus
+WHERE CustomerId = @CustomerId;
+END
+
+END
+
+-- Execute CheckDeliveryStatus Stored Procedure
+
+EXECUTE usp_CheckDeliveryStatus 'User_05';
