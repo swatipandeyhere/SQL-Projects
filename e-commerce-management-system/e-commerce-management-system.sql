@@ -764,3 +764,30 @@ EXECUTE usp_PlaceOrdersRecursively 'User_20', 'P20', 20;
 SELECT * FROM tbl_Products;
 SELECT * FROM tbl_Orders;
 SELECT * FROM tbl_Payments;
+
+-- Create a Function to Check the Password by UserName
+
+CREATE FUNCTION fn_CheckPasswordByUserName
+(
+@UserName VARCHAR(20),
+@UserPassword VARCHAR(20)
+)
+RETURNS VARCHAR(30)
+
+AS
+
+BEGIN
+
+DECLARE @Status VARCHAR(30);
+
+SELECT @Status = (CASE UserPassword WHEN HASHBYTES('MD5', @UserPassword) THEN 'Login Successful!' ELSE 'Login Failed!' END)
+FROM tbl_Login
+WHERE UserName = @UserName;
+
+RETURN ISNULL(@Status, 'UserName Not Found!');
+
+END
+
+-- View Contents of CheckPasswordByUserName
+
+SELECT dbo.fn_CheckPasswordByUserName('sumit.vyas', 'password05') AS 'Login Status';
