@@ -589,3 +589,84 @@ END
 -- Execute CheckDeliveryStatus Stored Procedure
 
 EXECUTE usp_CheckDeliveryStatus 'User_05';
+
+-- Non-Recursive Stored Procedure
+
+CREATE PROCEDURE usp_PlaceOrdersNonRecursively
+@CustomerId VARCHAR(10),
+@ProductId VARCHAR(10),
+@OrderQuantity INT
+
+AS
+
+BEGIN
+
+DECLARE @StockPresent INT;
+
+SELECT @StockPresent = QuantityAvailable
+FROM tbl_Products
+WHERE ProductId = @ProductId;
+
+DECLARE @UnitAmount FLOAT;
+
+SELECT @UnitAmount = UnitAmount
+FROM tbl_Products
+WHERE ProductId = @ProductId;
+
+if(@StockPresent < @OrderQuantity)
+BEGIN
+RAISERROR('Not Enough Stock Available', 16, 1);
+END
+
+else
+BEGIN
+BEGIN TRY
+BEGIN TRAN
+UPDATE tbl_Products
+SET QuantityAvailable = (QuantityAvailable - @OrderQuantity)
+WHERE ProductId = @ProductId;
+
+DECLARE @MaxOrderId INT, @ExtractOrderId INT;
+
+SELECT @ExtractOrderId = SUBSTRING(OrderId, 6, 2) FROM tbl_Orders;
+SELECT @MaxOrderId = CASE WHEN MAX(@ExtractOrderId) IS NULL THEN 0 ELSE MAX(@ExtractOrderId) END FROM tbl_Orders;
+SET @MaxOrderId = @MaxOrderId + 1;
+
+DECLARE @OrderId VARCHAR(10);
+
+SELECT @OrderId = CONCAT('Order', @MaxOrderId);
+
+INSERT INTO tbl_Orders
+VALUES(@OrderId, @ProductId, GETDATE(), @OrderQuantity, @UnitAmount, @CustomerId);
+
+DECLARE @MaxPaymentId INT, @ExtractPaymentId INT;
+
+SELECT @ExtractPaymentId = SUBSTRING(PaymentId, 4, 2) FROM tbl_Payments;
+SELECT @MaxPaymentId = CASE WHEN MAX(@ExtractPaymentId) IS NULL THEN 0 ELSE MAX(@ExtractPaymentId) END FROM tbl_Payments;
+SET @MaxPaymentId = @MaxPaymentId + 1;
+
+DECLARE @PaymentId VARCHAR(10);
+
+SELECT @PaymentId = CONCAT('PAY', @MaxPaymentId);
+
+INSERT INTO tbl_Payments
+VALUES(@PaymentId, @OrderId, GETDATE(), '0000000000000000', '2025-04-05', (SELECT UnitAmount * OrderQuantity FROM tbl_Orders WHERE OrderId = @OrderId));
+
+COMMIT TRAN
+END TRY
+BEGIN CATCH
+ROLLBACK TRAN
+END CATCH
+END
+
+END
+
+-- Execute PlaceOrdersNonRecursively Stored Procedure
+
+EXECUTE usp_PlaceOrdersNonRecursively 'User_05', 'P05', 5;
+
+-- View Products, Orders and Payments tables
+
+SELECT * FROM tbl_Products;
+SELECT * FROM tbl_Orders;
+SELECT * FROM tbl_Payments;
