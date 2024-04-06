@@ -809,3 +809,21 @@ ON c.ProductId = p.ProductId;
 -- View Contents of CustomerCart
 
 SELECT * FROM vw_CustomerCart;
+
+-- Create a View that provides information about Product Reviews, including the Average Rating and the Count of Reviews for each Product
+
+CREATE VIEW vw_ProductReviews
+
+AS
+
+SELECT r.ProductId, p.ProductName, COUNT(r.ReviewId) AS ReviewCount, AVG(r.Ratings) AS AverageRating
+FROM tbl_Reviews r
+INNER JOIN
+tbl_Products p
+ON r.ProductId = p.ProductId
+GROUP BY
+r.ProductId, p.ProductName;
+
+-- View Contents of ProductReviews
+
+SELECT * FROM vw_ProductReviews;
