@@ -791,3 +791,21 @@ END
 -- View Contents of CheckPasswordByUserName
 
 SELECT dbo.fn_CheckPasswordByUserName('sumit.vyas', 'password05') AS 'Login Status';
+
+-- Create a View to display the Customer's Cart along with the Product details
+
+CREATE VIEW vw_CustomerCart
+
+AS
+
+SELECT
+c.CartId, c.CustomerId, p.ProductId, p.ProductName, p.UnitAmount, c.Quantity, c.Date
+FROM
+tbl_Cart c
+INNER JOIN
+tbl_Products p
+ON c.ProductId = p.ProductId;
+
+-- View Contents of CustomerCart
+
+SELECT * FROM vw_CustomerCart;
