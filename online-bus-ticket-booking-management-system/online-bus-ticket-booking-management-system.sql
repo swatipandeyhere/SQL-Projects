@@ -645,3 +645,17 @@ SELECT SUM(TotalFare) AS TotalFare FROM tbl_Booking
 )
 
 SELECT TotalFare FROM cte_GetTotalFareOfAllBuses;
+
+-- Create a CTE to retrieve the Total Fare of each Bus
+
+WITH cte_GetTotalFareOfEachBus
+AS
+(
+SELECT tbl_Bus.BusId, BusName, SUM(TotalFare) AS TotalFare
+FROM tbl_Booking
+INNER JOIN tbl_Bus
+ON tbl_Bus.BusId = tbl_Booking.BusId
+GROUP BY tbl_Bus.BusId, BusName
+)
+
+SELECT BusName, TotalFare FROM cte_GetTotalFareOfEachBus;
