@@ -370,3 +370,41 @@ END;
 -- Execute BusReviews Stored Procedure
 
 EXECUTE usp_BusReviews 'bus_005';
+
+-- Create a Stored Procedure to Provide a Reply based on Bus Rating
+
+CREATE PROCEDURE usp_ProvideReplyBasedOnBusRating(@BusId VARCHAR(10))
+
+AS
+
+BEGIN
+
+-- Create a Temporary Table
+
+CREATE TABLE #temp(ReviewId VARCHAR(10) PRIMARY KEY,
+UserId VARCHAR(10) NOT NULL,
+BusId VARCHAR(10) NOT NULL,
+Rating TINYINT NOT NULL,
+Review VARCHAR(255) NOT NULL,
+-- New Column for Reply
+Reply VARCHAR(255));
+
+-- Insert Values from Reviews table into the Temporary table
+
+INSERT INTO #temp
+SELECT ReviewId, UserId, BusId, Rating, Review,
+CASE WHEN Rating > 3 THEN 'Thank You!'
+ELSE 'We Apologize!'
+END AS Reply
+FROM tbl_Reviews
+WHERE BusId = @BusId;
+
+-- Return the Temporary table
+
+SELECT * FROM #temp;
+
+END;
+
+-- Execute ProvideReplyBasedOnBusRating Stored Procedure
+
+EXECUTE usp_ProvideReplyBasedOnBusRating 'bus_005';
