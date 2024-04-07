@@ -673,3 +673,17 @@ GROUP BY b.BusId, b.BusName
 )
 
 SELECT * FROM cte_TotalSeatsBooked;
+
+-- Create a CTE to calculate Average Rating of each Bus
+
+WITH cte_AverageRatingOfEachBus
+AS
+(
+SELECT b.BusId, b.BusName, AVG(r.Rating) AS AverageRating
+FROM tbl_Bus b
+LEFT JOIN tbl_Reviews r
+ON b.BusId = r.BusId
+GROUP BY b.BusId, b.BusName
+)
+
+SELECT * FROM cte_AverageRatingOfEachBus;
