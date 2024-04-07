@@ -304,3 +304,25 @@ VALUES
 -- View Contents of Seats Table
 
 SELECT * FROM tbl_Seats;
+
+-- Create a Stored Procedure to Check Seat Availability for a Specified Bus
+
+CREATE PROCEDURE usp_CheckSeatAvailabilityForSpecifiedBus
+@BusId VARCHAR(10)
+
+AS
+
+BEGIN
+
+SELECT s.BusId, BusName, AvailableSeats
+FROM tbl_Seats s
+INNER JOIN
+tbl_Bus b
+ON s.BusId = @BusId
+AND s.BusId = b.BusId;
+
+END
+
+-- Execute CheckSeatAvailabilityForSpecifiedBus Stored Procedure
+
+EXECUTE usp_CheckSeatAvailabilityForSpecifiedBus 'bus_010';
