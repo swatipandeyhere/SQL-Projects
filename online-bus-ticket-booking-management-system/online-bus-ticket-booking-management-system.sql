@@ -179,3 +179,51 @@ VALUES
 -- View Contents of Booking Table
 
 SELECT * FROM tbl_Booking;
+
+-- Create Payment Table
+
+CREATE TABLE tbl_Payment(PaymentId INT PRIMARY KEY,
+BookingId INT NOT NULL,
+TotalAmount DECIMAL(10, 2) NOT NULL,
+PaymentDate DATETIME NOT NULL,
+FOREIGN KEY(BookingId) REFERENCES tbl_Booking(BookingId));
+
+-- Insert Values into Payment Table
+
+INSERT INTO
+tbl_Payment(PaymentId, BookingId, TotalAmount, PaymentDate)
+VALUES
+(1, 1, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 1), '2024-04-06 10:30:00'),
+(2, 2, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 2), '2024-04-06 11:15:00'),
+(3, 3, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 3), '2024-04-06 11:45:00'),
+(4, 4, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 4), '2024-04-06 12:00:00'),
+(5, 5, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 5), '2024-04-06 12:30:00'),
+(6, 6, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 6), '2024-04-06 13:15:00'),
+(7, 7, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 7), '2024-04-06 13:45:00'),
+(8, 8, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 8), '2024-04-06 14:00:00'),
+(9, 9, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 9), '2024-04-06 14:30:00'),
+(10, 10, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 10), '2024-04-06 15:15:00'),
+(11, 11, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 11), '2024-04-06 15:45:00'),
+(12, 12, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 12), '2024-04-06 16:00:00'),
+(13, 13, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 13), '2024-04-06 16:30:00'),
+(14, 14, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 14), '2024-04-06 17:15:00'),
+(15, 15, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 15), '2024-04-06 17:45:00'),
+(16, 16, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 16), '2024-04-06 18:00:00'),
+(17, 17, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 17), '2024-04-06 18:30:00'),
+(18, 18, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 18), '2024-04-06 19:00:00'),
+(19, 19, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 19), '2024-04-06 19:30:00'),
+(20, 20, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 20), '2024-04-06 20:00:00'),
+(21, 21, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 21), '2024-04-06 20:30:00'),
+(22, 22, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 22), '2024-04-06 21:00:00'),
+(23, 23, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 23), '2024-04-06 21:30:00'),
+(24, 24, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 24), '2024-04-06 22:00:00'),
+(25, 25, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 25), '2024-04-06 22:30:00'),
+(26, 26, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 26), '2024-04-06 23:00:00'),
+(27, 27, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 27), '2024-04-06 23:30:00'),
+(28, 28, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 28), '2024-04-07 00:00:00'),
+(29, 29, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 29), '2024-04-07 00:30:00'),
+(30, 30, (SELECT TotalFare FROM tbl_Booking WHERE BookingId = 30), '2024-04-07 01:00:00');
+
+-- View Contents of Payment Table
+
+SELECT * FROM tbl_Payment;
