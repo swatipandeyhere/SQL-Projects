@@ -347,3 +347,26 @@ END
 -- Execute CheckBusAvailabilityOnSpecifiedDate Stored Procedure
 
 EXECUTE usp_CheckBusAvailabilityOnSpecifiedDate 'bus_005', '2024-04-05 12:00:00';
+
+-- Create a Stored Procedure to retrieve Bus Reviews
+
+CREATE PROCEDURE usp_BusReviews
+@BusId VARCHAR(10)
+
+AS
+
+BEGIN
+
+SELECT u.FirstName + ' ' + u.LastName AS UserName, b.BusName, r.Rating, r.Review
+FROM tbl_User u
+INNER JOIN tbl_Reviews r
+ON u.UserId = r.UserId
+INNER JOIN tbl_Bus b
+ON r.BusId = b.BusId
+WHERE r.BusId = @BusId;
+
+END;
+
+-- Execute BusReviews Stored Procedure
+
+EXECUTE usp_BusReviews 'bus_005';
