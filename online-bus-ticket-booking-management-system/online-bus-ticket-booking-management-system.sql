@@ -94,3 +94,38 @@ VALUES('user_020', 'Priyank', 'Saxena', 'priyank.saxena@gmail.com', HASHBYTES('M
 -- View Contents of User Table
 
 SELECT * FROM tbl_User;
+
+-- Create Bus Table
+
+CREATE TABLE tbl_Bus(BusId VARCHAR(10) PRIMARY KEY,
+BusName VARCHAR(25) NOT NULL,
+Source VARCHAR(25) NOT NULL,
+Destination VARCHAR(25) NOT NULL,
+DepartureTime DATETIME NOT NULL,
+ArrivalTime DATETIME NOT NULL,
+Fare DECIMAL(10, 2) NOT NULL);
+
+-- Insert Values into Bus Table
+
+INSERT INTO
+tbl_Bus(BusId, BusName, Source, Destination, DepartureTime, ArrivalTime, Fare)
+VALUES
+('bus_001', 'Rajdhani Express', 'Delhi', 'Mumbai', '2024-04-06 08:00:00', '2024-04-06 14:00:00', 100.00),
+('bus_002', 'Shatabdi Express', 'Mumbai', 'Bangalore', '2024-04-06 09:00:00', '2024-04-06 15:00:00', 90.00),
+('bus_003', 'Garib Rath', 'Bangalore', 'Chennai', '2024-04-06 10:00:00', '2024-04-06 16:00:00', 120.00),
+('bus_004', 'Duronto Express', 'Chennai', 'Kolkata', '2024-04-06 11:00:00', '2024-04-06 17:00:00', 110.00),
+('bus_005', 'Jan Shatabdi', 'Kolkata', 'Delhi', '2024-04-06 12:00:00', '2024-04-06 18:00:00', 95.00),
+('bus_006', 'Vande Bharat Express', 'Delhi', 'Varanasi', '2024-04-06 13:00:00', '2024-04-06 19:00:00', 150.00),
+('bus_007', 'Gatimaan Express', 'Varanasi', 'Agra', '2024-04-06 14:00:00', '2024-04-06 20:00:00', 130.00),
+('bus_008', 'Tejas Express', 'Agra', 'Jaipur', '2024-04-06 15:00:00', '2024-04-06 21:00:00', 110.00),
+('bus_009', 'Mahamana Express', 'Jaipur', 'Ahmedabad', '2024-04-06 16:00:00', '2024-04-06 22:00:00', 120.00),
+('bus_010', 'Antyodaya Express', 'Ahmedabad', 'Surat', '2024-04-06 17:00:00', '2024-04-06 23:00:00', 80.00),
+('bus_011', 'Humsafar Express', 'Surat', 'Pune', '2024-04-06 18:00:00', '2024-04-07 00:00:00', 100.00),
+('bus_012', 'Yuva Express', 'Pune', 'Hyderabad', '2024-04-06 19:00:00', '2024-04-07 01:00:00', 110.00),
+('bus_013', 'Sampark Kranti Express', 'Hyderabad', 'Chandigarh', '2024-04-06 20:00:00', '2024-04-07 02:00:00', 130.00),
+('bus_014', 'Swarna Jayanti Express', 'Chandigarh', 'Amritsar', '2024-04-06 21:00:00', '2024-04-07 03:00:00', 90.00),
+('bus_015', 'Rajya Rani Express', 'Amritsar', 'Jammu', '2024-04-06 22:00:00', '2024-04-07 04:00:00', 70.00);
+
+-- View Contents of Bus Table
+
+SELECT * FROM tbl_Bus;
