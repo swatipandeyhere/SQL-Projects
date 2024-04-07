@@ -549,3 +549,21 @@ EXECUTE usp_BookSeatsRecursively 'user_005', 'bus_005', 10;
 SELECT * FROM tbl_Seats;
 SELECT * FROM tbl_Booking;
 SELECT * FROM tbl_Payment;
+
+-- Create a Function to Check Seat Availability
+
+CREATE FUNCTION fn_CheckSeatAvailability(@BusName VARCHAR(25))
+RETURNS INT
+
+AS
+
+BEGIN
+
+RETURN(SELECT AvailableSeats FROM tbl_Seats s
+INNER JOIN tbl_Bus b
+ON s.BusId = b.BusId
+AND BusName = @BusName)
+
+END
+
+SELECT dbo.fn_CheckSeatAvailability('Rajdhani Express') AS 'Seat Availability';
