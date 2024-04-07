@@ -659,3 +659,17 @@ GROUP BY tbl_Bus.BusId, BusName
 )
 
 SELECT BusName, TotalFare FROM cte_GetTotalFareOfEachBus;
+
+-- Create a CTE to calculate Total Seats Booked for each Bus
+
+WITH cte_TotalSeatsBooked
+AS
+(
+SELECT b.BusId, b.BusName, ISNULL(SUM(bk.SeatsBooked), 0) AS TotalSeatsBooked
+FROM tbl_Bus b
+LEFT JOIN tbl_Booking bk
+ON b.BusId = bk.BusId
+GROUP BY b.BusId, b.BusName
+)
+
+SELECT * FROM cte_TotalSeatsBooked;
