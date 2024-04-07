@@ -635,3 +635,13 @@ AND BusName = @BusName
 GROUP BY BusName)
 
 SELECT * FROM fn_AverageBusRating('Rajdhani Express');
+
+-- Create a CTE to retrieve the Total Fare of all Buses
+
+WITH cte_GetTotalFareOfAllBuses
+AS
+(
+SELECT SUM(TotalFare) AS TotalFare FROM tbl_Booking
+)
+
+SELECT TotalFare FROM cte_GetTotalFareOfAllBuses;
