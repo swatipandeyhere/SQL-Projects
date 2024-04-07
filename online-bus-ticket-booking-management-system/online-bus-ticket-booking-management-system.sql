@@ -129,3 +129,53 @@ VALUES
 -- View Contents of Bus Table
 
 SELECT * FROM tbl_Bus;
+
+-- Create Booking Table
+
+CREATE TABLE tbl_Booking(BookingId INT PRIMARY KEY,
+UserId VARCHAR(10) NOT NULL,
+BusId VARCHAR(10) NOT NULL,
+SeatsBooked TINYINT NOT NULL,
+TotalFare DECIMAL(10, 2) NOT NULL,
+FOREIGN KEY(UserId) REFERENCES tbl_User(UserId),
+FOREIGN KEY(BusId) REFERENCES tbl_Bus(BusId));
+
+-- Insert Values into Booking Table
+
+INSERT INTO
+tbl_Booking(BookingId, UserId, BusId, SeatsBooked, TotalFare)
+VALUES
+(1, 'user_007', 'bus_011', 4, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_011') * 4),
+(2, 'user_002', 'bus_004', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_004') * 2),
+(3, 'user_009', 'bus_006', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_006') * 3),
+(4, 'user_015', 'bus_002', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_002') * 1),
+(5, 'user_012', 'bus_008', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_008') * 2),
+(6, 'user_003', 'bus_013', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_013') * 1),
+(7, 'user_010', 'bus_010', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_010') * 2),
+(8, 'user_005', 'bus_003', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_003') * 3),
+(9, 'user_011', 'bus_015', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_015') * 1),
+(10, 'user_008', 'bus_007', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_007') * 2),
+(11, 'user_001', 'bus_012', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_012') * 3),
+(12, 'user_017', 'bus_001', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_001') * 1),
+(13, 'user_016', 'bus_014', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_014') * 2),
+(14, 'user_020', 'bus_009', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_009') * 3),
+(15, 'user_019', 'bus_005', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_005') * 1),
+(16, 'user_018', 'bus_003', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_003') * 2),
+(17, 'user_013', 'bus_014', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_014') * 3),
+(18, 'user_004', 'bus_010', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_010') * 1),
+(19, 'user_006', 'bus_006', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_006') * 2),
+(20, 'user_011', 'bus_009', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_009') * 3),
+(21, 'user_012', 'bus_008', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_008') * 1),
+(22, 'user_014', 'bus_015', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_015') * 2),
+(23, 'user_016', 'bus_001', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_001') * 3),
+(24, 'user_017', 'bus_005', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_005') * 1),
+(25, 'user_019', 'bus_012', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_012') * 2),
+(26, 'user_001', 'bus_004', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_004') * 3),
+(27, 'user_002', 'bus_007', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_007') * 1),
+(28, 'user_003', 'bus_011', 2, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_011') * 2),
+(29, 'user_005', 'bus_013', 3, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_013') * 3),
+(30, 'user_007', 'bus_002', 1, (SELECT Fare FROM tbl_Bus WHERE BusId = 'bus_002') * 1);
+
+-- View Contents of Booking Table
+
+SELECT * FROM tbl_Booking;
