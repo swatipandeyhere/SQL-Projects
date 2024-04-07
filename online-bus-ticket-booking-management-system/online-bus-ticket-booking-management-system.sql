@@ -408,3 +408,68 @@ END;
 -- Execute ProvideReplyBasedOnBusRating Stored Procedure
 
 EXECUTE usp_ProvideReplyBasedOnBusRating 'bus_005';
+
+-- Non-Recursive Stored Procedure
+
+CREATE PROCEDURE usp_BookSeatsNonRecursively
+@UserId VARCHAR(10),
+@BusId VARCHAR(10),
+@BookSeats TINYINT
+
+AS
+
+BEGIN
+
+DECLARE @SeatsAvailable TINYINT;
+
+SELECT @SeatsAvailable = AvailableSeats
+FROM tbl_Seats
+WHERE BusId = @BusId;
+
+if(@SeatsAvailable < @BookSeats)
+BEGIN
+RAISERROR('Not Enough Seats Available', 16, 1);
+END
+
+ELSE
+BEGIN
+BEGIN TRY
+BEGIN TRAN
+UPDATE tbl_Seats
+SET AvailableSeats = (AvailableSeats - @BookSeats)
+WHERE BusId = @BusId;
+
+DECLARE @MaxBookingId INT;
+
+SELECT @MaxBookingId = CASE WHEN MAX(BookingId) IS NULL THEN 0 ELSE MAX(BookingId) END FROM tbl_Booking;
+SET @MaxBookingId = @MaxBookingId + 1;
+
+DECLARE @MaxPaymentId INT;
+
+SELECT @MaxPaymentId = CASE WHEN MAX(PaymentId) IS NULL THEN 0 ELSE MAX(PaymentId) END FROM tbl_Payment;
+SET @MaxPaymentId = @MaxPaymentId + 1;
+
+INSERT INTO tbl_Booking
+VALUES(@MaxBookingId, @UserId, @BusId, @BookSeats, @BookSeats * (SELECT Fare FROM tbl_Bus WHERE BusId = @BusId));
+
+INSERT INTO tbl_Payment
+VALUES(@MaxPaymentId, @MaxBookingId, @BookSeats * (SELECT Fare FROM tbl_Bus WHERE BusId = @BusId), GETDATE());
+
+COMMIT TRAN
+END TRY
+BEGIN CATCH
+ROLLBACK TRAN
+END CATCH
+END
+
+END
+
+-- Execute BookSeatsNonRecursively Stored Procedure
+
+EXECUTE usp_BookSeatsNonRecursively 'user_005', 'bus_005', 5;
+
+-- View Contents of Seats, Booking and Payment Tables
+
+SELECT * FROM  tbl_Seats;
+SELECT * FROM tbl_Booking;
+SELECT * FROM tbl_Payment;
