@@ -599,3 +599,23 @@ WHERE BusId = @BusId)
 END
 
 SELECT dbo.fn_CheckSeatAvailabilityStatus('bus_005', 20) AS 'Seat Availability Status';
+
+-- Create a Function to Check the Seat Availability Status by Bus Name
+
+CREATE FUNCTION fn_CheckSeatAvailabilityStatusByBusName(@BusName VARCHAR(25), @Seats TINYINT)
+RETURNS VARCHAR(15)
+
+AS
+
+BEGIN
+
+RETURN(SELECT CASE WHEN @Seats < AvailableSeats THEN 'Available'
+ELSE 'Unavailable' END AS 'Seat Availability Status'
+FROM tbl_Seats s
+INNER JOIN tbl_Bus b
+ON s.BusId = b.BusId
+AND BusName = @BusName)
+
+END
+
+SELECT dbo.fn_CheckSeatAvailabilityStatusByBusName('Rajdhani Express', 20) AS 'Seat Availability Status';
