@@ -567,3 +567,17 @@ AND BusName = @BusName)
 END
 
 SELECT dbo.fn_CheckSeatAvailability('Rajdhani Express') AS 'Seat Availability';
+
+-- Create a Function to retrieve Bus Reviews
+
+CREATE FUNCTION fn_BusReviews(@BusName VARCHAR(25))
+RETURNS TABLE
+
+AS
+
+RETURN(SELECT BusName, Review FROM tbl_Reviews r
+INNER JOIN tbl_Bus b
+ON r.BusId = b.BusId
+AND BusName = @BusName)
+
+SELECT * FROM fn_BusReviews('Rajdhani Express');
