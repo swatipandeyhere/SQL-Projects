@@ -687,3 +687,32 @@ GROUP BY b.BusId, b.BusName
 )
 
 SELECT * FROM cte_AverageRatingOfEachBus;
+
+-- Create a View briefing Bus Booking Details
+
+CREATE VIEW vw_BusBookingDetails
+AS
+SELECT
+b.BookingId,
+u.UserId,
+CONCAT(u.FirstName, ' ', u.LastName) AS UserName,
+b.BusId,
+bb.BusName,
+bb.Source,
+bb.Destination,
+bb.DepartureTime,
+bb.ArrivalTime,
+b.SeatsBooked,
+b.TotalFare,
+p.PaymentDate
+FROM tbl_Booking b
+INNER JOIN tbl_User u
+ON b.UserId = u.UserId
+INNER JOIN tbl_Bus bb
+ON b.BusId = bb.BusId
+INNER JOIN tbl_Payment p
+ON b.BookingId = p.BookingId;
+
+-- View Contents of BusBookingDetails
+
+SELECT * FROM vw_BusBookingDetails;
