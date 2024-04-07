@@ -619,3 +619,19 @@ AND BusName = @BusName)
 END
 
 SELECT dbo.fn_CheckSeatAvailabilityStatusByBusName('Rajdhani Express', 20) AS 'Seat Availability Status';
+
+-- Create a Function to retrieve Average Bus Rating
+
+CREATE FUNCTION fn_AverageBusRating(@BusName VARCHAR(25))
+RETURNS TABLE
+
+AS
+
+RETURN(SELECT BusName, AVG(Rating) AS 'Average Bus Rating'
+FROM tbl_Reviews r
+INNER JOIN tbl_Bus b
+ON r.BusId = b.BusId
+AND BusName = @BusName
+GROUP BY BusName)
+
+SELECT * FROM fn_AverageBusRating('Rajdhani Express');
