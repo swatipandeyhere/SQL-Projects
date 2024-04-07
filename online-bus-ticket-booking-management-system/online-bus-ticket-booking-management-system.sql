@@ -326,3 +326,24 @@ END
 -- Execute CheckSeatAvailabilityForSpecifiedBus Stored Procedure
 
 EXECUTE usp_CheckSeatAvailabilityForSpecifiedBus 'bus_010';
+
+-- Create a Stored Procedure to Check Bus Availability on a Specified Date
+
+CREATE PROCEDURE usp_CheckBusAvailabilityOnSpecifiedDate
+@BusId VARCHAR(10),
+@Date DATETIME
+
+AS
+
+BEGIN
+
+SELECT BusId, BusName
+FROM tbl_Bus
+WHERE BusId = @BusId
+AND DepartureTime > @Date;
+
+END
+
+-- Execute CheckBusAvailabilityOnSpecifiedDate Stored Procedure
+
+EXECUTE usp_CheckBusAvailabilityOnSpecifiedDate 'bus_005', '2024-04-05 12:00:00';
