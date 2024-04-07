@@ -272,3 +272,35 @@ VALUES
 -- View Contents of Reviews Table
 
 SELECT * FROM tbl_Reviews;
+
+-- Create Seats Table
+
+CREATE TABLE tbl_Seats(BusId VARCHAR(10) NOT NULL,
+TotalSeats TINYINT NOT NULL,
+AvailableSeats TINYINT NOT NULL,
+FOREIGN KEY(BusId) REFERENCES tbl_Bus(BusId));
+
+-- Insert Values into Seats Table
+
+INSERT INTO
+tbl_Seats(BusId, TotalSeats, AvailableSeats)
+VALUES
+('bus_001', 50, 50 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_001')),
+('bus_002', 40, 40 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_002')),
+('bus_003', 60, 60 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_003')),
+('bus_004', 55, 55 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_004')),
+('bus_005', 45, 45 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_005')),
+('bus_006', 50, 50 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_006')),
+('bus_007', 40, 40 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_007')),
+('bus_008', 60, 60 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_008')),
+('bus_009', 55, 55 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_009')),
+('bus_010', 45, 45 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_010')),
+('bus_011', 50, 50 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_011')),
+('bus_012', 40, 40 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_012')),
+('bus_013', 60, 60 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_013')),
+('bus_014', 55, 55 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_014')),
+('bus_015', 30, 30 - (SELECT SUM(SeatsBooked) FROM tbl_Booking WHERE BusId = 'bus_015'));
+
+-- View Contents of Seats Table
+
+SELECT * FROM tbl_Seats;
