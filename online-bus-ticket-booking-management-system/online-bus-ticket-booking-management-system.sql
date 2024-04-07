@@ -227,3 +227,48 @@ VALUES
 -- View Contents of Payment Table
 
 SELECT * FROM tbl_Payment;
+
+-- Create Reviews Table
+
+CREATE TABLE tbl_Reviews(ReviewId VARCHAR(10) PRIMARY KEY,
+UserId VARCHAR(10) NOT NULL,
+BusId VARCHAR(10) NOT NULL,
+Rating TINYINT NOT NULL,
+Review VARCHAR(255) NOT NULL,
+FOREIGN KEY(UserId) REFERENCES tbl_User(UserId),
+FOREIGN KEY(BusId) REFERENCES tbl_Bus(BusId));
+
+-- Insert Values into Reviews Table
+
+INSERT INTO
+tbl_Reviews(ReviewId, UserId, BusId, Rating, Review)
+VALUES
+('review_001', 'user_001', 'bus_001', 4, 'Great service and comfortable journey.'),
+('review_002', 'user_002', 'bus_002', 5, 'Excellent bus with punctual timings.'),
+('review_003', 'user_003', 'bus_003', 3, 'Average experience, could improve cleanliness.'),
+('review_004', 'user_004', 'bus_004', 4, 'Friendly staff and smooth ride.'),
+('review_005', 'user_005', 'bus_005', 5, 'Highly recommended, fantastic service.'),
+('review_006', 'user_006', 'bus_006', 3, 'Decent journey, but seats were a bit uncomfortable.'),
+('review_007', 'user_007', 'bus_007', 4, 'Good value for money, will book again.'),
+('review_008', 'user_008', 'bus_008', 5, 'Impressive service, would definitely travel again.'),
+('review_009', 'user_009', 'bus_009', 3, 'Satisfactory experience, but could be better.'),
+('review_010', 'user_010', 'bus_010', 4, 'Nice bus with courteous staff.'),
+('review_011', 'user_011', 'bus_011', 5, 'Absolutely loved the journey, no complaints.'),
+('review_012', 'user_012', 'bus_012', 3, 'Average journey, nothing exceptional.'),
+('review_013', 'user_013', 'bus_013', 4, 'Comfortable seats and pleasant journey.'),
+('review_014', 'user_014', 'bus_014', 5, 'Great experience overall, would recommend to others.'),
+('review_015', 'user_015', 'bus_015', 4, 'Good service, reached destination on time.'),
+('review_016', 'user_016', 'bus_001', 3, 'Decent journey, but could be more comfortable.'),
+('review_017', 'user_017', 'bus_002', 4, 'Enjoyed the trip, good service overall.'),
+('review_018', 'user_018', 'bus_003', 5, 'Excellent experience, highly satisfied.'),
+('review_019', 'user_019', 'bus_004', 4, 'Smooth ride and friendly staff.'),
+('review_020', 'user_020', 'bus_005', 3, 'Average service, nothing exceptional.'),
+('review_021', 'user_001', 'bus_006', 4, 'Comfortable seats and timely arrival.'),
+('review_022', 'user_002', 'bus_007', 5, 'Superb journey, exceeded expectations.'),
+('review_023', 'user_003', 'bus_008', 4, 'Good value for money, would travel again.'),
+('review_024', 'user_004', 'bus_009', 3, 'Decent service, but could improve cleanliness.'),
+('review_025', 'user_005', 'bus_010', 4, 'Nice bus with courteous staff.');
+
+-- View Contents of Reviews Table
+
+SELECT * FROM tbl_Reviews;
